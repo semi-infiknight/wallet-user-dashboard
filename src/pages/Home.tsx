@@ -1,6 +1,6 @@
-import { useState } from "react";
-import ConnectWallet from "../components/ConnectWallet";
-import Dashboard from "./Dashboard";
+import { useState } from 'react';
+import ConnectWallet from '../components/ConnectWallet';
+import Dashboard from './Dashboard';
 // import bgFun from "../assets/bgFun.png";
 // listen to the connector to get the background glass or not.
 

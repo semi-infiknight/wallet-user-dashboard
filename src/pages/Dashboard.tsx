@@ -1,7 +1,7 @@
-import LeaderBoard from "../components/LeaderBoard";
-import LeftSideBar from "../components/LeftSideBar";
-import Tasks from "../components/Tasks";
-import UserDetails from "../components/UserDetails";
+import LeaderBoard from '../components/LeaderBoard';
+import LeftSideBar from '../components/LeftSideBar';
+import Tasks from '../components/Tasks';
+import UserDetails from '../components/UserDetails';
 
 const Dashboard = () => {
   return (
