@@ -5,15 +5,15 @@ import { useState } from "react";
 const TasksData = [
   {
     _id: 1,
-    name: "Abc",
-    description: "Abc",
+    name: "Follow WalletX on Twitter",
+    description: "https://x.com/getwalletx ",
     EXP: 100,
     expiry: 1813599466000, //Pre-defined timestamp of the task expiry
   },
   {
     _id: 2,
     name: "Def",
-    description: "Def",
+    description: "DefDefDefDefDefDefDef DefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDef DefDefDefDefDefDef DefDefDefDefDefDef",
     EXP: 50,
     expiry: 1513599466000, //Pre-defined timestamp of the task expiry
   },
@@ -50,19 +50,19 @@ const Tasks = () => {
 
   return (
     <div className="bg-[#141414] w-full flex flex-col items-center h-full">
-      <p className="place-self-start text-3xl">Tasks</p>
-      <div className="mt-2 w-full flex">
+      <p className="place-self-start text-4xl text-[#cff500]">Tasks</p>
+      <div className="mt-2 w-full flex gap-7">
         <button
-          className={`px-4 py-2 ${
-            activeTab === "running" ? "bg-gray-700" : "bg-gray-500"
+          className={` py-2 rounded-xl  ${
+            activeTab === "running" ? "text-gray-200 underline underline-offset-4 decoration-[#cff500]" : "text-gray-500"
           }`}
           onClick={() => setActiveTab("running")}
         >
-          Currently Running Tasks
+          Ongoing Tasks
         </button>
         <button
-          className={`px-4 py-2 ${
-            activeTab === "expired" ? "bg-gray-700" : "bg-gray-500"
+          className={` py-2 ${
+            activeTab === "expired" ? "text-gray-200 underline underline-offset-4 decoration-[#cff500]" : "text-gray-500"
           }`}
           onClick={() => setActiveTab("expired")}
         >

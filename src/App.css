@@ -9,3 +9,34 @@ backdrop-filter: blur(16px);
 -webkit-backdrop-filter: blur(16px);
 border: 2px solid rgba(255, 255, 255, 0.217);
 }
+
+* {
+  /* Keyword values */
+  overscroll-behavior: auto; /* default */
+  overscroll-behavior: contain;
+  overscroll-behavior: none;
+
+  /* Two values */
+  overscroll-behavior: auto contain;
+
+  /* Global values */
+  overscroll-behavior: inherit;
+  overscroll-behavior: initial;
+  overscroll-behavior: revert;
+  overscroll-behavior: revert-layer;
+  overscroll-behavior: unset;
+
+  overscroll-behavior-y: contain;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #262626;
+  height: 2px;
+  
+
+ 
+}
