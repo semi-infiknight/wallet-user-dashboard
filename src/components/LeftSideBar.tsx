@@ -1,9 +1,15 @@
 import { Home, LogOut, RefreshCcw, UserPlus } from 'react-feather';
 import walletXLogo from '../assets/icons/main-logo.png';
 import exp from '../assets/XP.svg';
-import { generateAddressIcon } from '../utils/helper';
+import { generateAddressIcon, removeFromLocalStorage } from '../utils/helper';
+import { useNavigate } from 'react-router-dom';
 
 const LeftSideBar = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    removeFromLocalStorage('authenticated');
+    navigate('/login');
+  };
   return (
     <div className="relative h-screen min-w-[20%] bg-[#141414] pl-14 pr-4 pt-14 rounded-r-lg border-r-2  border-r-neutral-800">
       <div className="w-full flex items-center text-white mt-2">
@@ -37,7 +43,10 @@ const LeftSideBar = () => {
           </div>
         </div>
 
-        <button className=" w-[75%] px-2 flex gap-3 text-lg justify-center items-center py-1 bg-red-600 rounded-lg">
+        <button
+          className=" w-[75%] px-2 flex gap-3 text-lg justify-center items-center py-1 bg-red-600 rounded-lg"
+          onClick={handleLogout}
+        >
           <LogOut />
           Logout
         </button>
