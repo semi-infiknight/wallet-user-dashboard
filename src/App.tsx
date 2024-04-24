@@ -1,14 +1,17 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import "./App.css";
-import AppRoutes from "./routes";
+import './App.css';
+import AppRoutes from './routes';
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
   return (
     <>
-      <Router>
-        <AppRoutes />
-      </Router>
+      <AnimatePresence>
+        <Router>
+          <AppRoutes />
+        </Router>
+      </AnimatePresence>
     </>
   );
 }

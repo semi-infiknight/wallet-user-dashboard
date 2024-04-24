@@ -6,3 +6,8 @@ export type TaskType = {
   expiry: number;
   
 };
+
+
+export interface ReactChildProps {
+  children: JSX.Element[] | JSX.Element;
+}
