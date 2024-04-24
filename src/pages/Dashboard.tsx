@@ -1,9 +1,28 @@
+import { useQuery } from '@tanstack/react-query';
 import LeaderBoard from '../components/LeaderBoard';
 import LeftSideBar from '../components/LeftSideBar';
 import Tasks from '../components/Tasks';
 import UserDetails from '../components/UserDetails';
+import { getUserInfo } from '../services/dashboard';
+import LoadingAnimation from './Loading';
+import { useEffect, useState } from 'react';
 
 const Dashboard = () => {
+  const [userInfo, setUserInfo] = useState(null);
+  const { isLoading, error, data } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
+  console.log(error, data);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setUserInfo(data?.data);
+    }
+  }, [isLoading]);
+
+  console.log('userInfo', userInfo);
+
+  if (isLoading) {
+    return <LoadingAnimation />;
+  }
   return (
     <>
       <div className="h-screen w-full  flex text-white  bg-[#141414] ">

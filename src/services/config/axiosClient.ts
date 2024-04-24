@@ -3,15 +3,15 @@ import { BASE_URL } from '../../utils/constant';
 
 const axiosClient = axios.create({ baseURL:BASE_URL  });
 
-let token = '';
+let address = '';
 
 axiosClient.interceptors.request.use(async request => {
-    if (!token.length) {
-        token = 'this-is-static-token, update axios client';
-        // token = session?.authorization?.token || '';
+    if (!address.length) {
+        address = '0x2723A2756ecb99b3B50f239782876fB595728AC0';
+        // address = session?.authorization?.address || '';
     }
 
-    request.headers.token = token;
+    request.headers.address = address;
 
     return request;
 });
