@@ -41,7 +41,7 @@ const Task = ({ _id, name, description, EXP, expiry }: TaskType) => {
       >
         <div className="w-[80%]">
           <p className="text-2xl">{name}</p>
-          <a href={description} target="_blank" className="text-sm break-words">
+          <a href={description} target="_blank" className="text-sm break-words" rel="noreferrer">
             {description}
           </a>
         </div>
