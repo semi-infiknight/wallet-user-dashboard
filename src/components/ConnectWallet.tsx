@@ -6,10 +6,14 @@ type ConnectWalletType = {
 
 const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
   const [providerDetails, setProviderDetails] = useState<any[]>([]);
-  const providersContainerRef = useRef<HTMLDivElement>(null);
-  const activeProviderUUIDRef = useRef<HTMLSpanElement>(null);
-  const activeProviderNameRef = useRef<HTMLSpanElement>(null);
-  const activeProviderIconRef = useRef<HTMLDivElement>(null);
+  const [walletXProvider, setWalletXProvider] = useState<any>(null);
+  const [connectedAccount, setConnectedAccount] = useState<string>();
+
+  const [userDetails, setUserDetails] = useState({
+    uuid: '',
+    name: '',
+    icon: '',
+  });
 
   const detectEip6963 = () => {
     window.addEventListener('eip6963:announceProvider', (event) => {
@@ -25,7 +29,6 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
       (providerDetail) =>
         providerDetail.info && newProviderDetail.info && providerDetail.info.uuid === newProviderDetail.info.uuid,
     );
-
     if (existingProvider) {
       if (
         existingProvider.info.name !== newProviderDetail.info.name ||
@@ -49,55 +52,99 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
       return;
     }
 
-    setProviderDetails((prevProviderDetails) => [...prevProviderDetails, newProviderDetail]);
+    // Check if the provider is "WalletX" and store it in walletXProvider state
+    if (newProviderDetail.info.name === 'WalletX') {
+      setWalletXProvider(newProviderDetail.provider);
+    }
+
+    // Store only unique providers based on their name
+    const uniqueProviders = Array.from(
+      new Set([...providerDetails, newProviderDetail].map((provider) => provider.info.name)),
+    ).map((name) => {
+      return [...providerDetails, newProviderDetail].find((provider) => provider.info.name === name);
+    });
+
+    setProviderDetails(uniqueProviders);
   };
 
-  const setActiveProviderDetail = (providerDetail: any) => {
-    const { uuid, name, icon } = providerDetail.info;
-    if (activeProviderUUIDRef.current) {
-      activeProviderUUIDRef.current.innerText = uuid;
-    }
-    if (activeProviderNameRef.current) {
-      activeProviderNameRef.current.innerText = name;
-    }
-    if (activeProviderIconRef.current) {
-      activeProviderIconRef.current.innerHTML = icon ? `<img src="${icon}" height="90" width="90" />` : '';
+  const initializeProvider = async () => {
+    walletXProvider.autoRefreshOnNetworkChange = false;
+
+    // walletXProvider.on('accountsChanged', handleNewAccounts); //
+    // walletXProvider.on('accountsChanged', handleEIP1559Support);
+
+    try {
+      const newAccounts = await walletXProvider.request({
+        method: 'eth_accounts',
+      });
+      // handleNewAccounts(newAccounts);
+      console.log(newAccounts);
+      setConnectedAccount(newAccounts[0]);
+      console.log(walletXProvider.isConnected());
+    } catch (err) {
+      console.error('Error on init when getting accounts', err);
     }
   };
+
+  const setActiveProviderDetail = (_walletXProvider: any) => {
+    initializeProvider();
+
+    const { uuid, name, icon } = _walletXProvider.info;
+    setUserDetails({
+      uuid: uuid,
+      name: name,
+      icon: icon,
+    });
+  };
+
+  useEffect(() => {
+    detectEip6963();
+  }, []);
+
+  const disconnectWallet = async () => {
+    try {
+      await walletXProvider.request({
+        method: 'disconnect',
+        params: [{ connectedAccount }],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    
+  }, []);
+
+  console.log(providerDetails);
+  console.log(walletXProvider);
 
   return (
-    <>
+    <div className=" flex ">
       <button
-        onClick={() => detectEip6963()}
-        className="border-2 bg-[#cff500] border-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide text-white shadow-lg"
+        onClick={() => {
+          setActiveProviderDetail(walletXProvider);
+        }}
+        className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
       >
         Connect Wallet
       </button>
-      <div ref={providersContainerRef}>
-        {providerDetails.map((providerDetail, index) => (
-          <div key={index} className="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-            <pre className="alert alert-secondary">
-              {JSON.stringify(
-                { info: providerDetail.info, provider: providerDetail.provider ? '...' : providerDetail.provider },
-                null,
-                2,
-              )}
-            </pre>
-            <button
-              className="btn btn-primary btn-lg btn-block mb-3"
-              onClick={() => setActiveProviderDetail(providerDetail)}
-            >
-              Use {providerDetail.info.name}
-            </button>
-          </div>
-        ))}
+
+      <button
+        onClick={() => {
+          disconnectWallet();
+        }}
+        className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
+      >
+        Disconnect Wallet
+      </button>
+
+      <div className="px-2 py-2 border bg-white">
+        <span>Uid: {userDetails.uuid}</span>
+        <span>Name: {userDetails.name}</span>
+        <img className="s" src={userDetails.icon} alt="use icon" />
       </div>
-      <div>
-        <span ref={activeProviderUUIDRef}></span>
-        <span ref={activeProviderNameRef}></span>
-        <div ref={activeProviderIconRef}></div>
-      </div>
-    </>
+    </div>
   );
 };
 

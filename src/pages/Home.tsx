@@ -18,7 +18,7 @@ const Home = () => {
       {/* <div className="h-screen w-full">
         <img src={bgFun} alt="" />
       </div> */}
-      <div className="glass absolute h-screen top-0 w-full flex justify-center items-center ">
+      <div className="glass absolute h-screen top-0 w-full flex justify-center items-center bg-black ">
         <ConnectWallet isLoggedIn={() => handleLogin()} />
       </div>
     </>
