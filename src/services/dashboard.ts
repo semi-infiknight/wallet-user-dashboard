@@ -1,6 +1,6 @@
 import { apiRoutes } from "./apiRoutes";
 import axiosClient from "./config/axiosClient";
 
-export const getAllData = () =>
-    axiosClient.get(apiRoutes.dashboard);
+export const getUserInfo = () =>
+    axiosClient.get(apiRoutes.userinfo);
 

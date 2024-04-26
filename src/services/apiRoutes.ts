@@ -1,7 +1,7 @@
 
 
  const dashboardApis={
-dashboard:'/dashboard'
+userinfo:'/user/data'
 }
 
 
