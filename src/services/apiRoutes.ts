@@ -1,5 +1,4 @@
 
-
  const dashboardApis={
 userinfo:'/user/data'
 }

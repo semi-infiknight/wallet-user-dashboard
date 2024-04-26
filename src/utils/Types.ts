@@ -1,3 +1,5 @@
+import { UserType } from './Enum';
+
 export type TaskType = {
   _id: number;
   name: string;
@@ -6,6 +8,13 @@ export type TaskType = {
   expiry: number;
 };
 
+export type UserDetailsType = {
+  address: string;
+  completedTasks: [];
+  earnedEXP: number;
+  role: UserType;
+  userName: string;
+};
 
 export interface ReactChildProps {
   children: JSX.Element[] | JSX.Element;

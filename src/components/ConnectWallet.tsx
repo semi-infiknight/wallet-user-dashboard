@@ -1,13 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { UserDetailsType } from '../utils/Types';
+
+// import { Buffer } from 'buffer';
 
 type ConnectWalletType = {
-  isLoggedIn: () => void;
+  isLoggedIn: (_userDetails: UserDetailsType) => void;
 };
 
 const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
   const [providerDetails, setProviderDetails] = useState<any[]>([]);
   const [walletXProvider, setWalletXProvider] = useState<any>(null);
+
+  const [userAddress, setUserAddress] = useState('');
 
   const [walletDetails, setWalletDetails] = useState({
     uuid: '',
@@ -67,8 +73,46 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     setProviderDetails(uniqueProviders);
   };
 
+  const authenticateUser = async (_signature: string) => {
+    const data = {
+      address: userAddress,
+      signature: _signature,
+    };
+    const result = await axios.post(`https://api.getwalletx.com/auth/authenticate`, data);
+
+    console.log('this is authenticate user', result);
+    isLoggedIn(result.data.data);
+  };
+
+  const getProviderSignature = async (_msg: string) => {
+    console.log('this is getProviderSignature');
+    try {
+      const from = userAddress;
+      // const msg = `0x${Buffer.from(_msg, 'utf8').toString('hex')}`;
+      const msg = String(_msg);
+
+      const sign = await walletXProvider.request({
+        method: 'personal_sign',
+        params: [msg, from, 'Example password'],
+      });
+
+      console.log(sign);
+      authenticateUser(String(sign));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getAuthMsg = async (_address: string) => {
+    const result = await axios.get(`https://api.getwalletx.com/auth/message/?address=${_address}`);
+
+    const msg = result.data.data.message;
+    console.log(msg);
+    await getProviderSignature(msg);
+  };
+
   const initializeProvider = async () => {
-    walletXProvider.autoRefreshOnNetworkChange = false;
+    // walletXProvider.autoRefreshOnNetworkChange = false;
 
     try {
       const newAccounts = await walletXProvider.request({
@@ -76,7 +120,12 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
       });
       // handleNewAccounts(newAccounts);
       console.log(newAccounts);
-      isLoggedIn();
+      setUserAddress(newAccounts[0]);
+      await getAuthMsg(newAccounts[0]);
+      // isLoggedIn({
+      //   name: '',
+      //   address: newAccounts[0],
+      // });
       console.log(walletXProvider.isConnected());
     } catch (err) {
       console.error('Error on init when getting accounts', err);
@@ -108,8 +157,6 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
   //     console.log(err);
   //   }
   // };
-
-  useEffect(() => {}, []);
 
   console.log(providerDetails);
   console.log(walletXProvider);

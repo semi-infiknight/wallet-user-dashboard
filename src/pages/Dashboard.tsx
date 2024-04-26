@@ -16,7 +16,7 @@ const Dashboard = () => {
     if (!isLoading) {
       setUserInfo(data?.data);
     }
-  }, [isLoading]);
+  }, [data?.data, isLoading]);
 
   console.log('userInfo', userInfo);
 
