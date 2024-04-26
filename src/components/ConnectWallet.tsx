@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type ConnectWalletType = {
   isLoggedIn: () => void;
@@ -7,9 +7,8 @@ type ConnectWalletType = {
 const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
   const [providerDetails, setProviderDetails] = useState<any[]>([]);
   const [walletXProvider, setWalletXProvider] = useState<any>(null);
-  const [connectedAccount, setConnectedAccount] = useState<string>();
 
-  const [userDetails, setUserDetails] = useState({
+  const [walletDetails, setWalletDetails] = useState({
     uuid: '',
     name: '',
     icon: '',
@@ -79,7 +78,7 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
       });
       // handleNewAccounts(newAccounts);
       console.log(newAccounts);
-      setConnectedAccount(newAccounts[0]);
+      isLoggedIn();
       console.log(walletXProvider.isConnected());
     } catch (err) {
       console.error('Error on init when getting accounts', err);
@@ -90,7 +89,7 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     initializeProvider();
 
     const { uuid, name, icon } = _walletXProvider.info;
-    setUserDetails({
+    setWalletDetails({
       uuid: uuid,
       name: name,
       icon: icon,
@@ -101,20 +100,18 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     detectEip6963();
   }, []);
 
-  const disconnectWallet = async () => {
-    try {
-      await walletXProvider.request({
-        method: 'disconnect',
-        params: [{ connectedAccount }],
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const disconnectWallet = async () => {
+  //   try {
+  //     await walletXProvider.request({
+  //       method: 'disconnect',
+  //       params: [{ connectedAccount }],
+  //     });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   console.log(providerDetails);
   console.log(walletXProvider);
@@ -130,20 +127,21 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
         Connect Wallet
       </button>
 
-      <button
+      {/* <button
         onClick={() => {
           disconnectWallet();
         }}
         className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
       >
         Disconnect Wallet
-      </button>
+      </button> */}
 
-      <div className="px-2 py-2 border bg-white">
-        <span>Uid: {userDetails.uuid}</span>
-        <span>Name: {userDetails.name}</span>
-        <img className="s" src={userDetails.icon} alt="use icon" />
-      </div>
+      {/* This is to display wallet Details  */}
+      {/* <div className="px-2 py-2 border bg-white">
+        <span>Uid: {walletDetails.uuid}</span>
+        <span>Name: {walletDetails.name}</span>
+        <img className="s" src={walletDetails.icon} alt="use icon" />
+      </div> */}
     </div>
   );
 };

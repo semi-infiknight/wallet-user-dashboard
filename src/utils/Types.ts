@@ -4,5 +4,4 @@ export type TaskType = {
   description: string;
   EXP: number;
   expiry: number;
-  
 };
