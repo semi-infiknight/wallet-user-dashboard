@@ -1,18 +1,9 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import LeaderBoard from '../components/LeaderBoard';
 import LeftSideBar from '../components/LeftSideBar';
 import Tasks from '../components/Tasks';
 import UserDetails from '../components/UserDetails';
 
 const Dashboard = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const locationState = location.state;
-
-  console.log(locationState.userDetails);
-  if (locationState.userDetails === null) {
-    navigate('/login');
-  }
   return (
     <>
       <div className="h-screen w-full  flex text-white  bg-[#141414] ">
