@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 
 type ConnectWalletType = {
@@ -68,9 +69,6 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
 
   const initializeProvider = async () => {
     walletXProvider.autoRefreshOnNetworkChange = false;
-
-    // walletXProvider.on('accountsChanged', handleNewAccounts); //
-    // walletXProvider.on('accountsChanged', handleEIP1559Support);
 
     try {
       const newAccounts = await walletXProvider.request({
