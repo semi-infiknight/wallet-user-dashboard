@@ -26,7 +26,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="h-screen w-full  flex text-white  bg-[#141414] ">
-        <LeftSideBar />
+        <LeftSideBar userData={userInfo} />
         <div className="w-full h-full flex py-16">
           {/* left side  */}
 
@@ -35,7 +35,7 @@ const Dashboard = () => {
           </div>
           <div className="w-[40%] px-4 flex flex-col  justify-between">
             <div className=" h-[40%]">
-              <UserDetails />
+              <UserDetails userData={userInfo} />
             </div>
             <div className=" h-[55%]">
               <LeaderBoard />

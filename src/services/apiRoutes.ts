@@ -1,7 +1,8 @@
 
 
  const dashboardApis={
-userinfo:'/user/data'
+userinfo:'/user/data',
+getAllTasks:'/user/tasks'
 }
 
 

@@ -1,18 +1,9 @@
-import { UserType } from '../utils/Enum';
 import pfpIcon from '../assets/default.jpeg';
 import EXPIcon from '../assets/XP.svg';
 import TaskIcon from '../assets/taskIcon.png';
 import { generateAddressIcon } from '../utils/helper';
-const UserDetails = () => {
-  const UserDetailsData = {
-    _id: 1,
-    walletName: 'Xhakti',
-    addressID: '0x123',
-    role: UserType.USER,
-    completedTasks: [1, 2, 3],
-    earnedEXP: 10,
-  };
-
+import { leftBarProps } from '../utils/Types';
+const UserDetails = ({ userData }: leftBarProps) => {
   const ListOfSponsors = [
     {
       name: 'LedgerCompany',
@@ -60,12 +51,12 @@ const UserDetails = () => {
             <div className="flex gap-2">
               <img
                 className=" rounded-xl h-10 border "
-                src={generateAddressIcon(UserDetailsData.addressID)}
+                src={generateAddressIcon(userData?.address || '-')}
                 alt="PFP icon"
               />
               <div>
-                <p className="text-2xl">{UserDetailsData.walletName}</p>
-                <p className="text-base text-opacity-90">{UserDetailsData.addressID}</p>
+                <p className="text-2xl">{userData?.userName}</p>
+                <p className="text-base text-opacity-90">{userData?.address}</p>
               </div>
             </div>
           </div>
@@ -88,14 +79,14 @@ const UserDetails = () => {
               <p className=" text-center text-sm text-gray-400">Task Completed</p>
               <div className=" flex gap-2  justify-center items-center py-1">
                 <img className="h-8 " src={TaskIcon} alt="Exp Icon " />
-                <span className="text-2xl">{UserDetailsData.completedTasks.length}</span>
+                <span className="text-2xl">{userData?.completedTasks?.length}</span>
               </div>
             </div>
             <div className="w-[40%] px-2 pt-1 bg-[#262626] rounded-2xl flex flex-col  ">
               <p className=" text-center text-sm text-gray-400">EXP Earned</p>
               <div className=" flex gap-2  justify-center items-center py-1 ">
                 <img className="h-8 " src={EXPIcon} alt="Exp Icon " />
-                <span className="text-2xl">{UserDetailsData.completedTasks.length}</span>
+                <span className="text-2xl">{userData?.earnedEXP}</span>
               </div>
             </div>
           </div>

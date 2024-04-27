@@ -1,10 +1,12 @@
 import { Home, LogOut, RefreshCcw, UserPlus } from 'react-feather';
 import walletXLogo from '../assets/icons/main-logo.png';
 import exp from '../assets/XP.svg';
-import { generateAddressIcon, removeFromLocalStorage } from '../utils/helper';
+import { generateAddressIcon, getShortDisplayString, removeFromLocalStorage } from '../utils/helper';
 import { useNavigate } from 'react-router-dom';
+import { leftBarProps } from '../utils/Types';
 
-const LeftSideBar = () => {
+const LeftSideBar = ({ userData }: leftBarProps) => {
+  console.log(userData);
   const navigate = useNavigate();
   const handleLogout = () => {
     removeFromLocalStorage('authenticated');
@@ -34,11 +36,12 @@ const LeftSideBar = () => {
 
       <div className=" absolute bottom-8 rounded-xl shadow py-4 px-3 flex flex-col  gap-4 justify-center items-center drop-shadow shadow-[#cff500] w-[80%] left-1/2 translate-x-[-50%]">
         <div className="flex gap-2 justify-center items-center">
-          <img src={generateAddressIcon('0x123...Abc')} alt="pfp" className="rounded-full w-12 h-12" />
+          <img src={generateAddressIcon(userData?.address || '-')} alt="pfp" className="rounded-full w-12 h-12" />
           <div className="mt-2">
-            <p className=" text-lg">0x123...Abc</p>
+            <p className=" text-lg break-all">{getShortDisplayString(userData?.address || '-')}</p>
+            <p>{userData?.userName}</p>
             <p className="flex gap-1 items-center ">
-              <img className="w-6  " src={exp} alt="exp points" /> 100
+              <img className="w-6  " src={exp} alt="exp points" /> {userData?.earnedEXP}
             </p>
           </div>
         </div>
