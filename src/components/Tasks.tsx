@@ -1,6 +1,8 @@
 import Task from './Task';
 import { TaskType } from '../utils/Types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getAllTasks } from '../services/dashboard';
 
 const TasksData = [
   {
@@ -29,7 +31,9 @@ const TasksData = [
 
 const Tasks = () => {
   const [activeTab, setActiveTab] = useState('running');
+  const { isLoading, error, data } = useQuery({ queryKey: ['user-tasks'], queryFn: getAllTasks });
 
+  console.log(data);
   // Function to divide the tasks based on expiry
   const divideTasks = (tasksData: TaskType[]) => {
     const currentDate = new Date().getTime();
@@ -75,17 +79,22 @@ const Tasks = () => {
         </button>
       </div>
       <div className="mt-2 w-full">
-        {activeTab === 'running' &&
-          runningTasks.map((task) => (
-            <Task
-              key={task._id}
-              _id={task._id}
-              EXP={task.EXP}
-              expiry={task.expiry}
-              name={task.name}
-              description={task.description}
-            />
-          ))}
+        {isLoading
+          ? Array(2)
+              .fill(3)
+              .map((arr, index) => <div key={index} className="w-full h-16 mb-3  rounded animate-shimmer"></div>)
+          : activeTab === 'running' &&
+            data?.data?.map((task) => (
+              <Task
+                key={task._id}
+                _id={task._id}
+                EXP={task.points}
+                expiry={task.expiry}
+                name={task.name}
+                description={task.description}
+              />
+            ))}
+
         {activeTab === 'expired' &&
           expiredTasks.map((task) => (
             <Task
