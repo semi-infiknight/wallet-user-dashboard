@@ -3,10 +3,10 @@ import LeaderBoard from '../components/LeaderBoard';
 import LeftSideBar from '../components/LeftSideBar';
 import Tasks from '../components/Tasks';
 import UserDetails from '../components/UserDetails';
-import { getAllTask, getUserInfo } from '../services/dashboard';
+import { getAllTask, getLeaderBoard, getUserInfo } from '../services/dashboard';
 import LoadingAnimation from './Loading';
 import { useEffect, useState } from 'react';
-import { UserDetailsType } from '../utils/Types';
+import { LeaderBoardType, UserDetailsType } from '../utils/Types';
 import { UserType } from '../utils/Enum';
 
 const Dashboard = () => {
@@ -19,6 +19,8 @@ const Dashboard = () => {
   });
 
   const [tasks, setTasks] = useState([]);
+
+  const [leaderBoard, setLeaderBoard] = useState<LeaderBoardType[]>([]);
 
   const {
     isLoading: userDataIsLoading,
@@ -34,6 +36,13 @@ const Dashboard = () => {
   } = useQuery({ queryKey: ['tasks'], queryFn: getAllTask });
   console.log(tasksError, tasksData);
 
+  const {
+    isLoading: leaderBoardIsLoading,
+    error: leaderBoardError,
+    data: leaderBoardData,
+  } = useQuery({ queryKey: ['leader-board'], queryFn: getLeaderBoard });
+  console.log(leaderBoardError, leaderBoardData);
+
   useEffect(() => {
     if (!userDataIsLoading) {
       setUserInfo(userData?.data);
@@ -46,8 +55,15 @@ const Dashboard = () => {
     }
   }, [tasksData?.data, tasksAreLoading]);
 
+  useEffect(() => {
+    if (!leaderBoardIsLoading) {
+      setLeaderBoard(leaderBoardData?.data);
+    }
+  }, [leaderBoardData?.data, leaderBoardIsLoading]);
+
   console.log('userInfo', userInfo);
   console.log('tasks', tasks);
+  console.log('tasks', leaderBoard);
 
   if (userDataIsLoading) {
     return <LoadingAnimation />;
@@ -60,7 +76,7 @@ const Dashboard = () => {
           {/* left side  */}
 
           <div className="w-[60%] max-w-[60%] px-4">
-            <Tasks />
+            <Tasks tasksData={tasks} userDetails={userInfo} />
           </div>
           <div className="w-[40%] px-4 flex flex-col gap-3 justify-start">
             <div className="h-fit">
@@ -73,7 +89,7 @@ const Dashboard = () => {
               />
             </div>
             <div className=" h-full">
-              <LeaderBoard />
+              <LeaderBoard leaderBoardData={leaderBoard} />
             </div>
           </div>
         </div>

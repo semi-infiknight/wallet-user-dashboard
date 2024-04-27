@@ -1,9 +1,16 @@
 import { useState, useEffect } from 'react';
 import EXPIcon from '../assets/EXP.png';
-import { TaskType } from '../utils/Types';
+import { TaskType, UserDetailsType } from '../utils/Types';
 import { UserType } from '../utils/Enum';
 
-const Task = ({ _id, name, description, EXP, expiry }: TaskType) => {
+type TaskProp = {
+  taskDetails: TaskType;
+  userDetails: UserDetailsType;
+};
+
+const Task = ({ taskDetails, userDetails }: TaskProp) => {
+  const { _id, name, description, isActive, EXP, expiry, links } = taskDetails;
+
   const [isExpired, setIsExpired] = useState<boolean>(false);
   const [isClaimed, setIsClaimed] = useState<boolean>(false);
   const [isTaskCompleted, setIsTaskCompleted] = useState<boolean>(false);
