@@ -55,11 +55,14 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
         </button>
       </div>
       <div className="mt-2 w-full">
-        {activeTab === 'running' &&
-          runningTasks.map((task, index) => <Task key={index} taskDetails={task} userDetails={userDetails} />)}
-
-        {activeTab === 'expired' &&
-          expiredTasks.map((task, index) => <Task key={index} taskDetails={task} userDetails={userDetails} />)}
+        <div className="flex  flex-col gap-2">
+          {activeTab === 'running' &&
+            runningTasks.map((task, index) => <Task key={index} taskDetails={task} userDetails={userDetails} />)}
+        </div>
+        <div className="flex  flex-col gap-2">
+          {activeTab === 'expired' &&
+            expiredTasks.map((task, index) => <Task key={index} taskDetails={task} userDetails={userDetails} />)}
+        </div>
       </div>
     </div>
   );

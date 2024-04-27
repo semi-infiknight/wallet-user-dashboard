@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import EXPIcon from '../assets/EXP.png';
 import { TaskType, UserDetailsType } from '../utils/Types';
-import { UserType } from '../utils/Enum';
+import { TASKTYPE } from '../utils/Enum';
 
 type TaskProp = {
   taskDetails: TaskType;
@@ -11,34 +11,31 @@ type TaskProp = {
 const Task = ({ taskDetails, userDetails }: TaskProp) => {
   const { _id, name, description, isActive, EXP, expiry, links } = taskDetails;
 
-  const [isExpired, setIsExpired] = useState<boolean>(false);
-  const [isClaimed, setIsClaimed] = useState<boolean>(false);
-  const [isTaskCompleted, setIsTaskCompleted] = useState<boolean>(false);
-
-  const UserDetailsData = {
-    _id: 1,
-    walletName: 'Xhakti',
-    addressID: '0x123',
-    role: UserType.USER,
-    completedTasks: [1], //
-    earnedEXP: 10,
-  };
+  const [currentTaskState, setCurrentTaskState] = useState<TASKTYPE>(TASKTYPE.PENDING);
 
   useEffect(() => {
     const currentTime = new Date().getTime();
     const expiryTime = new Date(expiry).getTime();
 
-    if (currentTime > expiryTime) {
-      setIsExpired(true);
-    } else {
-      setIsExpired(false);
-    }
-  }, [expiry]);
+    const isCompleted = userDetails.completedTasks.includes(_id);
+    const isClaimed = userDetails.completedTasks.includes(_id); // here it should come as claimed.
 
-  useEffect(() => {
-    const isCompleted = UserDetailsData.completedTasks.includes(_id);
-    setIsTaskCompleted(isCompleted);
-  }, [_id, UserDetailsData.completedTasks]);
+    if (currentTime > expiryTime) {
+      if (isCompleted) {
+        setCurrentTaskState(TASKTYPE.COMPLETEDANDEXPIRED);
+      } else if (isClaimed) {
+        setCurrentTaskState(TASKTYPE.CLAIMEDANDEXPIRED);
+      } else {
+        setCurrentTaskState(TASKTYPE.EXPIRED);
+      }
+    } else {
+      if (isCompleted) {
+        setCurrentTaskState(TASKTYPE.COMPLETED);
+      } else if (isClaimed) {
+        setCurrentTaskState(TASKTYPE.CLAIMED);
+      }
+    }
+  }, [_id, expiry, userDetails.completedTasks]);
 
   return (
     <>
@@ -53,17 +50,22 @@ const Task = ({ taskDetails, userDetails }: TaskProp) => {
           </a>
         </div>
         <button
+          disabled={currentTaskState === (TASKTYPE.CLAIMED || TASKTYPE.EXPIRED)}
           className={`${
-            isExpired
-              ? 'bg-red-500'
-              : isClaimed
+            currentTaskState === TASKTYPE.PENDING
+              ? 'bg-yellow-300 '
+              : currentTaskState === TASKTYPE.COMPLETED
                 ? 'bg-green-500'
-                : !isTaskCompleted
-                  ? 'bg-green-300 '
-                  : 'bg-yellow-300 '
+                : currentTaskState === TASKTYPE.CLAIMED
+                  ? 'bg-green-800 '
+                  : currentTaskState === TASKTYPE.EXPIRED
+                    ? 'bg-red-400'
+                    : currentTaskState == TASKTYPE.COMPLETEDANDEXPIRED
+                      ? 'border-2 border-red-500 bg-green-500'
+                      : ' border border-red-500 bg-green-800'
           } flex flex-col justify-center items-center rounded-xl px-2  min-w-24 max-h-10 text-black font-medium`}
         >
-          {isExpired === true ? (
+          {currentTaskState === TASKTYPE.EXPIRED ? (
             <>Expired</>
           ) : (
             <>
