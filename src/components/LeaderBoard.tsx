@@ -1,6 +1,6 @@
 import { UserType } from '../utils/Enum';
 import { useState } from 'react';
-import EXPIcon from '../assets/XP.svg';
+import EXPIcon from '../assets/EXP.png';
 import { generateAddressIcon } from '../utils/helper';
 
 const LeaderBoard = () => {
@@ -36,9 +36,9 @@ const LeaderBoard = () => {
   const lifetimeUsers = ListOfUsers.sort((a, b) => b.earnedEXP - a.earnedEXP); // Sort by earnedEXP in descending order
 
   return (
-    <div className="border-2 h-full rounded-3xl flex-col px-6 py-2 border-[#262626] hover:border-[#cff500]">
-      <p className="text-3xl text-[#cff500] tracking-wider">LeaderBoard</p>
-      <div className="flex gap-5">
+    <div className="h-full rounded-3xl flex-col px-6 py-2 border-2 border-[#1e2025] hover:border-[#cff500]">
+      <p className="text-3xl  tracking-wider">LeaderBoard</p>
+      <div className="flex gap-5 my-2">
         <button
           onClick={() => setActiveTab('24hours')}
           className={`py-2 ${
@@ -65,7 +65,7 @@ const LeaderBoard = () => {
           return (
             <div
               key={user._id}
-              className="flex justify-between w-full border-2 rounded-xl px-2 py-1 hover:border-[#a66cff] border-[#262626]"
+              className="flex justify-between w-full  rounded-xl px-2 py-1 bg-[#1e2025] hover:bg-[#26272c] "
             >
               <div className="flex gap-2 py-1">
                 <img className=" rounded-full h-8 " src={generateAddressIcon(user.addressID)} alt="PFP icon" />

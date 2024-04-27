@@ -1,11 +1,8 @@
+const dashboardApis = {
+  userinfo: '/user/data',
+  tasks: '/user/tasks',
+};
 
- const dashboardApis={
-userinfo:'/user/data'
-}
-
-
-
-export const apiRoutes={
-    ...dashboardApis
-}
-
+export const apiRoutes = {
+  ...dashboardApis,
+};

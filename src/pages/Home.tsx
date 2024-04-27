@@ -8,6 +8,8 @@ const Home = () => {
 
   const handleLogin = async (_userDetails: UserDetailsType) => {
     setToLocalStorage('authenticated', true);
+    // Store _userDetails in the session
+    window.sessionStorage.setItem('userDetails', JSON.stringify(_userDetails));
     navigate('/dashboard', { state: { userDetails: _userDetails } });
   };
 

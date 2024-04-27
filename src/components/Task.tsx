@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import EXPIcon from '../assets/XP.svg';
+import EXPIcon from '../assets/EXP.png';
 import { TaskType } from '../utils/Types';
 import { UserType } from '../utils/Enum';
 
@@ -37,9 +37,9 @@ const Task = ({ _id, name, description, EXP, expiry }: TaskType) => {
     <>
       <div
         key={_id}
-        className="w-[90%] flex border-2 border-[#262626]  my-2 rounded-xl place-self-start justify-between px-3 py-3 hover:border-[#a66cff]"
+        className="w-[90%] flex  bg-[#1e2025] hover:bg-[#26272c]  my-2 rounded-xl place-self-start justify-between px-3 py-3 hover:border-[#a66cff]"
       >
-        <div className="w-[80%]">
+        <div className="w-[80%] max-w-[80%]">
           <p className="text-2xl">{name}</p>
           <a href={description} target="_blank" className="text-sm break-words" rel="noreferrer">
             {description}
@@ -47,7 +47,13 @@ const Task = ({ _id, name, description, EXP, expiry }: TaskType) => {
         </div>
         <button
           className={`${
-            isExpired ? 'bg-red-500' : isClaimed ? 'bg-green-500' : !isTaskCompleted ? 'bg-green-300 ' : 'bg-yellow-300 '
+            isExpired
+              ? 'bg-red-500'
+              : isClaimed
+                ? 'bg-green-500'
+                : !isTaskCompleted
+                  ? 'bg-green-300 '
+                  : 'bg-yellow-300 '
           } flex flex-col justify-center items-center rounded-xl px-2  min-w-24 max-h-10 text-black font-medium`}
         >
           {isExpired === true ? (
