@@ -15,12 +15,6 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
 
   const [userAddress, setUserAddress] = useState('');
 
-  const [walletDetails, setWalletDetails] = useState({
-    uuid: '',
-    name: '',
-    icon: '',
-  });
-
   const detectEip6963 = () => {
     window.addEventListener('eip6963:announceProvider', (event) => {
       if (event.detail.info.uuid) {
@@ -132,17 +126,6 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     }
   };
 
-  const setActiveProviderDetail = (_walletXProvider: any) => {
-    initializeProvider();
-
-    const { uuid, name, icon } = _walletXProvider.info;
-    setWalletDetails({
-      uuid: uuid,
-      name: name,
-      icon: icon,
-    });
-  };
-
   useEffect(() => {
     detectEip6963();
   }, []);
@@ -165,7 +148,7 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     <div className=" flex ">
       <button
         onClick={() => {
-          setActiveProviderDetail(walletXProvider);
+          initializeProvider();
         }}
         className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
       >
@@ -180,13 +163,6 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
       >
         Disconnect Wallet
       </button> */}
-
-      {/* This is to display wallet Details  */}
-      {/* <div className="px-2 py-2 border bg-white">
-        <span>Uid: {walletDetails.uuid}</span>
-        <span>Name: {walletDetails.name}</span>
-        <img className="s" src={walletDetails.icon} alt="use icon" />
-      </div> */}
     </div>
   );
 };
