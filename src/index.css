@@ -10,3 +10,18 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Regular.ttf');
+  font-display: 'swap';
+  font-weight: 500;
+}
+
+body,
+body * {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+
+  font-weight: normal;
+}
