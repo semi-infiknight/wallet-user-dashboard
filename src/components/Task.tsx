@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
 import EXPIcon from '../assets/EXP.png';
 import { TaskType, UserDetailsType } from '../utils/Types';
@@ -6,9 +7,10 @@ import { TASKTYPE } from '../utils/Enum';
 type TaskProp = {
   taskDetails: TaskType;
   userDetails: UserDetailsType;
+  handleClick: (_id) => void;
 };
 
-const Task = ({ taskDetails, userDetails }: TaskProp) => {
+const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
   const { _id, name, description, isActive, EXP, expiry, links } = taskDetails;
 
   const [currentTaskState, setCurrentTaskState] = useState<TASKTYPE>(TASKTYPE.PENDING);
@@ -42,6 +44,7 @@ const Task = ({ taskDetails, userDetails }: TaskProp) => {
       <div
         key={_id}
         className="w-[90%] my-2 flex my-2place-self-start justify-between px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[#a66cff]"
+        onClick={() => handleClick(_id)}
       >
         <div className="w-[80%] max-w-[80%]">
           <p className="text-2xl">{name}</p>

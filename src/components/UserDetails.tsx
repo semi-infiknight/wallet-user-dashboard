@@ -68,7 +68,7 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
                 <span className="text-lg font-semibold">{earnedEXP}</span>
               </div>
             </div>
-            <div className="w-full px-2 pt-2  bg-white rounded-2xl flex flex-col text-black  ">
+            <div className="w-full px-2 pt-2  flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
               <p className=" text-center text-sm ">Task Completed</p>
               <div className=" flex gap-2  justify-center items-center py-1">
                 <img className="h-6 " src={TaskIcon} alt="Exp Icon " />

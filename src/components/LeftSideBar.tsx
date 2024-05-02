@@ -52,13 +52,13 @@ const LeftSideBar = () => {
         <div className=" absolute bottom-8 left-1/2 translate-x-[-50%] w-full flex flex-col gap-3 justify-center items-center">
           <div className="flex  justify-center items-center gap-10 ">
             <a href="https://twitter.com/getWalletX">
-              <img className="h-7" src={twitterIcon} alt="telegramIcon" />
+              <img className="h-6" src={twitterIcon} alt="telegramIcon" />
             </a>
             <a href="https://t.me/getwalletx">
-              <img className="h-10" src={telegramIcon} alt="telegramIcon" />
+              <img className="h-8" src={telegramIcon} alt="telegramIcon" />
             </a>
             <a href="https://discord.com/invite/GNFPRUxxKW">
-              <img className="h-11" src={discordIcon} alt="telegramIcon" />
+              <img className="h-9" src={discordIcon} alt="telegramIcon" />
             </a>
           </div>
           <button
