@@ -12,7 +12,8 @@ body {
 }
 
 .bg-gradient {
-  background: linear-gradient(to bottom, #000000, #010007, #020108, #3016B2, #4722CC, #A954FD);
+  background: linear-gradient(to bottom, #000000, #010007, #020108, #3016b2, #4722cc, #a954fd);
+  /* background-color: black; */
 }
 @font-face {
   font-family: 'Poppins';
@@ -27,4 +28,16 @@ body * {
   font-style: normal;
 
   font-weight: normal;
+}
+
+.neomorphic {
+  box-shadow:
+    6px 6px 12px #0d0909,
+    -6px -6px 12px #414141;
+}
+
+.neomorphic__big {
+  box-shadow:
+    3px 6px 16px #0d0909,
+    -8px -8px 50px #414141;
 }

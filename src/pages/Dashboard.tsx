@@ -70,12 +70,12 @@ const Dashboard = () => {
   // }
   return (
     <>
-      <div className="h-screen w-full  flex text-white  bg-gradient ">
+      <div className="h-screen w-full  flex text-white  bg-gradient overflow-hidden ">
         <LeftSideBar />
         <div className="w-full h-full flex py-16">
           {/* left side  */}
 
-          <div className="w-[60%] max-w-[60%] px-4">
+          <div className="w-[60%] max-w-[60%]  h-[102%] px-4">
             <Tasks tasksData={tasks} userDetails={userInfo} />
           </div>
           <div className="w-[40%] px-4 flex flex-col gap-3 justify-start">

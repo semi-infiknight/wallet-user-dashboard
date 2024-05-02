@@ -46,11 +46,11 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
     <>
       <div
         key={role}
-        className="  h-full rounded-3xl flex-col px-6 py-4 pb-4 border-2 border-[#1e2025] hover:border-[#cff500] "
+        className=" flex justify-center items-center  h-full flex-col px-6 py-4 pb-4  bg-[#262626] border-y-2 rounded-xl border-y-[#cff500]  neomorphic__big "
       >
-        <p className="text-3xl  tracking-wider mb-2 ">Welcome</p>
-        <div className=" flex flex-col gap-4">
-          <div className=" flex justify-between w-full py-2">
+        <p className="text-4xl  tracking-wider mb-2 ">Welcome</p>
+        <div className=" flex flex-col gap-4 justify-center">
+          <div className=" flex justify-between w-full py-2 px-3 bg-[#262626] border-y-2 rounded-xl border-y-[#cff500]  neomorphic">
             <div className="flex gap-2">
               <img className="rounded-2xl w-12 h-12 bg-[#1e2025]  " src={generateAddressIcon(address)} alt="PFP icon" />
               <div>
@@ -60,19 +60,19 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
             </div>
           </div>
 
-          <div className=" flex justify-evenly gap-4 w-full ">
-            <div className="w-[40%] px-2 pt-2  bg-[#1e2025] rounded-2xl flex flex-col  ">
-              <p className=" text-center text-sm text-gray-400">Task Completed</p>
-              <div className=" flex gap-2  justify-center items-center py-1">
-                <img className="h-7 " src={TaskIcon} alt="Exp Icon " />
-                <span className="text-2xl">{completedTasks.length}</span>
+          <div className=" flex flex-col gap-4 w-full ">
+            <div className="w-full px-2 pt-2  flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
+              <p className=" text-center text-sm ">Total EXP Earned</p>
+              <div className=" flex gap-2  justify-center items-center py-1 ">
+                <img className="h-6 " src={EXPIcon} alt="Exp Icon " />
+                <span className="text-lg font-semibold">{earnedEXP}</span>
               </div>
             </div>
-            <div className="w-[40%] px-2 pt-2 bg-[#1e2025] rounded-2xl flex flex-col  ">
-              <p className=" text-center text-sm text-gray-400">EXP Earned</p>
-              <div className=" flex gap-2  justify-center items-center py-1 ">
-                <img className="h-7 " src={EXPIcon} alt="Exp Icon " />
-                <span className="text-2xl">{earnedEXP}</span>
+            <div className="w-full px-2 pt-2  bg-white rounded-2xl flex flex-col text-black  ">
+              <p className=" text-center text-sm ">Task Completed</p>
+              <div className=" flex gap-2  justify-center items-center py-1">
+                <img className="h-6 " src={TaskIcon} alt="Exp Icon " />
+                <span className="text-lg font-semibold">{completedTasks.length}</span>
               </div>
             </div>
           </div>

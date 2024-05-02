@@ -41,7 +41,7 @@ const Task = ({ taskDetails, userDetails }: TaskProp) => {
     <>
       <div
         key={_id}
-        className="w-[90%] flex  bg-[#1e2025] hover:bg-[#26272c]  my-2 rounded-xl place-self-start justify-between px-3 py-3 hover:border-[#a66cff]"
+        className="w-[90%] my-2 flex my-2place-self-start justify-between px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[#a66cff]"
       >
         <div className="w-[80%] max-w-[80%]">
           <p className="text-2xl">{name}</p>
