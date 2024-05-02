@@ -14,3 +14,17 @@ body {
 .bg-gradient {
   background: linear-gradient(to bottom, #000000, #010007, #020108, #3016B2, #4722CC, #A954FD);
 }
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Regular.ttf');
+  font-display: 'swap';
+  font-weight: 500;
+}
+
+body,
+body * {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+
+  font-weight: normal;
+}
