@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { UserDetailsType } from '../utils/Types';
+import { UserType } from '../utils/Enum';
 
 // import { Buffer } from 'buffer';
 
@@ -16,12 +17,12 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
   const [userAddress, setUserAddress] = useState('');
 
   const detectEip6963 = () => {
-    window.addEventListener('eip6963:announceProvider', (event) => {
+    window.addEventListener('eip6963:announceProvider:walletx', (event) => {
       if (event.detail.info.uuid) {
         handleNewProviderDetail(event.detail);
       }
     });
-    window.dispatchEvent(new Event('eip6963:requestProvider'));
+    window.dispatchEvent(new Event('eip6963:requestProvider:walletx'));
   };
 
   const existsProviderDetail = (newProviderDetail: any) => {
@@ -109,13 +110,14 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     // walletXProvider.autoRefreshOnNetworkChange = false;
 
     try {
+      // await walletXProvider.enable();
       const newAccounts = await walletXProvider.request({
         method: 'eth_accounts',
       });
       // handleNewAccounts(newAccounts);
       console.log(newAccounts);
       setUserAddress(newAccounts[0]);
-      await getAuthMsg(newAccounts[0]);
+      // await getAuthMsg(newAccounts[0]);
       // isLoggedIn({
       //   name: '',
       //   address: newAccounts[0],
@@ -130,16 +132,16 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     detectEip6963();
   }, []);
 
-  // const disconnectWallet = async () => {
-  //   try {
-  //     await walletXProvider.request({
-  //       method: 'disconnect',
-  //       params: [{ connectedAccount }],
-  //     });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const disconnectWallet = async () => {
+    try {
+      await walletXProvider.request({
+        method: 'disconnect',
+        params: [{ userAddress }],
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   console.log(providerDetails);
   console.log(walletXProvider);
@@ -148,21 +150,28 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     <div className=" flex ">
       <button
         onClick={() => {
-          initializeProvider();
+          // initializeProvider();
+          isLoggedIn({
+            address: '0x123asdfa123',
+            completedTasks: [],
+            earnedEXP: 10,
+            role: UserType.USER,
+            userName: 'Shakti',
+          });
         }}
         className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
       >
         Connect Wallet
       </button>
 
-      {/* <button
+      <button
         onClick={() => {
           disconnectWallet();
         }}
         className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
       >
         Disconnect Wallet
-      </button> */}
+      </button>
     </div>
   );
 };

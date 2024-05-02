@@ -6,7 +6,29 @@ type LeaderBoardProp = {
   leaderBoardData: LeaderBoardType[];
 };
 
-const LeaderBoard = ({ leaderBoardData }: LeaderBoardProp) => {
+const LeaderBoard = ({ _leaderBoardData }: LeaderBoardProp) => {
+  const leaderBoardData = [
+    {
+      address: '0x1234567890',
+      EXP: 100,
+    },
+    {
+      address: '0x1234567890',
+      EXP: 30,
+    },
+    {
+      address: '0x1234567890',
+      EXP: 70,
+    },
+    {
+      address: '0x1234567890',
+      EXP: 80,
+    },
+    {
+      address: '0x1234567890',
+      EXP: 60,
+    },
+  ];
   const lifetimeUsers = leaderBoardData.sort((a, b) => b.EXP - a.EXP); // Sort by earnedEXP in descending order
 
   return (

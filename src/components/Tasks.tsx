@@ -7,8 +7,46 @@ type TasksProp = {
   userDetails: UserDetailsType;
 };
 
-const Tasks = ({ tasksData, userDetails }: TasksProp) => {
+const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
   const [activeTab, setActiveTab] = useState('running');
+  const tasksData = [
+    {
+      _id: '123',
+      name: 'This is Task One',
+      description: 'This is description',
+      isActive: true,
+      EXP: 100,
+      expiry: 1714726838000,
+      links: [],
+    },
+    {
+      _id: '123',
+      name: 'This is Task One',
+      description: 'This is description',
+      isActive: true,
+      EXP: 100,
+      expiry: 1714726838000,
+      links: [],
+    },
+    {
+      _id: '123',
+      name: 'This is Task One',
+      description: 'This is description',
+      isActive: true,
+      EXP: 100,
+      expiry: 1814726838,
+      links: [],
+    },
+    {
+      _id: '123',
+      name: 'This is Task One',
+      description: 'This is description',
+      isActive: true,
+      EXP: 100,
+      expiry: 1814726838,
+      links: [],
+    },
+  ];
 
   // Function to divide the tasks based on expiry
   const divideTasks = () => {

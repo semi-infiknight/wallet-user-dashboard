@@ -10,3 +10,7 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+.bg-gradient {
+  background: linear-gradient(to bottom, #000000, #010007, #020108, #3016B2, #4722CC, #A954FD);
+}
