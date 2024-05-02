@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import EXPIcon from '../assets/EXP.png';
 import { TaskType, UserDetailsType } from '../utils/Types';
 import { TASKTYPE } from '../utils/Enum';
@@ -6,9 +6,10 @@ import { TASKTYPE } from '../utils/Enum';
 type TaskProp = {
   taskDetails: TaskType;
   userDetails: UserDetailsType;
+  handleClick: ReactNode;
 };
 
-const Task = ({ taskDetails, userDetails }: TaskProp) => {
+const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
   const { _id, name, description, isActive, EXP, expiry, links } = taskDetails;
 
   const [currentTaskState, setCurrentTaskState] = useState<TASKTYPE>(TASKTYPE.PENDING);
@@ -42,6 +43,7 @@ const Task = ({ taskDetails, userDetails }: TaskProp) => {
       <div
         key={_id}
         className="w-[90%] flex  bg-[#1e2025] hover:bg-[#26272c]  my-2 rounded-xl place-self-start justify-between px-3 py-3 hover:border-[#a66cff]"
+        onClick={() => handleClick(_id)}
       >
         <div className="w-[80%] max-w-[80%]">
           <p className="text-2xl">{name}</p>
