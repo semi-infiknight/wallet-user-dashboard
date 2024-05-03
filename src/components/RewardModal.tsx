@@ -12,7 +12,7 @@ const Modal = ({ onClick, isOpen, children }: ModalProps) => {
       {isOpen ? (
         <motion.div
           className="Modal bg-[#262626] shadow-xl shadow-black bg-opacity-95 border p-10 rounded-lg  m-auto 
-           overflow-y-auto overflow-x-hidden fixed top-[30%] right-52 left-0 z-50 justify-center items-center max-w-[600px]  max-h-full"
+           overflow-y-auto overflow-x-hidden fixed top-[30%] right-44 left-0 z-50 justify-center items-center max-w-[600px]  max-h-full"
           variants={variant}
           initial="containerInitial"
           animate="containerAnimate"

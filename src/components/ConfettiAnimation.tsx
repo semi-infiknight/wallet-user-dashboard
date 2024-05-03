@@ -15,7 +15,12 @@ const ConfettiAnimation: React.FC = () => {
   //   }, [showConfetti]);
 
   return (
-    <Confetti className="h-screen w-screen z-50" recycle numberOfPieces={1000} colors={['#f00', '#0f0', '#00f']} />
+    <Confetti
+      className="h-screen w-screen z-50"
+      recycle
+      numberOfPieces={1000}
+      colors={['#3016b2', '#4722cc', '#a954fd']}
+    />
   );
 };
 

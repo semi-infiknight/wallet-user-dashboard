@@ -43,7 +43,8 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
     <>
       <div
         key={_id}
-        className="w-[90%] my-2 flex my-2place-self-start justify-between px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[#a66cff]"
+        aria-hidden
+        className="w-[90%] my-2 flex my-2place-self-start justify-between px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[#a66cff] cursor-pointer"
         onClick={() => handleClick(_id)}
       >
         <div className="w-[80%] max-w-[80%]">
