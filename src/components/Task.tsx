@@ -44,7 +44,7 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
       <div
         key={_id}
         aria-hidden
-        className="w-[90%] my-2 flex my-2place-self-start justify-between px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[#a66cff] cursor-pointer"
+        className="w-[90%] my-2 flex my-2place-self-start justify-between items-center px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[#a66cff] cursor-pointer"
         onClick={() => handleClick(_id)}
       >
         <div className="w-[80%] max-w-[80%]">
@@ -57,20 +57,22 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
           disabled={currentTaskState === (TASKTYPE.CLAIMED || TASKTYPE.EXPIRED)}
           className={`${
             currentTaskState === TASKTYPE.PENDING
-              ? 'bg-yellow-300 '
+              ?'neomorphic-pending'
               : currentTaskState === TASKTYPE.COMPLETED
-                ? 'bg-green-500'
+                ? 'text-[#a66cff] neomorphic-purple'
                 : currentTaskState === TASKTYPE.CLAIMED
                   ? 'bg-green-800 '
                   : currentTaskState === TASKTYPE.EXPIRED
-                    ? 'bg-red-400'
+                    ? 'neomorphic-red text-rose-600'
                     : currentTaskState == TASKTYPE.COMPLETEDANDEXPIRED
                       ? 'border-2 border-red-500 bg-green-500'
                       : ' border border-red-500 bg-green-800'
-          } flex flex-col justify-center items-center rounded-xl px-2  min-w-24 max-h-10 text-black font-medium`}
+          } flex flex-col justify-center items-center rounded-xl px-2  min-w-24 max-h-10 text-gray-200 font-medium py-2`}
         >
           {currentTaskState === TASKTYPE.EXPIRED ? (
             <>Expired</>
+          ) : currentTaskState === TASKTYPE.COMPLETED ? (
+            <span>Claim</span>
           ) : (
             <>
               <div className="flex gap-2 justify-center items-center">

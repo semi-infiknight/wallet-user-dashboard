@@ -41,3 +41,21 @@ body * {
     3px 6px 16px #0d0909,
     -8px -8px 50px #414141;
 }
+
+.neomorphic-red {
+  box-shadow:
+    4px 4px 12px  #0d0909,
+    -4px -4px 12px #340f0f;
+}
+
+.neomorphic-purple {
+  box-shadow:
+    4px 4px 12px #0b090d,
+    -4px -4px 12px #772ee5;
+}
+
+.neomorphic-pending {
+  box-shadow:
+    4px 4px 12px #0b090d,
+    -4px -4px 12px #8dea5b;
+}

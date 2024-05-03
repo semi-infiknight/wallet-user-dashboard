@@ -12,7 +12,7 @@ export type TaskType = {
 
 export type UserDetailsType = {
   address: string;
-  completedTasks: [];
+  completedTasks: string[];
   earnedEXP: number;
   role: UserType;
   userName: string;

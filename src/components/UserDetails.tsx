@@ -46,11 +46,11 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
     <>
       <div
         key={role}
-        className=" flex justify-center items-center  h-full flex-col px-6 py-4 pb-4  bg-[#262626] border-y-2 rounded-xl border-y-[#cff500]  neomorphic__big "
+        className=" flex justify-center items-center  h-full flex-col px-8 py-4 pb-4  bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
       >
-        <p className="text-4xl  tracking-wider mb-2 ">Welcome</p>
-        <div className=" flex flex-col gap-4 justify-center">
-          <div className=" flex justify-between w-full py-2 px-3 bg-[#262626] border-y-2 rounded-xl border-y-[#cff500]  neomorphic">
+        <p className="text-4xl  tracking-wider mb-4 ">Welcome</p>
+        <div className=" flex flex-col gap-4 justify-center w-full">
+          <div className=" flex justify-between w-full py-2 px-3 bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic">
             <div className="flex gap-2">
               <img className="rounded-2xl w-12 h-12 bg-[#1e2025]  " src={generateAddressIcon(address)} alt="PFP icon" />
               <div>
@@ -60,7 +60,7 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
             </div>
           </div>
 
-          <div className=" flex flex-col gap-4 w-full ">
+          <div className=" flex  gap-4 w-full ">
             <div className="w-full px-2 pt-2  flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
               <p className=" text-center text-sm ">Total EXP Earned</p>
               <div className=" flex gap-2  justify-center items-center py-1 ">

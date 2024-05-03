@@ -9,44 +9,7 @@ type TasksProp = {
   userDetails: UserDetailsType;
 };
 
-const tasksData = [
-  {
-    _id: '1',
-    name: 'This is Task One',
-    description: 'This is description',
-    isActive: true,
-    EXP: 100,
-    expiry: 1714726838000,
-    links: [],
-  },
-  {
-    _id: '2',
-    name: 'This is Task One',
-    description: 'This is description',
-    isActive: true,
-    EXP: 100,
-    expiry: 1714726838000,
-    links: [],
-  },
-  {
-    _id: '3',
-    name: 'This is Task One',
-    description: 'This is description',
-    isActive: true,
-    EXP: 100,
-    expiry: 1814726838,
-    links: [],
-  },
-  {
-    _id: '4',
-    name: 'This is Task One',
-    description: 'This is description',
-    isActive: true,
-    EXP: 100,
-    expiry: 1814726838,
-    links: [],
-  },
-];
+
 
 const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
   const [activeTab, setActiveTab] = useState('running');
@@ -57,7 +20,7 @@ const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
       description: 'This is description',
       isActive: true,
       EXP: 100,
-      expiry: 1714726838000,
+      expiry: 1714813300000,
       links: [],
     },
     {
@@ -71,12 +34,12 @@ const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
     },
 
     {
-      _id: '123',
+      _id: '245',
       name: 'This is Task One',
       description: 'This is description',
       isActive: true,
       EXP: 100,
-      expiry: 1714726838000,
+      expiry: 1714813300000,
       links: [],
     },
     {
@@ -126,13 +89,13 @@ const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
   };
 
   return (
-    <div className=" w-full flex flex-col items-center h-full bg-[#262626] border-y-2 rounded-xl border-y-[#cff500] px-5  neomorphic__big">
+    <div className=" w-full flex flex-col items-center h-full bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5  neomorphic__big">
       <p className="place-self-start text-4xl mt-4">Tasks</p>
       <div className="mt-2 w-full flex gap-7">
         <button
           className={` py-2 rounded-xl  ${
             activeTab === 'running'
-              ? 'text-gray-200 underline underline-offset-4 decoration-[#cff500] scale-105 '
+              ? 'text-gray-200 underline underline-offset-4 decoration-[#a66cff] scale-105 '
               : 'text-gray-500'
           }`}
           onClick={() => setActiveTab('running')}
@@ -142,7 +105,7 @@ const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
         <button
           className={` py-2 ${
             activeTab === 'expired'
-              ? 'text-gray-200 underline underline-offset-4 decoration-[#cff500] scale-105'
+              ? 'text-gray-200 underline underline-offset-4 decoration-[#a66cff] scale-105'
               : 'text-gray-500'
           }`}
           onClick={() => setActiveTab('expired')}

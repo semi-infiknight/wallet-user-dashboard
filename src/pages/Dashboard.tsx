@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [userInfo, setUserInfo] = useState<UserDetailsType>({
     address: '',
     userName: '',
-    completedTasks: [],
+    completedTasks: ['245'],
     earnedEXP: 0,
     role: UserType.USER,
   });
@@ -78,11 +78,11 @@ const Dashboard = () => {
           <div className="w-[60%] max-w-[60%]  h-[102%] px-4">
             <Tasks tasksData={tasks} userDetails={userInfo} />
           </div>
-          <div className="w-[40%] px-4 flex flex-col gap-3 justify-start">
+          <div className="w-[40%] px-4 flex flex-col gap-4 justify-start">
             <div className="h-fit">
               <UserDetails
-                userName={"shakti"}
-                address={"0x123asdfa123"}
+                userName={'shakti'}
+                address={'0x123asdfa123'}
                 earnedEXP={100}
                 role={UserType.USER}
                 completedTasks={[]}
