@@ -1,47 +1,9 @@
 import EXPIcon from '../assets/EXP.png';
-// import pfpIcon from '../assets/default.jpeg';
 import TaskIcon from '../assets/taskIcon.png';
 import { UserDetailsType } from '../utils/Types';
 import { generateAddressIcon, truncateAddress } from '../utils/helper';
 
 const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: UserDetailsType) => {
-  // const ListOfSponsors = [
-  //   {
-  //     name: 'LedgerCompany',
-  //     icon: `${pfpIcon}`,
-  //     adLink: 'this is the ad link',
-  //   },
-  //   {
-  //     name: 'LedgerCompany',
-  //     icon: `${pfpIcon}`,
-  //     adLink: 'this is the ad link',
-  //   },
-  //   {
-  //     name: 'LedgerCompany',
-  //     icon: `${pfpIcon}`,
-  //     adLink: 'this is the ad link',
-  //   },
-  //   {
-  //     name: 'LedgerCompany',
-  //     icon: `${pfpIcon}`,
-  //     adLink: 'this is the ad link',
-  //   },
-  //   {
-  //     name: 'LedgerCompany',
-  //     icon: `${pfpIcon}`,
-  //     adLink: 'this is the ad link',
-  //   },
-  //   {
-  //     name: 'LedgerCompany',
-  //     icon: `${pfpIcon}`,
-  //     adLink: 'this is the ad link',
-  //   },
-  //   {
-  //     name: 'LedgerCompany',
-  //     icon: `${pfpIcon}`,
-  //     adLink: 'this is the ad link',
-  //   },
-  // ];
   return (
     <>
       <div

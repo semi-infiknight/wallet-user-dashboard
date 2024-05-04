@@ -3,68 +3,14 @@ import { generateAddressIcon, truncateAddress } from '../utils/helper';
 import { LeaderBoardType } from '../utils/Types';
 
 type LeaderBoardProp = {
-  leaderBoardData: LeaderBoardType[];
+  _leaderBoardData: LeaderBoardType[];
 };
 
 const LeaderBoard = ({ _leaderBoardData }: LeaderBoardProp) => {
-  const leaderBoardData = [
-    {
-      address: '0x1234567890',
-      EXP: 100,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 30,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 70,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 80,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 60,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 80,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 60,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 80,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 60,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 80,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 60,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 80,
-    },
-    {
-      address: '0x1234567890',
-      EXP: 60,
-    },
-  ];
-  const lifetimeUsers = leaderBoardData.sort((a, b) => b.EXP - a.EXP); // Sort by earnedEXP in descending order
+  const lifetimeUsers = _leaderBoardData.sort((a, b) => b.EXP - a.EXP);
 
   return (
-    <div className="h-[64%] flex-col px-6 py-2 border-y bg-[#262626] rounded-xl border-y-[#a66cff]   neomorphic__big ">
+    <div className="h-[78%] flex-col px-6 py-2 border-y bg-[#262626] rounded-xl border-y-[#a66cff]   neomorphic__big ">
       <p className="text-3xl tracking-wider sticky mt-4">Leaderboard</p>
 
       <div className="max-h-[85%] overflow-y-scroll py-1">

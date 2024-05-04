@@ -1,22 +1,16 @@
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constant';
-import { UserDetailsType } from '../../utils/Types';
+import { getFromLocalStorage } from '../../utils/helper';
 
 const axiosClient = axios.create({ baseURL: BASE_URL });
 
-let userDetails: UserDetailsType;
-
-// Fetch _userDetails from session storage
-const userDetailsJSON = window.sessionStorage.getItem('userDetails');
-if (userDetailsJSON) {
-  userDetails = JSON.parse(userDetailsJSON);
-}
-
+const userAddress: string = getFromLocalStorage('userAddress') || '';
 let address = '';
+
 axiosClient.interceptors.request.use(async (request) => {
-  if (!address.length) {
+  if (userAddress) {
     // Use the address from _userDetails if available
-    address = userDetails?.address || '';
+    address = userAddress;
   }
   request.headers.address = address;
   return request;

@@ -1,20 +1,16 @@
 import { Home, LogOut, RefreshCcw, UserPlus } from 'react-feather';
 import walletXLogo from '../assets/walletx.png';
-import { removeFromLocalStorage } from '../utils/helper';
-import { useNavigate } from 'react-router-dom';
 
 import telegramIcon from '../assets/telegramIcon.svg';
 import twitterIcon from '../assets/twitterIcon.svg';
 import discordIcon from '../assets/discordIcon.svg';
 import ComingSoon from './ComingSoon';
+import { useRef } from 'react';
+import ConnectWallet from './ConnectWallet';
+import { CONNECTWALLETBTNTYPE } from '../utils/Enum';
 
 const LeftSideBar = () => {
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    // add a function of the logout from the wallet it self and call it here.
-    removeFromLocalStorage('authenticated');
-    navigate('/login');
-  };
+  const connectWalletRef = useRef('connectBtn');
   return (
     <div className=" h-screen min-w-[22%] pl-14 pr-4 pt-14  ">
       <div className="w-full flex justify-center items-center text-white mt-2 ml-2">
@@ -31,7 +27,7 @@ const LeftSideBar = () => {
               <RefreshCcw /> EXP to $WAX
             </button>
           </ComingSoon>
-          <ComingSoon >
+          <ComingSoon>
             <button className="flex items-center gap-2 text-2xl text-neutral-100 opacity-20">
               <UserPlus /> Refer friends
             </button>
@@ -50,9 +46,13 @@ const LeftSideBar = () => {
               <img className="h-9" src={discordIcon} alt="telegramIcon" />
             </a>
           </div>
+          <ConnectWallet ref={connectWalletRef} btnType={CONNECTWALLETBTNTYPE.DISCONNECT} navigateTo={'/login'} />
           <button
             className="  px-4 flex gap-3 text-lg text-gray-200 justify-center items-center py-2 shadow-inner shadow-black bg-[#B23B3B] rounded-lg"
-            onClick={handleLogout}
+            onClick={() => {
+              console.log('Please logout ');
+              connectWalletRef.current.disconnectWallet();
+            }}
           >
             <LogOut />
             Logout

@@ -13,7 +13,7 @@ const Dashboard = () => {
   const [userInfo, setUserInfo] = useState<UserDetailsType>({
     address: '',
     userName: '',
-    completedTasks: ['245'],
+    completedTasks: [],
     earnedEXP: 0,
     role: UserType.USER,
   });
@@ -22,52 +22,52 @@ const Dashboard = () => {
 
   const [leaderBoard, setLeaderBoard] = useState<LeaderBoardType[]>([]);
 
-  // const {
-  //   isLoading: userDataIsLoading,
-  //   error: userDataError,
-  //   data: userData,
-  // } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
-  // console.log(userDataError, userData);
+  const {
+    isLoading: userDataIsLoading,
+    error: userDataError,
+    data: userData,
+  } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
+  console.log(userDataError, userData);
 
-  // const {
-  //   isLoading: tasksAreLoading,
-  //   error: tasksError,
-  //   data: tasksData,
-  // } = useQuery({ queryKey: ['tasks'], queryFn: getAllTask });
-  // console.log(tasksError, tasksData);
+  const {
+    isLoading: tasksAreLoading,
+    error: tasksError,
+    data: tasksData,
+  } = useQuery({ queryKey: ['tasks'], queryFn: getAllTask });
+  console.log(tasksError, tasksData);
 
-  // const {
-  //   isLoading: leaderBoardIsLoading,
-  //   error: leaderBoardError,
-  //   data: leaderBoardData,
-  // } = useQuery({ queryKey: ['leader-board'], queryFn: getLeaderBoard });
-  // console.log(leaderBoardError, leaderBoardData);
+  const {
+    isLoading: leaderBoardIsLoading,
+    error: leaderBoardError,
+    data: leaderBoardData,
+  } = useQuery({ queryKey: ['leader-board'], queryFn: getLeaderBoard });
+  console.log(leaderBoardError, leaderBoardData);
 
-  // useEffect(() => {
-  //   if (!userDataIsLoading) {
-  //     setUserInfo(userData?.data);
-  //   }
-  // }, [userData?.data, userDataIsLoading]);
+  useEffect(() => {
+    if (!userDataIsLoading) {
+      setUserInfo(userData?.data);
+    }
+  }, [userData?.data, userDataIsLoading]);
 
-  // useEffect(() => {
-  //   if (!tasksAreLoading) {
-  //     setTasks(tasksData?.data);
-  //   }
-  // }, [tasksData?.data, tasksAreLoading]);
+  useEffect(() => {
+    if (!tasksAreLoading) {
+      setTasks(tasksData?.data);
+    }
+  }, [tasksData?.data, tasksAreLoading]);
 
-  // useEffect(() => {
-  //   if (!leaderBoardIsLoading) {
-  //     setLeaderBoard(leaderBoardData?.data);
-  //   }
-  // }, [leaderBoardData?.data, leaderBoardIsLoading]);
+  useEffect(() => {
+    if (!leaderBoardIsLoading) {
+      setLeaderBoard(leaderBoardData?.data);
+    }
+  }, [leaderBoardData?.data, leaderBoardIsLoading]);
 
-  // console.log('userInfo', userInfo);
-  // console.log('tasks', tasks);
-  // console.log('tasks', leaderBoard);
+  console.log('userInfo', userInfo);
+  console.log('tasks', tasks);
+  console.log('tasks', leaderBoard);
 
-  // if (userDataIsLoading) {
-  //   return <LoadingAnimation />;
-  // }
+  if (userDataIsLoading) {
+    return <LoadingAnimation />;
+  }
   return (
     <>
       <div className="h-screen w-full  flex text-white  bg-gradient overflow-hidden ">
@@ -81,15 +81,15 @@ const Dashboard = () => {
           <div className="w-[40%] px-4 flex flex-col gap-4 justify-start">
             <div className="h-fit">
               <UserDetails
-                userName={'shakti'}
-                address={'0x123asdfa123'}
-                earnedEXP={100}
+                userName={userInfo.userName}
+                address={userInfo.address}
+                earnedEXP={userInfo.earnedEXP}
                 role={UserType.USER}
-                completedTasks={[]}
+                completedTasks={userInfo.completedTasks}
               />
             </div>
             <div className=" h-full">
-              <LeaderBoard leaderBoardData={leaderBoard} />
+              <LeaderBoard _leaderBoardData={leaderBoard} />
             </div>
           </div>
         </div>

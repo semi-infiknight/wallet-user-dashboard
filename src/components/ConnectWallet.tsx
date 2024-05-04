@@ -1,18 +1,27 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { UserDetailsType } from '../utils/Types';
-import { UserType } from '../utils/Enum';
-
-// import { Buffer } from 'buffer';
+import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { CONNECTWALLETBTNTYPE } from '../utils/Enum';
+import { removeFromLocalStorage, setToLocalStorage } from '../utils/helper';
+import { useNavigate } from 'react-router-dom';
 
 type ConnectWalletType = {
-  isLoggedIn: (_userDetails: UserDetailsType) => void;
+  btnType: CONNECTWALLETBTNTYPE;
+  navigateTo: string;
 };
 
-const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
+// eslint-disable-next-line react/display-name
+const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, ref: ForwardedRef<unknown>) => {
+  useImperativeHandle(ref, () => {
+    return {
+      disconnectWallet: disconnectWallet,
+    };
+  });
+
   const [providerDetails, setProviderDetails] = useState<any[]>([]);
   const [walletXProvider, setWalletXProvider] = useState<any>(null);
+  const navigate = useNavigate();
 
   const [userAddress, setUserAddress] = useState('');
 
@@ -68,6 +77,18 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     setProviderDetails(uniqueProviders);
   };
 
+  const handleLogIn = () => {
+    setToLocalStorage('authenticated', true);
+    setToLocalStorage('userAddress', userAddress);
+    navigate(navigateTo);
+  };
+
+  const handleLogOut = () => {
+    setToLocalStorage('authenticated', false);
+    removeFromLocalStorage('authenticated');
+    navigate(navigateTo);
+  };
+
   const authenticateUser = async (_signature: string) => {
     const data = {
       address: userAddress,
@@ -76,7 +97,8 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     const result = await axios.post(`https://api.getwalletx.com/auth/authenticate`, data);
 
     console.log('this is authenticate user', result);
-    isLoggedIn(result.data.data);
+    // isLoggedIn(result.data.data);
+    handleLogIn();
   };
 
   const getProviderSignature = async (_msg: string) => {
@@ -85,7 +107,7 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
       const from = userAddress;
       // const msg = `0x${Buffer.from(_msg, 'utf8').toString('hex')}`;
       const msg = String(_msg);
-
+      await walletXProvider.enable();
       const sign = await walletXProvider.request({
         method: 'personal_sign',
         params: [msg, from, 'Example password'],
@@ -99,7 +121,9 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
   };
 
   const getAuthMsg = async (_address: string) => {
+    console.log('THis is the address for the auth message', _address);
     const result = await axios.get(`https://api.getwalletx.com/auth/message/?address=${_address}`);
+    console.log('this is the auth api result ', result);
 
     const msg = result.data.data.message;
     console.log(msg);
@@ -110,19 +134,15 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     // walletXProvider.autoRefreshOnNetworkChange = false;
 
     try {
-      // await walletXProvider.enable();
+      await walletXProvider.enable();
       const newAccounts = await walletXProvider.request({
         method: 'eth_accounts',
       });
-      // handleNewAccounts(newAccounts);
       console.log(newAccounts);
       setUserAddress(newAccounts[0]);
-      // await getAuthMsg(newAccounts[0]);
-      // isLoggedIn({
-      //   name: '',
-      //   address: newAccounts[0],
-      // });
-      console.log(walletXProvider.isConnected());
+      await getAuthMsg(String(newAccounts[0]).toLowerCase());
+
+      console.log(walletXProvider);
     } catch (err) {
       console.error('Error on init when getting accounts', err);
     }
@@ -132,12 +152,16 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
     detectEip6963();
   }, []);
 
+  // eslint-disable-next-line no-unused-vars
   const disconnectWallet = async () => {
     try {
+      await walletXProvider.enable();
       await walletXProvider.request({
         method: 'disconnect',
         params: [{ userAddress }],
       });
+
+      handleLogOut();
     } catch (err) {
       console.log(err);
     }
@@ -146,34 +170,20 @@ const ConnectWallet = ({ isLoggedIn }: ConnectWalletType) => {
   console.log(providerDetails);
   console.log(walletXProvider);
 
-  return (
+  return btnType !== CONNECTWALLETBTNTYPE.CONNECT ? (
+    <></>
+  ) : (
     <div className=" flex ">
       <button
         onClick={() => {
-          // initializeProvider();
-          isLoggedIn({
-            address: '0x123asdfa123',
-            completedTasks: [],
-            earnedEXP: 10,
-            role: UserType.USER,
-            userName: 'Shakti',
-          });
+          initializeProvider();
         }}
         className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
       >
         Connect Wallet
       </button>
-
-      <button
-        onClick={() => {
-          disconnectWallet();
-        }}
-        className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
-      >
-        Disconnect Wallet
-      </button>
     </div>
   );
-};
+});
 
 export default ConnectWallet;

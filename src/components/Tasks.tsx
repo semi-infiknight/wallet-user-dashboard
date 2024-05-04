@@ -9,49 +9,9 @@ type TasksProp = {
   userDetails: UserDetailsType;
 };
 
-
-
-const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
+const Tasks = ({ tasksData, userDetails }: TasksProp) => {
   const [activeTab, setActiveTab] = useState('running');
-  const tasksData = [
-    {
-      _id: '123',
-      name: 'This is Task One',
-      description: 'This is description',
-      isActive: true,
-      EXP: 100,
-      expiry: 1714813300000,
-      links: [],
-    },
-    {
-      _id: '123',
-      name: 'This is Task One',
-      description: 'This is description',
-      isActive: true,
-      EXP: 100,
-      expiry: 1714726838000,
-      links: [],
-    },
 
-    {
-      _id: '245',
-      name: 'This is Task One',
-      description: 'This is description',
-      isActive: true,
-      EXP: 100,
-      expiry: 1714813300000,
-      links: [],
-    },
-    {
-      _id: '123',
-      name: 'This is Task One',
-      description: 'This is description',
-      isActive: true,
-      EXP: 100,
-      expiry: 1814726838,
-      links: [],
-    },
-  ];
   const [modal, setModal] = useState({
     show: false,
     data: {},
@@ -120,12 +80,14 @@ const Tasks = ({ _tasksData, userDetails }: TasksProp) => {
               <Task handleClick={handleClick} key={index} taskDetails={task} userDetails={userDetails} />
             ))}
         </div>
-        <div className="flex  flex-col gap-2 ">
-          {activeTab === 'expired' &&
-            expiredTasks.map((task, index) => (
-              <Task handleClick={handleClick} key={index} taskDetails={task} userDetails={userDetails} />
-            ))}
-        </div>
+        {expiredTasks.length > 0 && (
+          <div className="flex  flex-col gap-2 ">
+            {activeTab === 'expired' &&
+              expiredTasks.map((task, index) => (
+                <Task handleClick={handleClick} key={index} taskDetails={task} userDetails={userDetails} />
+              ))}
+          </div>
+        )}
       </div>
       <Modal
         isOpen={modal.show}
