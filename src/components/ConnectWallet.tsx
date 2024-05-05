@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from 'axios';
 import { ForwardedRef, forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import { CONNECTWALLETBTNTYPE } from '../utils/Enum';
-import { removeFromLocalStorage, setToLocalStorage } from '../utils/helper';
 import { useNavigate } from 'react-router-dom';
+import { CONNECT_WALLET_BTN } from '../utils/Enum';
+import { removeFromLocalStorage, setToLocalStorage } from '../utils/helper';
+import { apiRoutes } from '../services/apiRoutes';
+import { axiosGet, axiosPost } from '../services/axios';
 
 type ConnectWalletType = {
-  btnType: CONNECTWALLETBTNTYPE;
+  btnType: CONNECT_WALLET_BTN;
   navigateTo: string;
 };
 
@@ -94,7 +95,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       address: userAddress,
       signature: _signature,
     };
-    const result = await axios.post(`https://api.getwalletx.com/auth/authenticate`, data);
+    const result = await axiosPost(apiRoutes.authenticate, data);
 
     console.log('this is authenticate user', result);
     // isLoggedIn(result.data.data);
@@ -122,10 +123,10 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
 
   const getAuthMsg = async (_address: string) => {
     console.log('THis is the address for the auth message', _address);
-    const result = await axios.get(`https://api.getwalletx.com/auth/message/?address=${_address}`);
+    const result = await axiosGet(apiRoutes.getSignMessage + _address);
     console.log('this is the auth api result ', result);
 
-    const msg = result.data.data.message;
+    const msg = result.data.message;
     console.log(msg);
     await getProviderSignature(msg);
   };
@@ -170,7 +171,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
   console.log(providerDetails);
   console.log(walletXProvider);
 
-  return btnType !== CONNECTWALLETBTNTYPE.CONNECT ? (
+  return btnType !== CONNECT_WALLET_BTN.CONNECT ? (
     <></>
   ) : (
     <div className=" flex ">

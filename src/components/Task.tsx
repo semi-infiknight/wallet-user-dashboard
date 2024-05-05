@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import EXPIcon from '../assets/EXP.png';
 import { TaskType, UserDetailsType } from '../utils/Types';
-import { TASKTYPE } from '../utils/Enum';
+import { TASK } from '../utils/Enum';
 
 type TaskProp = {
   taskDetails: TaskType;
@@ -13,7 +13,7 @@ type TaskProp = {
 const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
   const { _id, name, description, isActive, EXP, expiry, links } = taskDetails;
 
-  const [currentTaskState, setCurrentTaskState] = useState<TASKTYPE>(TASKTYPE.PENDING);
+  const [currentTaskState, setCurrentTaskState] = useState<TASK>(TASK.PENDING);
 
   useEffect(() => {
     const currentTime = new Date().getTime();
@@ -24,17 +24,17 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
 
     if (currentTime > expiryTime) {
       if (isCompleted) {
-        setCurrentTaskState(TASKTYPE.COMPLETEDANDEXPIRED);
+        setCurrentTaskState(TASK.COMPLETED_AND_EXPIRED);
       } else if (isClaimed) {
-        setCurrentTaskState(TASKTYPE.CLAIMEDANDEXPIRED);
+        setCurrentTaskState(TASK.CLAIMED_AND_EXPIRED);
       } else {
-        setCurrentTaskState(TASKTYPE.EXPIRED);
+        setCurrentTaskState(TASK.EXPIRED);
       }
     } else {
       if (isCompleted) {
-        setCurrentTaskState(TASKTYPE.COMPLETED);
+        setCurrentTaskState(TASK.COMPLETED);
       } else if (isClaimed) {
-        setCurrentTaskState(TASKTYPE.CLAIMED);
+        setCurrentTaskState(TASK.CLAIMED);
       }
     }
   }, [_id, expiry, userDetails.completedTasks]);
@@ -54,24 +54,24 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
           </a>
         </div>
         <button
-          disabled={currentTaskState === (TASKTYPE.CLAIMED || TASKTYPE.EXPIRED)}
+          disabled={currentTaskState === (TASK.CLAIMED || TASK.EXPIRED)}
           className={`${
-            currentTaskState === TASKTYPE.PENDING
-              ?'neomorphic-pending'
-              : currentTaskState === TASKTYPE.COMPLETED
+            currentTaskState === TASK.PENDING
+              ? 'neomorphic-pending'
+              : currentTaskState === TASK.COMPLETED
                 ? 'text-[#a66cff] neomorphic-purple'
-                : currentTaskState === TASKTYPE.CLAIMED
+                : currentTaskState === TASK.CLAIMED
                   ? 'bg-green-800 '
-                  : currentTaskState === TASKTYPE.EXPIRED
+                  : currentTaskState === TASK.EXPIRED
                     ? 'neomorphic-red text-rose-600'
-                    : currentTaskState == TASKTYPE.COMPLETEDANDEXPIRED
+                    : currentTaskState == TASK.COMPLETED_AND_EXPIRED
                       ? 'border-2 border-red-500 bg-green-500'
                       : ' border border-red-500 bg-green-800'
           } flex flex-col justify-center items-center rounded-xl px-2  min-w-24 max-h-10 text-gray-200 font-medium py-2`}
         >
-          {currentTaskState === TASKTYPE.EXPIRED ? (
+          {currentTaskState === TASK.EXPIRED ? (
             <>Expired</>
-          ) : currentTaskState === TASKTYPE.COMPLETED ? (
+          ) : currentTaskState === TASK.COMPLETED ? (
             <span>Claim</span>
           ) : (
             <>

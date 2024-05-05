@@ -7,7 +7,7 @@ import discordIcon from '../assets/discordIcon.svg';
 import ComingSoon from './ComingSoon';
 import { useRef } from 'react';
 import ConnectWallet from './ConnectWallet';
-import { CONNECTWALLETBTNTYPE } from '../utils/Enum';
+import { CONNECT_WALLET_BTN } from '../utils/Enum';
 
 const LeftSideBar = () => {
   const connectWalletRef = useRef('connectBtn');
@@ -46,7 +46,7 @@ const LeftSideBar = () => {
               <img className="h-9" src={discordIcon} alt="telegramIcon" />
             </a>
           </div>
-          <ConnectWallet ref={connectWalletRef} btnType={CONNECTWALLETBTNTYPE.DISCONNECT} navigateTo={'/login'} />
+          <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.DISCONNECT} navigateTo={'/login'} />
           <button
             className="  px-4 flex gap-3 text-lg text-gray-200 justify-center items-center py-2 shadow-inner shadow-black bg-[#B23B3B] rounded-lg"
             onClick={() => {
