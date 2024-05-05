@@ -27,21 +27,21 @@ const Dashboard = () => {
     error: userDataError,
     data: userData,
   } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
-  console.log(userDataError, userData);
+  console.log('This is userData', userDataError, userData);
 
   const {
     isLoading: tasksAreLoading,
     error: tasksError,
     data: tasksData,
   } = useQuery({ queryKey: ['tasks'], queryFn: getAllTask });
-  console.log(tasksError, tasksData);
+  console.log('This is tasks ', tasksError, tasksData);
 
   const {
     isLoading: leaderBoardIsLoading,
     error: leaderBoardError,
     data: leaderBoardData,
   } = useQuery({ queryKey: ['leader-board'], queryFn: getLeaderBoard });
-  console.log(leaderBoardError, leaderBoardData);
+  console.log('This is leaderboard', leaderBoardError, leaderBoardData);
 
   useEffect(() => {
     if (!userDataIsLoading) {

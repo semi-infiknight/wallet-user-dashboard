@@ -10,9 +10,14 @@ export type TaskType = {
   links: [];
 };
 
+export type CompletedTaskType = {
+  _id: string;
+  isClaimed: boolean;
+};
+
 export type UserDetailsType = {
   address: string;
-  completedTasks: string[];
+  completedTasks: CompletedTaskType[];
   earnedEXP: number;
   role: UserType;
   userName: string;

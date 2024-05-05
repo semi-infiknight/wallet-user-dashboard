@@ -79,7 +79,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
 
   const handleLogIn = () => {
     setToLocalStorage('authenticated', true);
-    setToLocalStorage('userAddress', userAddress);
+    sessionStorage.setItem('userAddress', userAddress);
     navigate(navigateTo);
   };
 

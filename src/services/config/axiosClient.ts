@@ -1,18 +1,16 @@
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constant';
-import { getFromLocalStorage } from '../../utils/helper';
 
 const axiosClient = axios.create({ baseURL: BASE_URL });
 
-const userAddress: string = getFromLocalStorage('userAddress') || '';
 let address = '';
+const userAddress = sessionStorage.getItem('userAddress') || '';
 
 axiosClient.interceptors.request.use(async (request) => {
   if (userAddress) {
-    // Use the address from _userDetails if available
     address = userAddress;
   }
-  request.headers.address = address;
+  request.headers.address = address.toLowerCase();
   return request;
 });
 

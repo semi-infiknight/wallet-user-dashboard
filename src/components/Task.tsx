@@ -3,24 +3,23 @@ import { useState, useEffect } from 'react';
 import EXPIcon from '../assets/EXP.png';
 import { TaskType, UserDetailsType } from '../utils/Types';
 import { TASKTYPE } from '../utils/Enum';
+import axios from 'axios';
 
 type TaskProp = {
   taskDetails: TaskType;
   userDetails: UserDetailsType;
-  handleClick: (_id) => void;
+  handleClick: (_id: string) => void;
 };
 
 const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
   const { _id, name, description, isActive, EXP, expiry, links } = taskDetails;
-
   const [currentTaskState, setCurrentTaskState] = useState<TASKTYPE>(TASKTYPE.PENDING);
 
   useEffect(() => {
     const currentTime = new Date().getTime();
     const expiryTime = new Date(expiry).getTime();
-
-    const isCompleted = userDetails.completedTasks.includes(_id);
-    const isClaimed = userDetails.completedTasks.includes(_id); // here it should come as claimed.
+    const isCompleted = userDetails.completedTasks.map((task) => task._id === _id && !task.isClaimed);
+    const isClaimed = userDetails.completedTasks.map((task) => task._id === _id && task.isClaimed === true);
 
     if (currentTime > expiryTime) {
       if (isCompleted) {
@@ -39,6 +38,36 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
     }
   }, [_id, expiry, userDetails.completedTasks]);
 
+  const handleClaim = async () => {
+    try {
+      const response = await axios.post(
+        'https://api.getwalletx.com/user/data',
+        {
+          taskId: _id, // Replace with the actual task ID
+          isClaimed: true,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            address: userDetails.address,
+          },
+        },
+      );
+
+      if (response.status === 200 || response.status === 201) {
+        // Handle successful claim
+        console.log('Task claimed successfully');
+        // call the confite modal here. 
+      } else {
+        // Handle error
+        console.error('Failed to claim task');
+      }
+    } catch (error) {
+      // Handle network error
+      console.error('Network error:', error);
+    }
+  };
+
   return (
     <>
       <div
@@ -54,10 +83,11 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
           </a>
         </div>
         <button
-          disabled={currentTaskState === (TASKTYPE.CLAIMED || TASKTYPE.EXPIRED)}
+          onClick={handleClaim}
+          disabled={currentTaskState !== TASKTYPE.COMPLETED}
           className={`${
             currentTaskState === TASKTYPE.PENDING
-              ?'neomorphic-pending'
+              ? 'neomorphic-pending'
               : currentTaskState === TASKTYPE.COMPLETED
                 ? 'text-[#a66cff] neomorphic-purple'
                 : currentTaskState === TASKTYPE.CLAIMED
@@ -67,7 +97,7 @@ const Task = ({ taskDetails, userDetails, handleClick }: TaskProp) => {
                     : currentTaskState == TASKTYPE.COMPLETEDANDEXPIRED
                       ? 'border-2 border-red-500 bg-green-500'
                       : ' border border-red-500 bg-green-800'
-          } flex flex-col justify-center items-center rounded-xl px-2  min-w-24 max-h-10 text-gray-200 font-medium py-2`}
+          } flex flex-col justify-center items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2`}
         >
           {currentTaskState === TASKTYPE.EXPIRED ? (
             <>Expired</>
