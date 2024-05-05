@@ -3,7 +3,7 @@ import LeaderBoard from '../components/LeaderBoard';
 import LeftSideBar from '../components/LeftSideBar';
 import Tasks from '../components/Tasks';
 import UserDetails from '../components/UserDetails';
-import { getAllTask, getLeaderBoard, getUserInfo } from '../services/dashboard';
+import { getAllTask, getLeaderBoard, getUserInfo } from '../services/axios';
 import LoadingAnimation from './Loading';
 import { useEffect, useState } from 'react';
 import { LeaderBoardType, UserDetailsType } from '../utils/Types';

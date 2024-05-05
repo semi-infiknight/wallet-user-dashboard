@@ -1,11 +1,11 @@
 import ConnectWallet from '../components/ConnectWallet';
-import { CONNECTWALLETBTNTYPE } from '../utils/Enum';
+import { CONNECT_WALLET_BTN } from '../utils/Enum';
 
 const Home = () => {
   return (
     <>
       <div className="glass absolute h-screen top-0 w-full flex justify-center items-center bg-black ">
-        <ConnectWallet btnType={CONNECTWALLETBTNTYPE.CONNECT} navigateTo="/dashboard" />
+        <ConnectWallet btnType={CONNECT_WALLET_BTN.CONNECT} navigateTo="/dashboard" />
       </div>
     </>
   );
