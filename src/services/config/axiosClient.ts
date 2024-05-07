@@ -4,7 +4,7 @@ import { BASE_URL } from '../../utils/constant';
 const axiosClient = axios.create({ baseURL: BASE_URL });
 
 let address = '';
-const userAddress = sessionStorage.getItem('userAddress') || '';
+const userAddress = sessionStorage.getItem('userAddress');
 
 axiosClient.interceptors.request.use(async (request) => {
   if (userAddress) {

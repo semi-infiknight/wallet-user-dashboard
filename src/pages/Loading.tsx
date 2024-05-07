@@ -14,7 +14,7 @@ const LoadingAnimation = () => {
         },
       }}
     >
-      <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" stroke="#000000">
+      <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" stroke="white">
         <g fill="none" fillRule="evenodd">
           <g transform="translate(2 2)" strokeWidth="4">
             <circle strokeOpacity=".5" cx="18" cy="18" r="18" />

@@ -78,9 +78,9 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
     setProviderDetails(uniqueProviders);
   };
 
-  const handleLogIn = () => {
+  const handleLogIn = (_address: string) => {
     setToLocalStorage('authenticated', true);
-    sessionStorage.setItem('userAddress', userAddress);
+    sessionStorage.setItem('userAddress', _address);
     navigate(navigateTo);
   };
 
@@ -90,22 +90,20 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
     navigate(navigateTo);
   };
 
-  const authenticateUser = async (_signature: string) => {
+  const authenticateUser = async (_signature: string, _address: string) => {
     const data = {
-      address: userAddress,
+      address: _address,
       signature: _signature,
     };
     const result = await axiosPost(apiRoutes.authenticate, data);
 
-    console.log('this is authenticate user', result);
-    // isLoggedIn(result.data.data);
-    handleLogIn();
+    handleLogIn(_address);
   };
 
-  const getProviderSignature = async (_msg: string) => {
+  const getProviderSignature = async (_msg: string, _address: string) => {
     console.log('this is getProviderSignature');
     try {
-      const from = userAddress;
+      const from = _address;
       // const msg = `0x${Buffer.from(_msg, 'utf8').toString('hex')}`;
       const msg = String(_msg);
       await walletXProvider.enable();
@@ -114,21 +112,17 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
         params: [msg, from, 'Example password'],
       });
 
-      console.log(sign);
-      authenticateUser(String(sign));
+      authenticateUser(String(sign), _address);
     } catch (err) {
       console.error(err);
     }
   };
 
   const getAuthMsg = async (_address: string) => {
-    console.log('THis is the address for the auth message', _address);
     const result = await axiosGet(apiRoutes.getSignMessage + _address);
-    console.log('this is the auth api result ', result);
 
     const msg = result.data.message;
-    console.log(msg);
-    await getProviderSignature(msg);
+    await getProviderSignature(msg, _address);
   };
 
   const initializeProvider = async () => {
@@ -139,11 +133,8 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       const newAccounts = await walletXProvider.request({
         method: 'eth_accounts',
       });
-      console.log(newAccounts);
       setUserAddress(newAccounts[0]);
       await getAuthMsg(String(newAccounts[0]).toLowerCase());
-
-      console.log(walletXProvider);
     } catch (err) {
       console.error('Error on init when getting accounts', err);
     }
@@ -167,9 +158,6 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       console.log(err);
     }
   };
-
-  console.log(providerDetails);
-  console.log(walletXProvider);
 
   return btnType !== CONNECT_WALLET_BTN.CONNECT ? (
     <></>
