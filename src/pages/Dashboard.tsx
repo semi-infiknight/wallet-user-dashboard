@@ -70,7 +70,7 @@ const Dashboard = () => {
   }
   return (
     <>
-      <div className="h-screen w-full  flex text-white  bg-gradient overflow-hidden ">
+      <div className="h-screen w-full  flex text-white overflow-hidden ">
         <LeftSideBar />
         <div className="w-full h-full flex py-16">
           {/* left side  */}

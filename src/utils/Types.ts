@@ -11,7 +11,7 @@ export type TaskType = {
 };
 
 export type CompletedTaskType = {
-  _id: string;
+  id: string;
   isClaimed: boolean;
 };
 
