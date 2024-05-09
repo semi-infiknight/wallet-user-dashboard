@@ -68,6 +68,7 @@ const Dashboard = () => {
   if (userDataIsLoading) {
     return <LoadingAnimation />;
   }
+
   return (
     <>
       <div className="h-screen w-full  flex text-white overflow-hidden ">

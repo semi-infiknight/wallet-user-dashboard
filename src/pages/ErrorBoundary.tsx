@@ -1,4 +1,5 @@
 import React, { ReactNode, useState, useEffect } from 'react';
+import { removeFromLocalStorage } from '../utils/helper';
 
 interface ErrorBoundaryProps {
   children?: ReactNode;
@@ -31,9 +32,19 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
             <button
               type="button"
               onClick={() => setHasError(false)}
-              className="px-4 py-2 neomorphic-completed bg-[#262626] text-purple-300 rounded-md transition-colors duration-300 "
+              className=" w-full px-4 py-2 neomorphic-completed bg-[#262626] text-purple-300 rounded-md transition-colors duration-300 "
             >
               Refresh
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                removeFromLocalStorage('authenticated');
+                location.reload();
+              }}
+              className=" w-full px-4 py-2 neomorphic-expired bg-[#262626] text-red-500 rounded-md transition-colors duration-300 "
+            >
+              Login
             </button>
           </div>
         </div>

@@ -2,6 +2,7 @@ const dashboardApiRoutes = {
   userinfo: '/user/data',
   tasks: '/user/tasks',
   leaderboard: '/user/leaderboard',
+  claimEXP: '/user/tasks/',
 };
 
 const connectWalletApiRoutes = {
