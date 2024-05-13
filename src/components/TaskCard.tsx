@@ -1,9 +1,9 @@
+import ConnectWallet from './ConnectWallet';
 import { useEffect, useRef, useState } from 'react';
 import { CONNECT_WALLET_BTN, TASK } from '../utils/Enum';
 import { TaskType, UserDetailsType } from '../utils/Types';
 import EXPIcon from '../assets/EXP.png';
 import { apiRoutes } from '../services/apiRoutes';
-import ConnectWallet from './ConnectWallet';
 import axiosClient from '../services/config/axiosClient';
 
 type TaskCardProp = {
@@ -13,9 +13,14 @@ type TaskCardProp = {
   userDetails: UserDetailsType;
 };
 
+interface ConnectWalletWithSignature  {
+  // eslint-disable-next-line no-unused-vars
+  getProviderSignature: (message: string, address: string) => Promise<string>;
+}
+
 const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCardProp) => {
   const { _id, name, description, EXP, isActive } = taskDetails;
-  const connectWalletRef = useRef('connectBtn');
+  const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
 
   useEffect(() => {
@@ -32,11 +37,14 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     console.log('This is claim');
 
     const message = `Approve this message to claim your ${Number(_EXP)} points`;
-
+    let sign = '';
     // pass message and the address here
-    const sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
-
-    console.log(sign);
+    if (connectWalletRef.current) {
+      sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+      console.log(sign);
+    } else {
+      console.error('connectWalletRef.current is null');
+    }
 
     try {
       const response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
@@ -50,7 +58,11 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       }
     } catch (error) {
       // Handle network error
-      console.error('Network error:', error.message);
+      if (error instanceof Error) {
+        console.error('Network error:', error.message);
+      } else {
+        console.error('Network error:', error);
+      }
     }
   };
   return (

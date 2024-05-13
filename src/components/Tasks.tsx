@@ -1,9 +1,15 @@
-import { TaskType, UserDetailsType } from '../utils/Types';
 import React, { useState } from 'react';
 import Modal from './RewardModal';
 import ConfettiAnimation from './ConfettiAnimation';
+import { TaskType, UserDetailsType } from '../utils/Types';
 import RunningTasks from './RunningTasks';
 import ExpiredTasks from './ExpiredTasks';
+
+type TaskData = {
+  name: string;
+  description: string;
+  EXP: number;
+};
 
 type TasksProp = {
   tasksData: TaskType[];
@@ -12,7 +18,11 @@ type TasksProp = {
 
 const Tasks = ({ tasksData, userDetails }: TasksProp) => {
   const [activeTab, setActiveTab] = useState('running');
-  const [modal, setModal] = useState({ show: false, data: {} });
+  const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({ show: false, data: {
+    name: '',
+    description: '',
+    EXP: 0
+  } });
   const [showConfetti, setShowConfetti] = React.useState(false);
 
   // Function to divide the tasks based on expiry
@@ -84,7 +94,11 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
       <Modal
         isOpen={modal.show}
         onClick={() => {
-          setModal({ show: false, data: {} });
+          setModal({ show: false, data: {
+            name: '',
+            description: '',
+            EXP: 0
+          } });
         }}
       >
         <div className="text-white flex flex-col gap-3 items-center">
@@ -92,7 +106,6 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
           <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
           <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
           <p className="text-lg">
-            {' '}
             You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
           </p>
         </div>

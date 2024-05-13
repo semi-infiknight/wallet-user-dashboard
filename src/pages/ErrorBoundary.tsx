@@ -9,10 +9,8 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
   const [hasError, setHasError] = useState<boolean>(false);
 
   useEffect(() => {
-    const errorHandler = (error: Error) => {
+    const errorHandler = () => {
       setHasError(true);
-      // You can use your own error logging service here
-      // console.log({ error });
     };
 
     window.addEventListener('error', errorHandler);

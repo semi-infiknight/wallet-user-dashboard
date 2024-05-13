@@ -11,7 +11,7 @@ console.log('User address is here', userAddress);
 
 axiosClient.interceptors.request.use(async (request) => {
   if (userAddress) {
-    address = userAddress;
+    address = userAddress as string;
   }
   request.headers.address = address.toLowerCase();
   return request;

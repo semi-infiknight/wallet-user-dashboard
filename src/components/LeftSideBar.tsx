@@ -1,3 +1,4 @@
+import ConnectWallet from './ConnectWallet';
 import { Home, LogOut, RefreshCcw, UserPlus } from 'react-feather';
 import walletXLogo from '../assets/walletx.png';
 
@@ -6,11 +7,14 @@ import twitterIcon from '../assets/twitterIcon.svg';
 import discordIcon from '../assets/discordIcon.svg';
 import ComingSoon from './ComingSoon';
 import { useRef } from 'react';
-import ConnectWallet from './ConnectWallet';
 import { CONNECT_WALLET_BTN } from '../utils/Enum';
 
+interface connectWalletType {
+  disconnectWallet();
+}
+
 const LeftSideBar = () => {
-  const connectWalletRef = useRef('connectBtn');
+  const connectWalletRef = useRef<connectWalletType>(null);
   return (
     <div className=" h-screen min-w-[22%] pl-14 pr-4 pt-14  ">
       <div className="w-full flex justify-center items-center text-white mt-2 ml-2">
@@ -51,7 +55,7 @@ const LeftSideBar = () => {
             className="  px-4 flex gap-3 text-lg text-gray-200 justify-center items-center py-2 shadow-inner shadow-black bg-[#B23B3B] rounded-lg"
             onClick={() => {
               console.log('Please logout ');
-              connectWalletRef.current.disconnectWallet();
+              connectWalletRef.current?.disconnectWallet();
             }}
           >
             <LogOut />

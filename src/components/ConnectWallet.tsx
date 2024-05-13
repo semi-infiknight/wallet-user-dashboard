@@ -28,14 +28,14 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
   const [userAddress, setUserAddress] = useState('');
 
   const detectEip6963 = () => {
-    window.addEventListener('eip6963:announceProvider:walletx', (event) => {
-      if (event.detail.info.uuid) {
-        handleNewProviderDetail(event.detail);
+    window.addEventListener('eip6963:announceProvider:walletx', (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail.info.uuid) {
+        handleNewProviderDetail(customEvent.detail);
       }
     });
     window.dispatchEvent(new Event('eip6963:requestProvider:walletx'));
   };
-
   const existsProviderDetail = (newProviderDetail: any) => {
     const existingProvider = providerDetails.find(
       (providerDetail) =>
@@ -98,7 +98,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       address: _address,
       signature: _signature,
     };
-    const result = await axiosPost(apiRoutes.authenticate, data);
+    await axiosPost(apiRoutes.authenticate, data);
 
     handleLogIn(_address);
   };
@@ -149,6 +149,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
 
   useEffect(() => {
     detectEip6963();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // eslint-disable-next-line no-unused-vars
