@@ -9,7 +9,7 @@ import { axiosGet, axiosPost } from '../services/axios';
 
 type ConnectWalletType = {
   btnType: CONNECT_WALLET_BTN;
-  navigateTo: string;
+  navigateTo?: string;
 };
 
 // eslint-disable-next-line react/display-name
@@ -17,6 +17,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
   useImperativeHandle(ref, () => {
     return {
       disconnectWallet: disconnectWallet,
+      getProviderSignature: getProviderSignature,
     };
   });
 
@@ -78,16 +79,18 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
     setProviderDetails(uniqueProviders);
   };
 
-  const handleLogIn = (_address: string) => {
+  const handleLogIn = async (_address: string) => {
     setToLocalStorage('authenticated', true);
+    setToLocalStorage('userAddress', _address);
     sessionStorage.setItem('userAddress', _address);
-    navigate(navigateTo);
+
+    navigate(navigateTo || '');
   };
 
   const handleLogOut = () => {
     setToLocalStorage('authenticated', false);
     removeFromLocalStorage('authenticated');
-    navigate(navigateTo);
+    navigate(navigateTo || '');
   };
 
   const authenticateUser = async (_signature: string, _address: string) => {
@@ -111,6 +114,10 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
         method: 'personal_sign',
         params: [msg, from, 'Example password'],
       });
+
+      if (btnType === CONNECT_WALLET_BTN.GET_SIGNATURE) {
+        return String(sign);
+      }
 
       authenticateUser(String(sign), _address);
     } catch (err) {

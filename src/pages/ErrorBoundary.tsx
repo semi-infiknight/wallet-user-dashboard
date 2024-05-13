@@ -42,7 +42,7 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
                 removeFromLocalStorage('authenticated');
                 location.reload();
               }}
-              className=" w-full px-4 py-2 neomorphic-expired bg-[#262626] text-red-500 rounded-md transition-colors duration-300 "
+              className=" w-full px-4 py-2 neomorphic-pending bg-[#262626] text-red-500 rounded-md transition-colors duration-300 "
             >
               Login
             </button>

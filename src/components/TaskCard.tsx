@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { TASK } from '../utils/Enum';
+import { useEffect, useRef, useState } from 'react';
+import { CONNECT_WALLET_BTN, TASK } from '../utils/Enum';
 import { TaskType, UserDetailsType } from '../utils/Types';
 import EXPIcon from '../assets/EXP.png';
-import { axiosPost } from '../services/axios';
 import { apiRoutes } from '../services/apiRoutes';
+import ConnectWallet from './ConnectWallet';
+import axiosClient from '../services/config/axiosClient';
 
 type TaskCardProp = {
   taskDetails: TaskType;
@@ -12,9 +13,9 @@ type TaskCardProp = {
   userDetails: UserDetailsType;
 };
 
-const TaskCard = ({ taskDetails, taskStatus, handleClick, }: TaskCardProp) => {
+const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCardProp) => {
   const { _id, name, description, EXP, isActive } = taskDetails;
-
+  const connectWalletRef = useRef('connectBtn');
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
 
   useEffect(() => {
@@ -27,10 +28,18 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, }: TaskCardProp) => {
     }
   }, [isActive, taskStatus]);
 
-  const handleClaim = async () => {
+  const handleClaim = async (_EXP: number) => {
     console.log('This is claim');
+
+    const message = `Approve this message to claim your ${Number(_EXP)} points`;
+
+    // pass message and the address here
+    const sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+
+    console.log(sign);
+
     try {
-      const response = await axiosPost(`${apiRoutes.claimEXP}${_id}`, {});
+      const response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
       if (response.status === 200) {
         // Handle successful claim
         console.log('Task claimed successfully');
@@ -54,9 +63,10 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, }: TaskCardProp) => {
         <p className="text-xl">{name}</p>
         <div className="text-sm break-words">{description}</div>
       </div>
+      <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
       <button
         disabled={currentTaskStatus !== TASK.COMPLETED}
-        onClick={handleClaim}
+        onClick={() => handleClaim(EXP)}
         className={`${
           currentTaskStatus === TASK.PENDING
             ? 'neomorphic-pending'

@@ -17,4 +17,5 @@ export enum TASK {
 export enum CONNECT_WALLET_BTN {
   CONNECT = 'CONNECT',
   DISCONNECT = 'DISCONNECT',
+  GET_SIGNATURE = "GET_SIGNATURE" // This is used to call only functions in the connect wallet button.
 }

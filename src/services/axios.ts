@@ -8,6 +8,8 @@ export const getAllTask = () => axiosClient.get(apiRoutes.tasks);
 
 export const getLeaderBoard = () => axiosClient.get(apiRoutes.leaderboard);
 
-export const axiosPost = (route: string, data: any) => axiosClient.post(route, data);
+export const axiosPost = (route: string, data: any, headers?: any) => {
+  return axiosClient.post(route, data, headers ? { headers } : {});
+};
 
 export const axiosGet = (route: string) => axiosClient.get(route);
