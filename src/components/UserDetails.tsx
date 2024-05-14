@@ -1,106 +1,45 @@
-import { UserType } from '../utils/Enum';
-import pfpIcon from '../assets/default.jpeg';
-import EXPIcon from '../assets/XP.svg';
+import EXPIcon from '../assets/EXP.png';
 import TaskIcon from '../assets/taskIcon.png';
-import { generateAddressIcon } from '../utils/helper';
-const UserDetails = () => {
-  const UserDetailsData = {
-    _id: 1,
-    walletName: 'Xhakti',
-    addressID: '0x123',
-    role: UserType.USER,
-    completedTasks: [1, 2, 3],
-    earnedEXP: 10,
-  };
+import { UserDetailsType } from '../utils/Types';
+import { generateAddressIcon, truncateAddress } from '../utils/helper';
 
-  const ListOfSponsors = [
-    {
-      name: 'LedgerCompany',
-      icon: `${pfpIcon}`,
-      adLink: 'this is the ad link',
-    },
-    {
-      name: 'LedgerCompany',
-      icon: `${pfpIcon}`,
-      adLink: 'this is the ad link',
-    },
-    {
-      name: 'LedgerCompany',
-      icon: `${pfpIcon}`,
-      adLink: 'this is the ad link',
-    },
-    {
-      name: 'LedgerCompany',
-      icon: `${pfpIcon}`,
-      adLink: 'this is the ad link',
-    },
-    {
-      name: 'LedgerCompany',
-      icon: `${pfpIcon}`,
-      adLink: 'this is the ad link',
-    },
-    {
-      name: 'LedgerCompany',
-      icon: `${pfpIcon}`,
-      adLink: 'this is the ad link',
-    },
-    {
-      name: 'LedgerCompany',
-      icon: `${pfpIcon}`,
-      adLink: 'this is the ad link',
-    },
-  ];
-
+const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: UserDetailsType) => {
   return (
     <>
-      <div className=" border-2 h-full rounded-3xl flex-col px-6 py-2 border-[#262626] hover:border-[#cff500] ">
-        <p className="text-3xl text-[#cff500] tracking-wider ">Welcome,</p>
-        <div className=" flex flex-col gap-2">
-          <div className=" flex justify-between w-full py-2">
+      <div
+        key={role}
+        className=" flex justify-center items-center  h-full flex-col px-8 py-4 pb-4  bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
+      >
+        <p className="text-4xl  tracking-wider mb-4 ">Welcome</p>
+        <div className=" flex flex-col gap-4 justify-center w-full">
+          <div className=" flex justify-between w-full py-2 px-3 bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic">
             <div className="flex gap-2">
-              <img
-                className=" rounded-xl h-10 border "
-                src={generateAddressIcon(UserDetailsData.addressID)}
-                alt="PFP icon"
-              />
+              <img className="rounded-2xl w-12 h-12 bg-[#1e2025]  " src={generateAddressIcon(address)} alt="PFP icon" />
               <div>
-                <p className="text-2xl">{UserDetailsData.walletName}</p>
-                <p className="text-base text-opacity-90">{UserDetailsData.addressID}</p>
+                <p className="text-2xl">{userName}</p>
+                <p className="text-base text-opacity-90">{truncateAddress(address)}</p>
               </div>
             </div>
           </div>
 
-          {/* <div className="flex justify-evenly items-center px-2 py-2 ">
-            <div className="flex flex-col justify-center items-center">
-              <span className="flex justify-center items-center text-3xl gap-2">
-                {UserDetailsData.completedTasks.length}
-              </span>
-              <p className="text-sm text-gray-400">Task Completed</p>
-            </div>
-            <div className="flex flex-col justify-center items-center">
-              <span className=" text-3xl">80</span>
-              <p className="text-sm text-gray-400">Gasless Tx Completed</p>
-            </div>
-          </div> */}
-
-          <div className=" flex justify-evenly gap-4 w-full ">
-            <div className="w-[40%] px-2 pt-1  bg-[#262626] rounded-2xl flex flex-col  ">
-              <p className=" text-center text-sm text-gray-400">Task Completed</p>
-              <div className=" flex gap-2  justify-center items-center py-1">
-                <img className="h-8 " src={TaskIcon} alt="Exp Icon " />
-                <span className="text-2xl">{UserDetailsData.completedTasks.length}</span>
-              </div>
-            </div>
-            <div className="w-[40%] px-2 pt-1 bg-[#262626] rounded-2xl flex flex-col  ">
-              <p className=" text-center text-sm text-gray-400">EXP Earned</p>
+          <div className=" flex  gap-4 w-full ">
+            <div className="w-full px-2 pt-2  flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
+              <p className=" text-center text-sm ">Total EXP Earned</p>
               <div className=" flex gap-2  justify-center items-center py-1 ">
-                <img className="h-8 " src={EXPIcon} alt="Exp Icon " />
-                <span className="text-2xl">{UserDetailsData.completedTasks.length}</span>
+                <img className="h-6 " src={EXPIcon} alt="Exp Icon " />
+                <span className="text-lg font-semibold">{earnedEXP}</span>
+              </div>
+            </div>
+            <div className="w-full px-2 pt-2  flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
+              <p className=" text-center text-sm ">Task Completed</p>
+              <div className=" flex gap-2  justify-center items-center py-1">
+                <img className="h-6 " src={TaskIcon} alt="Exp Icon " />
+                <span className="text-lg font-semibold">{completedTasks.length}</span>
               </div>
             </div>
           </div>
 
-          <div>
+          {/* <div>
             <p className="text-xl"> Your Sponsors:</p>
             <div className=" flex gap-3 max-w-full overflow-x-auto ">
               {ListOfSponsors.map((sponsor) => {
@@ -113,7 +52,7 @@ const UserDetails = () => {
                 );
               })}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

@@ -1,40 +1,35 @@
-import Task from "./Task";
-import { TaskType } from "../utils/Types";
-import { useState } from "react";
+import React, { useState } from 'react';
+import Modal from './RewardModal';
+import ConfettiAnimation from './ConfettiAnimation';
+import { TaskType, UserDetailsType } from '../utils/Types';
+import RunningTasks from './RunningTasks';
+import ExpiredTasks from './ExpiredTasks';
 
-const TasksData = [
-  {
-    _id: 1,
-    name: "Follow WalletX on Twitter",
-    description: "https://x.com/getwalletx ",
-    EXP: 100,
-    expiry: 1813599466000, //Pre-defined timestamp of the task expiry
-  },
-  {
-    _id: 2,
-    name: "Def",
-    description: "DefDefDefDefDefDefDef DefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDefDef DefDefDefDefDefDef DefDefDefDefDefDef",
-    EXP: 50,
-    expiry: 1513599466000, //Pre-defined timestamp of the task expiry
-  },
-  {
-    _id: 1,
-    name: "Ghi",
-    description: "ghi",
-    EXP: 10,
-    expiry: 1713599466000, //Pre-defined timestamp of the task expiry
-  },
-];
+type TaskData = {
+  name: string;
+  description: string;
+  EXP: number;
+};
 
-const Tasks = () => {
-  const [activeTab, setActiveTab] = useState("running");
+type TasksProp = {
+  tasksData: TaskType[];
+  userDetails: UserDetailsType;
+};
+
+const Tasks = ({ tasksData, userDetails }: TasksProp) => {
+  const [activeTab, setActiveTab] = useState('running');
+  const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({ show: false, data: {
+    name: '',
+    description: '',
+    EXP: 0
+  } });
+  const [showConfetti, setShowConfetti] = React.useState(false);
 
   // Function to divide the tasks based on expiry
-  const divideTasks = (tasksData: TaskType[]) => {
+  const divideTasks = () => {
     const currentDate = new Date().getTime();
     const runningTasks: TaskType[] = [];
     const expiredTasks: TaskType[] = [];
-
     tasksData.forEach((task) => {
       if (task.expiry > currentDate) {
         runningTasks.push(task);
@@ -42,57 +37,80 @@ const Tasks = () => {
         expiredTasks.push(task);
       }
     });
-
     return { runningTasks, expiredTasks };
   };
 
-  const { runningTasks, expiredTasks } = divideTasks(TasksData);
+  const { runningTasks, expiredTasks } = divideTasks();
+
+  const handleClick = (id: string) => {
+    const selectedTask = runningTasks.filter((task) => task._id === id)?.[0];
+    console.log(selectedTask);
+    setModal({ show: true, data: selectedTask });
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 7000);
+  };
 
   return (
-    <div className="bg-[#141414] w-full flex flex-col items-center h-full">
-      <p className="place-self-start text-4xl text-[#cff500]">Tasks</p>
+    <div className=" w-full flex flex-col items-center h-full bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 neomorphic__big">
+      <p className="place-self-start text-4xl mt-4">Tasks</p>
       <div className="mt-2 w-full flex gap-7">
         <button
-          className={` py-2 rounded-xl  ${
-            activeTab === "running" ? "text-gray-200 underline underline-offset-4 decoration-[#cff500]" : "text-gray-500"
+          className={`py-2 rounded-xl ${
+            activeTab === 'running'
+              ? 'text-gray-200 underline underline-offset-4 decoration-[#a66cff] scale-105 '
+              : 'text-gray-500'
           }`}
-          onClick={() => setActiveTab("running")}
+          onClick={() => setActiveTab('running')}
         >
           Ongoing Tasks
         </button>
         <button
-          className={` py-2 ${
-            activeTab === "expired" ? "text-gray-200 underline underline-offset-4 decoration-[#cff500]" : "text-gray-500"
+          className={`py-2 ${
+            activeTab === 'expired'
+              ? 'text-gray-200 underline underline-offset-4 decoration-[#a66cff] scale-105'
+              : 'text-gray-500'
           }`}
-          onClick={() => setActiveTab("expired")}
+          onClick={() => setActiveTab('expired')}
         >
           Expired Tasks
         </button>
       </div>
-      <div className="mt-2 w-full">
-        {activeTab === "running" &&
-          runningTasks.map((task) => (
-            <Task
-              key={task._id}
-              _id={task._id}
-              EXP={task.EXP}
-              expiry={task.expiry}
-              name={task.name}
-              description={task.description}
-            />
-          ))}
-        {activeTab === "expired" &&
-          expiredTasks.map((task) => (
-            <Task
-              key={task._id}
-              _id={task._id}
-              EXP={task.EXP}
-              expiry={task.expiry}
-              name={task.name}
-              description={task.description}
-            />
-          ))}
+      <div className="mt-2 w-full max-h-[90%] overflow-y-scroll py-2">
+        {activeTab === 'running' && (
+          <RunningTasks
+            runningTasks={runningTasks}
+            userDetails={userDetails}
+            handleClick={(_id: string) => handleClick(_id)}
+          />
+        )}
+        {activeTab === 'expired' && (
+          <ExpiredTasks
+            expiredTasks={expiredTasks}
+            userDetails={userDetails}
+            handleClick={(_id: string) => handleClick(_id)}
+          />
+        )}
       </div>
+      <Modal
+        isOpen={modal.show}
+        onClick={() => {
+          setModal({ show: false, data: {
+            name: '',
+            description: '',
+            EXP: 0
+          } });
+        }}
+      >
+        <div className="text-white flex flex-col gap-3 items-center">
+          <h1 className="text-2xl">You claimed task successfully 🎉 </h1>
+          <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
+          <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
+          <p className="text-lg">
+            You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
+          </p>
+        </div>
+      </Modal>
+      {showConfetti && <ConfettiAnimation />}
     </div>
   );
 };

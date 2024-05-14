@@ -1,3 +1,66 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap'); */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  /* font-family: 'Rajdhani', sans-serif; */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, #000000, #010007, #020108, #3016b2, #4722cc, #a954fd);
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/fonts/Poppins-Regular.ttf');
+  font-display: 'swap';
+  font-weight: 500;
+}
+
+body,
+body * {
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+
+  font-weight: normal;
+}
+
+.neomorphic {
+  box-shadow:
+    6px 6px 12px #0d0909,
+    -6px -6px 12px #414141;
+}
+
+.neomorphic__big {
+  box-shadow:
+    3px 6px 16px #0d0909,
+    -8px -8px 50px #414141;
+}
+
+.neomorphic-expired {
+  box-shadow:
+    4px 4px 12px #0d0909,
+    -4px -4px 12px #340f0f;
+}
+
+.neomorphic-completed {
+  box-shadow:
+    4px 4px 12px #0b090d,
+    -4px -4px 12px #772ee5;
+}
+
+.neomorphic-pending {
+  box-shadow:
+    4px 4px 12px #0b090d,
+    -4px -4px 12px #8dea5b;
+}
+
+.neomorphic-claimed {
+  box-shadow:
+    4px 4px 12px #0b090d,
+    -4px -4px 12px #ffb133;
+}

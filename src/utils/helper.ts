@@ -9,6 +9,15 @@ export const generateAddressIcon = (address: string) => {
   return url;
 };
 
+export const getShortDisplayString: any = (address: string) => {
+  const firstFourDigit = address?.slice(0, 4);
+  const lastFourDigit = address?.slice(Number(address?.length) - 4);
+
+  return `${firstFourDigit}+...${lastFourDigit}`
+  ;
+};
+
+
 
 export const getFromLocalStorage = <T>(key: string): T | null => {
     const item = localStorage.getItem(key);
@@ -42,3 +51,7 @@ export const removeFromLocalStorage = (key: string): void => {
     }
 };
 
+export function truncateAddress(input: string): string {
+  const truncated = input.substr(0, 5);
+  return truncated + '...' + input.substr(input.length - 3);
+}

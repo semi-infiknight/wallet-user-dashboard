@@ -1,66 +1,98 @@
+import { useQuery } from '@tanstack/react-query';
 import LeaderBoard from '../components/LeaderBoard';
 import LeftSideBar from '../components/LeftSideBar';
 import Tasks from '../components/Tasks';
 import UserDetails from '../components/UserDetails';
+import { getAllTask, getLeaderBoard, getUserInfo } from '../services/axios';
+import LoadingAnimation from './Loading';
+import { useEffect, useState } from 'react';
+import { LeaderBoardType, UserDetailsType } from '../utils/Types';
+import { UserType } from '../utils/Enum';
 
 const Dashboard = () => {
+  const [userInfo, setUserInfo] = useState<UserDetailsType>({
+    address: '',
+    userName: '',
+    completedTasks: [],
+    earnedEXP: 0,
+    role: UserType.USER,
+  });
+
+  const [tasks, setTasks] = useState([]);
+
+  const [leaderBoard, setLeaderBoard] = useState<LeaderBoardType[]>([]);
+
+  const {
+    isLoading: userDataIsLoading,
+    error: userDataError,
+    data: userData,
+  } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
+  console.log('This is userData', userDataError, userData);
+
+  const {
+    isLoading: tasksAreLoading,
+    error: tasksError,
+    data: tasksData,
+  } = useQuery({ queryKey: ['tasks'], queryFn: getAllTask });
+  console.log('This is tasks ', tasksError, tasksData);
+
+  const {
+    isLoading: leaderBoardIsLoading,
+    error: leaderBoardError,
+    data: leaderBoardData,
+  } = useQuery({ queryKey: ['leader-board'], queryFn: getLeaderBoard });
+  console.log('This is leaderboard', leaderBoardError, leaderBoardData);
+
+  useEffect(() => {
+    if (!userDataIsLoading) {
+      setUserInfo(userData?.data);
+    }
+  }, [userData?.data, userDataIsLoading]);
+
+  useEffect(() => {
+    if (!tasksAreLoading) {
+      setTasks(tasksData?.data);
+    }
+  }, [tasksData?.data, tasksAreLoading]);
+
+  useEffect(() => {
+    if (!leaderBoardIsLoading) {
+      setLeaderBoard(leaderBoardData?.data);
+    }
+  }, [leaderBoardData?.data, leaderBoardIsLoading]);
+
+  console.log('userInfo', userInfo);
+  console.log('tasks', tasks);
+  console.log('tasks', leaderBoard);
+
+  if (userDataIsLoading) {
+    return <LoadingAnimation />;
+  }
+
   return (
     <>
-      <div className="h-screen w-full  flex text-white  bg-[#141414] ">
+      <div className="h-screen w-full  flex text-white overflow-hidden ">
         <LeftSideBar />
         <div className="w-full h-full flex py-16">
           {/* left side  */}
 
-          <div className="w-[60%] px-4">
-            <Tasks />
+          <div className="w-[60%] max-w-[60%]  h-[102%] px-4">
+            <Tasks tasksData={tasks} userDetails={userInfo} />
           </div>
-          <div className="w-[40%] px-4 flex flex-col  justify-between">
-            <div className=" h-[40%]">
-              <UserDetails />
+          <div className="w-[40%] px-4 flex flex-col gap-4 justify-start">
+            <div className="h-fit">
+              <UserDetails
+                userName={userInfo.userName}
+                address={userInfo.address}
+                earnedEXP={userInfo.earnedEXP}
+                role={UserType.USER}
+                completedTasks={userInfo.completedTasks}
+              />
             </div>
-            <div className=" h-[55%]">
-              <LeaderBoard />
+            <div className=" h-full">
+              <LeaderBoard _leaderBoardData={leaderBoard} />
             </div>
           </div>
-
-          {/* <div className="w-[60%] flex flex-col gap-5 items-center  mt-20 px-6 ">
-            <div className="hover:scale-105 border-[#a66cff] hover:border-[#cff500] bg-[#141414] w-full flex justify-center items-center border h-72  rounded-lg">
-              Info about task and WAX Token
-            </div>
-            <p className="place-self-start text-4xl">Task</p>
-            <div className="  flex flex-col  justify-start gap-10 items-center  mx-auto h-72 w-full ">
-              <div className="hover:scale-105 border-[#a66cff] hover:border-[#cff500] bg-[#141414] flex justify-center items-center border h-full w-full rounded-lg">
-                <img src={taskIcon} alt="task icon" />
-                Task1
-              </div>
-              <div className="hover:scale-105 border-[#a66cff] hover:border-[#cff500] bg-[#141414] flex justify-center items-center border h-full w-full rounded-lg">
-                <img src={taskIcon} alt="task icon" />
-                Task2
-              </div>
-              <div className="hover:scale-105 border-[#a66cff] hover:border-[#cff500] bg-[#141414] flex justify-center items-center border h-full w-full rounded-lg">
-                <img src={taskIcon} alt="task icon" />
-                Task2
-              </div>
-            </div>
-          </div> */}
-          {/* right side  */}
-          {/* <div className="w-[35%]  flex flex-col gap-10 items-center  mx-auto mt-20 px-6">
-            <div className="hover:scale-105  hover:shadow-md hover:shadow-[#cff500] border-[#a66cff] hover:border-[#cff500] bg-[#141414] w-full flex justify-center items-center border h-72  rounded-lg">
-              User WalletDetails
-            </div>
-            <div className="hover:scale-105 border-[#a66cff] hover:border-[#cff500] hover:shadow-md hover:shadow-[#cff500] bg-[#141414] w-full flex justify-center items-center border h-96  rounded-lg">
-              Top user with their points
-            </div>
-          </div> */}
-
-          {/* <div className="w-[90%] flex justify-between gap-10 items-center h-72 mx-auto mt-20 ">
-            <div className="flex justify-center items-center border h-[85%] w-[60%] rounded-lg"></div>
-            <div className="flex justify-center items-center border h-[85%] w-[35%] rounded-lg"></div>
-          </div>
-          <div className="w-[90%] flex justify-start gap-10 items-center h-72 mx-auto  ">
-            <div className="flex justify-center items-center border h-[85%] w-[30%] rounded-lg"></div>
-            <div className="flex justify-center items-center border h-[85%] w-[30%] rounded-lg"></div>
-          </div> */}
         </div>
       </div>
     </>
