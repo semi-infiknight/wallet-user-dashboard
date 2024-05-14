@@ -5,6 +5,7 @@ import { TaskType, UserDetailsType } from '../utils/Types';
 import EXPIcon from '../assets/EXP.png';
 import { apiRoutes } from '../services/apiRoutes';
 import axiosClient from '../services/config/axiosClient';
+import toast from 'react-hot-toast';
 
 type TaskCardProp = {
   taskDetails: TaskType;
@@ -13,7 +14,7 @@ type TaskCardProp = {
   userDetails: UserDetailsType;
 };
 
-interface ConnectWalletWithSignature  {
+interface ConnectWalletWithSignature {
   // eslint-disable-next-line no-unused-vars
   getProviderSignature: (message: string, address: string) => Promise<string>;
 }
@@ -55,6 +56,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       } else {
         // Handle error
         console.error(`Failed to claim task: ${response.status} ${response.statusText}`);
+        toast.error('Failed to claim task');
       }
     } catch (error) {
       // Handle network error
@@ -63,6 +65,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       } else {
         console.error('Network error:', error);
       }
+      toast.error('Something went wrong');
     }
   };
   return (
