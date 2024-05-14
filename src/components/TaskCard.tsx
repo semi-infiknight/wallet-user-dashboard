@@ -40,11 +40,15 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     const message = `Approve this message to claim your ${Number(_EXP)} points`;
     let sign = '';
     // pass message and the address here
-    if (connectWalletRef.current) {
-      sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
-      console.log(sign);
-    } else {
-      console.error('connectWalletRef.current is null');
+    try {
+      if (connectWalletRef.current) {
+        sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+        console.log(sign);
+      } else {
+        console.error('connectWalletRef.current is null');
+      }
+    } catch (error) {
+      toast.error('Something went wrong');
     }
 
     try {

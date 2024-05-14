@@ -90,6 +90,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
 
   const handleLogOut = () => {
     setToLocalStorage('authenticated', false);
+    removeFromLocalStorage('userAddress');
     removeFromLocalStorage('authenticated');
     sessionStorage.removeItem('userAddress');
     navigate(navigateTo || '');
