@@ -97,18 +97,17 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
   };
 
   const authenticateUser = async (_signature: string, _address: string) => {
-    const data = {
-      address: _address,
-      signature: _signature,
-    };
     try {
+      const data = {
+        address: _address,
+        signature: _signature,
+      };
       await axiosPost(apiRoutes.authenticate, data);
+      handleLogIn(_address);
     } catch (error) {
       console.log(error);
       toast.error('Something went wrong.');
     }
-
-    handleLogIn(_address);
   };
 
   const getProviderSignature = async (_msg: string, _address: string) => {
