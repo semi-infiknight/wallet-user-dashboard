@@ -92,7 +92,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
     setToLocalStorage('authenticated', false);
     removeFromLocalStorage('userAddress');
     removeFromLocalStorage('authenticated');
-    sessionStorage.removeItem('userAddress');
+    // sessionStorage.removeItem('userAddress');
     navigate(navigateTo || '');
   };
 
