@@ -26,6 +26,7 @@ const Dashboard = () => {
     isLoading: userDataIsLoading,
     error: userDataError,
     data: userData,
+    refetch,
   } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
   console.log('This is userData', userDataError, userData);
 
@@ -77,7 +78,7 @@ const Dashboard = () => {
           {/* left side  */}
 
           <div className="w-[60%] max-w-[60%]  h-[102%] px-4">
-            <Tasks tasksData={tasks} userDetails={userInfo} />
+            <Tasks tasksData={tasks} userDetails={userInfo} refetch={refetch} />
           </div>
           <div className="w-[40%] px-4 flex flex-col gap-4 justify-start">
             <div className="h-fit">

@@ -14,15 +14,19 @@ type TaskData = {
 type TasksProp = {
   tasksData: TaskType[];
   userDetails: UserDetailsType;
+  refetch: () => void;
 };
 
-const Tasks = ({ tasksData, userDetails }: TasksProp) => {
+const Tasks = ({ tasksData, userDetails, refetch }: TasksProp) => {
   const [activeTab, setActiveTab] = useState('running');
-  const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({ show: false, data: {
-    name: '',
-    description: '',
-    EXP: 0
-  } });
+  const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({
+    show: false,
+    data: {
+      name: '',
+      description: '',
+      EXP: 0,
+    },
+  });
   const [showConfetti, setShowConfetti] = React.useState(false);
 
   // Function to divide the tasks based on expiry
@@ -47,6 +51,7 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
     console.log(selectedTask);
     setModal({ show: true, data: selectedTask });
     setShowConfetti(true);
+    refetch();
     setTimeout(() => setShowConfetti(false), 7000);
   };
 
@@ -94,11 +99,14 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
       <Modal
         isOpen={modal.show}
         onClick={() => {
-          setModal({ show: false, data: {
-            name: '',
-            description: '',
-            EXP: 0
-          } });
+          setModal({
+            show: false,
+            data: {
+              name: '',
+              description: '',
+              EXP: 0,
+            },
+          });
         }}
       >
         <div className="text-white flex flex-col gap-3 items-center">
