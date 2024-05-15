@@ -76,7 +76,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     <div
       key={_id}
       aria-hidden
-      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] cursor-pointer"
+      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] "
     >
       <div className="w-[80%] max-w-[80%]">
         <p className="text-xl">{name}</p>
@@ -98,7 +98,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
                   : currentTaskStatus == TASK.COMPLETED_AND_EXPIRED
                     ? 'neomorphic-expired text-purple-400'
                     : 'neomorphic-expired text-orange-300'
-        } flex flex-col justify-center items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2`}
+        } flex flex-col justify-center items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
       >
         {currentTaskStatus === TASK.EXPIRED ? (
           <>Expired</>

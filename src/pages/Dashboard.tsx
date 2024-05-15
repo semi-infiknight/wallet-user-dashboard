@@ -82,7 +82,7 @@ const Dashboard = () => {
           <div className="w-[40%] px-4 flex flex-col gap-4 justify-start">
             <div className="h-fit">
               <UserDetails
-                userName={userInfo?.userName || "User"}
+                userName={userInfo?.userName || 'User'}
                 address={userInfo.address}
                 earnedEXP={userInfo.earnedEXP}
                 role={UserType.USER}
@@ -90,7 +90,7 @@ const Dashboard = () => {
               />
             </div>
             <div className=" h-full">
-              <LeaderBoard _leaderBoardData={leaderBoard} />
+              <LeaderBoard _leaderBoardData={leaderBoard} userAddress={userInfo.address} />
             </div>
           </div>
         </div>

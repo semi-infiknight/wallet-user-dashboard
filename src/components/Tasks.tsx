@@ -52,7 +52,7 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
 
   return (
     <div className=" w-full flex flex-col items-center h-full bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 neomorphic__big">
-      <p className="place-self-start text-4xl mt-4">Tasks</p>
+      <p className="place-self-start text-4xl mt-4 tracking-wide">Tasks</p>
       <div className="mt-2 w-full flex gap-7">
         <button
           className={`py-2 rounded-xl ${
