@@ -72,6 +72,28 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       toast.error('Something went wrong');
     }
   };
+
+  const handleBtnClick = async (_EXP: number) => {
+    if (currentTaskStatus === TASK.COMPLETED) {
+      await handleClaim(_EXP);
+    } else if (currentTaskStatus === TASK.PENDING) {
+      toast('Task not completed yet', {
+        icon: '❌',
+      });
+    } else if (currentTaskStatus === TASK.CLAIMED) {
+      toast('Task already claimed', {
+        icon: '👏🏻',
+      });
+    } else if (
+      currentTaskStatus === TASK.EXPIRED ||
+      currentTaskStatus === TASK.CLAIMED_AND_EXPIRED ||
+      currentTaskStatus === TASK.COMPLETED_AND_EXPIRED
+    ) {
+      toast('Task has already expired', {
+        icon: '🚫',
+      });
+    }
+  };
   return (
     <div
       key={_id}
@@ -84,8 +106,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       </div>
       <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
       <button
-        disabled={currentTaskStatus !== TASK.COMPLETED}
-        onClick={() => handleClaim(EXP)}
+        onClick={() => handleBtnClick(EXP)}
         className={`${
           currentTaskStatus === TASK.PENDING
             ? 'neomorphic-pending'

@@ -75,7 +75,7 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
           Expired Tasks
         </button>
       </div>
-      <div className="mt-2 w-full max-h-[90%] overflow-y-scroll py-2">
+      <div className="mt-2 w-full h-full max-h-[90%] overflow-y-scroll py-2">
         {activeTab === 'running' && (
           <RunningTasks
             runningTasks={runningTasks}
