@@ -37,6 +37,7 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
             <button
               type="button"
               onClick={() => {
+                removeFromLocalStorage('userAddress');
                 removeFromLocalStorage('authenticated');
                 location.reload();
               }}

@@ -6,6 +6,7 @@ import { CONNECT_WALLET_BTN } from '../utils/Enum';
 import { removeFromLocalStorage, setToLocalStorage } from '../utils/helper';
 import { apiRoutes } from '../services/apiRoutes';
 import { axiosGet, axiosPost } from '../services/axios';
+import toast from 'react-hot-toast';
 
 type ConnectWalletType = {
   btnType: CONNECT_WALLET_BTN;
@@ -89,19 +90,24 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
 
   const handleLogOut = () => {
     setToLocalStorage('authenticated', false);
+    removeFromLocalStorage('userAddress');
     removeFromLocalStorage('authenticated');
     sessionStorage.removeItem('userAddress');
     navigate(navigateTo || '');
   };
 
   const authenticateUser = async (_signature: string, _address: string) => {
-    const data = {
-      address: _address,
-      signature: _signature,
-    };
-    await axiosPost(apiRoutes.authenticate, data);
-
-    handleLogIn(_address);
+    try {
+      const data = {
+        address: _address,
+        signature: _signature,
+      };
+      await axiosPost(apiRoutes.authenticate, data);
+      handleLogIn(_address);
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong.');
+    }
   };
 
   const getProviderSignature = async (_msg: string, _address: string) => {
@@ -123,14 +129,18 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       authenticateUser(String(sign), _address);
     } catch (err) {
       console.error(err);
+      toast.error('Something went wrong');
     }
   };
 
   const getAuthMsg = async (_address: string) => {
-    const result = await axiosGet(apiRoutes.getSignMessage + _address);
-
-    const msg = result.data.message;
-    await getProviderSignature(msg, _address);
+    try {
+      const result = await axiosGet(apiRoutes.getSignMessage + _address);
+      const msg = result.data.message;
+      await getProviderSignature(msg, _address);
+    } catch (error) {
+      toast.error('Something went wrong');
+    }
   };
 
   const initializeProvider = async () => {
@@ -145,6 +155,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       await getAuthMsg(String(newAccounts[0]).toLowerCase());
     } catch (err) {
       console.error('Error on init when getting accounts', err);
+      toast.error('Something went wrong');
     }
   };
 
@@ -165,6 +176,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       handleLogOut();
     } catch (err) {
       console.log(err);
+      toast.error('Something went wrong');
     }
   };
 
