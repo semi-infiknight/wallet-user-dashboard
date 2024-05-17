@@ -8,9 +8,9 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
     <>
       <div
         key={role}
-        className=" flex justify-center items-center  h-full flex-col px-8 py-4 pb-4  bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
+        className=" flex   h-fit flex-col px-8 py-4 pb-4  bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
       >
-        <p className="text-4xl  tracking-wide mb-4 ">Welcome</p>
+        <p className="text-4xl  tracking-wide mb-4 text-center ">Welcome </p>
         <div className=" flex flex-col gap-4 justify-center w-full">
           <div className=" flex justify-between w-full py-2 px-3 bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic">
             <div className="flex gap-2">

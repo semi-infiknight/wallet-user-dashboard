@@ -11,10 +11,10 @@ const LeaderBoard = ({ _leaderBoardData, userAddress }: LeaderBoardProp) => {
   const lifetimeUsers = _leaderBoardData.filter((user) => user.EXP !== 0).sort((a, b) => b.EXP - a.EXP);
 
   return (
-    <div className="h-[65%] flex-col px-6 py-2 border-y bg-[#262626] rounded-xl border-y-[#a66cff] neomorphic__big ">
+    <div className="h-fit xl:h-[65%] lg:h-[65%] flex-col px-6 py-4 border-y bg-[#262626] rounded-xl border-y-[#a66cff] neomorphic__big ">
       <p className="text-3xl tracking-wider sticky mt-4">Leaderboard</p>
-      <div className="max-h-[85%] overflow-y-scroll py-1">
-        <div className=" w-full flex justify-center items-center flex-col gap-4 py-4">
+      <div className=" max-h-[90%] lg:max-h-[90%] overflow-y-scroll py-1">
+        <div className=" w-full flex justify-center items-center flex-col py-4 gap-4 ">
           {lifetimeUsers.map((user, index) => {
             const isUserAddress = user.address === userAddress;
             return (
