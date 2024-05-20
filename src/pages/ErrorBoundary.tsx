@@ -29,7 +29,10 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
           <div className="flex justify-evenly gap-5 px-3 items-center mt-5">
             <button
               type="button"
-              onClick={() => setHasError(false)}
+              onClick={() => {
+                setHasError(false);
+                location.reload();
+              }}
               className=" w-full px-4 py-2 neomorphic-completed bg-[#262626] text-purple-300 rounded-md transition-colors duration-300 "
             >
               Refresh
@@ -41,7 +44,7 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
                 removeFromLocalStorage('authenticated');
                 location.reload();
               }}
-              className=" w-full px-4 py-2 neomorphic-pending bg-[#262626] text-red-500 rounded-md transition-colors duration-300 "
+              className=" w-full px-4 py-2 neomorphic-pending bg-[#262626] text-green-400  rounded-md transition-colors duration-300 "
             >
               Login
             </button>

@@ -18,6 +18,8 @@ const Dashboard = () => {
     role: UserType.USER,
   });
 
+  const [errorFromApi, setErrorFromApi] = useState<boolean>(false);
+
   const [tasks, setTasks] = useState([]);
 
   const [leaderBoard, setLeaderBoard] = useState<LeaderBoardType[]>([]);
@@ -26,8 +28,11 @@ const Dashboard = () => {
     isLoading: userDataIsLoading,
     error: userDataError,
     data: userData,
+    isError: userDataAPIError,
+    refetch,
+    isFetching: userDataIsFetching,
   } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
-  console.log('This is userData', userDataError, userData);
+  console.log('This is userData', userDataError, userData, userDataAPIError , userDataIsLoading);
 
   const {
     isLoading: tasksAreLoading,
@@ -46,8 +51,9 @@ const Dashboard = () => {
   useEffect(() => {
     if (!userDataIsLoading) {
       setUserInfo(userData?.data);
+      setErrorFromApi(userDataAPIError);
     }
-  }, [userData?.data, userDataIsLoading]);
+  }, [userData?.data, userDataAPIError, userDataIsLoading]);
 
   useEffect(() => {
     if (!tasksAreLoading) {
@@ -61,7 +67,7 @@ const Dashboard = () => {
     }
   }, [leaderBoardData?.data, leaderBoardIsLoading]);
 
-  console.log('userInfo', userInfo);
+  console.log('userInfo', userInfo, userData, userDataIsLoading);
   console.log('tasks', tasks);
   console.log('tasks', leaderBoard);
 
@@ -71,27 +77,39 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="h-screen w-full  flex text-white overflow-hidden ">
+      <div className="h-screen w-full  flex  text-white overflow-scroll md:overflow-hidden ">
         <LeftSideBar />
-        <div className="w-full h-full flex py-16">
-          {/* left side  */}
-
-          <div className="w-[60%] max-w-[60%]  h-[102%] px-4">
-            <Tasks tasksData={tasks} userDetails={userInfo} />
-          </div>
-          <div className="w-[40%] px-4 flex flex-col gap-4 justify-start">
-            <div className="h-fit">
-              <UserDetails
-                userName={userInfo?.userName || "User"}
-                address={userInfo.address}
-                earnedEXP={userInfo.earnedEXP}
-                role={UserType.USER}
-                completedTasks={userInfo.completedTasks}
+        <div className="w-full lg:h-full h-screen lg:overflow-hidden overflow-scroll py-16 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:grid-rows-1 gap-4">
+          {/* Right side */}
+          <div className="order-1 lg:order-2 lg:col-span-1 lg:row-span-1 px-4 flex flex-col  gap-4">
+            <UserDetails
+              userName={userInfo?.userName || 'User'}
+              address={userInfo.address}
+              earnedEXP={userInfo.earnedEXP}
+              role={UserType.USER}
+              completedTasks={userInfo.completedTasks}
+            />
+            <div className="block lg:hidden">
+              <Tasks
+                tasksData={tasks}
+                userDetails={userInfo}
+                refetch={refetch}
+                errorFromApi={errorFromApi}
+                isUserDataLoading={userDataIsFetching}
               />
             </div>
-            <div className=" h-full">
-              <LeaderBoard _leaderBoardData={leaderBoard} />
-            </div>
+            <LeaderBoard _leaderBoardData={leaderBoard} userAddress={userInfo.address} />
+          </div>
+
+          {/* Left side */}
+          <div className="xl:col-span-2 lg:row-span-1 order-2 lg:order-1 px-4 hidden lg:block">
+            <Tasks
+              tasksData={tasks}
+              userDetails={userInfo}
+              refetch={refetch}
+              errorFromApi={errorFromApi}
+              isUserDataLoading={userDataIsFetching}
+            />
           </div>
         </div>
       </div>

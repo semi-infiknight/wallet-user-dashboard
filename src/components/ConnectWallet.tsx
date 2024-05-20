@@ -83,8 +83,6 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
   const handleLogIn = async (_address: string) => {
     setToLocalStorage('authenticated', true);
     setToLocalStorage('userAddress', _address);
-    sessionStorage.setItem('userAddress', _address);
-
     navigate(navigateTo || '');
   };
 
@@ -92,7 +90,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
     setToLocalStorage('authenticated', false);
     removeFromLocalStorage('userAddress');
     removeFromLocalStorage('authenticated');
-    sessionStorage.removeItem('userAddress');
+    // sessionStorage.removeItem('userAddress');
     navigate(navigateTo || '');
   };
 
@@ -106,7 +104,9 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       handleLogIn(_address);
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong.');
+      toast.error('Something went wrong.', {
+        id: 'error',
+      });
     }
   };
 
@@ -129,7 +129,9 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       authenticateUser(String(sign), _address);
     } catch (err) {
       console.error(err);
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
   };
 
@@ -139,7 +141,9 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       const msg = result.data.message;
       await getProviderSignature(msg, _address);
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
   };
 
@@ -155,7 +159,9 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       await getAuthMsg(String(newAccounts[0]).toLowerCase());
     } catch (err) {
       console.error('Error on init when getting accounts', err);
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
   };
 
@@ -176,22 +182,40 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       handleLogOut();
     } catch (err) {
       console.log(err);
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
   };
 
   return btnType !== CONNECT_WALLET_BTN.CONNECT ? (
     <></>
   ) : (
-    <div className=" flex ">
-      <button
-        onClick={() => {
-          initializeProvider();
-        }}
-        className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
-      >
-        Connect Wallet
-      </button>
+    <div>
+      {walletXProvider ? (
+        <div className=" flex flex-col gap-2 justify-center items-center">
+          <button
+            onClick={() => {
+              initializeProvider();
+            }}
+            className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
+          >
+            Connect Wallet
+          </button>
+        </div>
+      ) : (
+        <div className="text-white flex flex-col justify-center items-center gap-5 text-2xl">
+          <p>Oops you don&apos;t have walletx installed</p>
+          <a
+            href="https://chromewebstore.google.com/detail/walletx-a-gasless-smart-w/mdjjoodeandllhefapdpnffjolechflh"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg text-xl"
+          >
+            Download WalletX
+          </a>
+        </div>
+      )}
     </div>
   );
 });

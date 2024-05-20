@@ -6,6 +6,8 @@ import EXPIcon from '../assets/EXP.png';
 import { apiRoutes } from '../services/apiRoutes';
 import axiosClient from '../services/config/axiosClient';
 import toast from 'react-hot-toast';
+import { calculateDaysLeft } from '../utils/helper';
+import { Clock } from 'react-feather';
 
 type TaskCardProp = {
   taskDetails: TaskType;
@@ -20,9 +22,10 @@ interface ConnectWalletWithSignature {
 }
 
 const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCardProp) => {
-  const { _id, name, description, EXP, isActive } = taskDetails;
+  const { _id, name, description, EXP, isActive, expiry } = taskDetails;
   const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
+  const [numberOfDaysLeftToCompleteTask, setNumberOfDaysLeftToCompleteTask] = useState<number | null>(null);
 
   useEffect(() => {
     if (isActive === false) {
@@ -48,7 +51,9 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
         console.error('connectWalletRef.current is null');
       }
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
 
     try {
@@ -60,7 +65,9 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       } else {
         // Handle error
         console.error(`Failed to claim task: ${response.status} ${response.statusText}`);
-        toast.error('Failed to claim task');
+        toast.error('Failed to claim task', {
+          id: 'error',
+        });
       }
     } catch (error) {
       // Handle network error
@@ -69,23 +76,66 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       } else {
         console.error('Network error:', error);
       }
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
   };
+
+  const handleBtnClick = async (_EXP: number) => {
+    if (currentTaskStatus === TASK.COMPLETED) {
+      await handleClaim(_EXP);
+    } else if (currentTaskStatus === TASK.PENDING) {
+      toast('Task not completed yet', {
+        icon: '❌',
+        id: 'pending',
+      });
+    } else if (currentTaskStatus === TASK.CLAIMED) {
+      toast('Task already claimed', {
+        icon: '👏🏻',
+        id: 'claimed',
+      });
+    } else if (
+      currentTaskStatus === TASK.EXPIRED ||
+      currentTaskStatus === TASK.CLAIMED_AND_EXPIRED ||
+      currentTaskStatus === TASK.COMPLETED_AND_EXPIRED
+    ) {
+      toast('Task has already expired', {
+        icon: '🚫',
+        id: 'expired',
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (expiry) {
+      const daysLeft = calculateDaysLeft(expiry);
+      setNumberOfDaysLeftToCompleteTask(daysLeft);
+    }
+  }, [expiry]);
+
   return (
     <div
       key={_id}
       aria-hidden
-      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] cursor-pointer"
+      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] "
     >
       <div className="w-[80%] max-w-[80%]">
-        <p className="text-xl">{name}</p>
-        <div className="text-sm break-words">{description}</div>
+        <div className="text-xl flex gap-2 justify-between ">
+          <span>{name} </span>
+          <div className="flex justify-center items-center">
+            <span className="text-xs  rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
+              <Clock size={12} />
+              {numberOfDaysLeftToCompleteTask !== null ? `${numberOfDaysLeftToCompleteTask} days left` : ''}
+            </span>
+          </div>
+        </div>
+
+        <div className="text-sm break-words pt-2 text-gray-200">{description}</div>
       </div>
       <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
       <button
-        disabled={currentTaskStatus !== TASK.COMPLETED}
-        onClick={() => handleClaim(EXP)}
+        onClick={() => handleBtnClick(EXP)}
         className={`${
           currentTaskStatus === TASK.PENDING
             ? 'neomorphic-pending'
@@ -98,7 +148,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
                   : currentTaskStatus == TASK.COMPLETED_AND_EXPIRED
                     ? 'neomorphic-expired text-purple-400'
                     : 'neomorphic-expired text-orange-300'
-        } flex flex-col justify-center items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2`}
+        } flex flex-col justify-center items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
       >
         {currentTaskStatus === TASK.EXPIRED ? (
           <>Expired</>

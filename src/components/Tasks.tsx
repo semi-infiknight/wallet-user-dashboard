@@ -4,7 +4,8 @@ import ConfettiAnimation from './ConfettiAnimation';
 import { TaskType, UserDetailsType } from '../utils/Types';
 import RunningTasks from './RunningTasks';
 import ExpiredTasks from './ExpiredTasks';
-
+import toast from 'react-hot-toast';
+import { RefreshCcw } from 'react-feather';
 type TaskData = {
   name: string;
   description: string;
@@ -14,15 +15,21 @@ type TaskData = {
 type TasksProp = {
   tasksData: TaskType[];
   userDetails: UserDetailsType;
+  errorFromApi: boolean;
+  refetch: () => void;
+  isUserDataLoading: boolean;
 };
 
-const Tasks = ({ tasksData, userDetails }: TasksProp) => {
+const Tasks = ({ tasksData, userDetails, refetch, errorFromApi, isUserDataLoading }: TasksProp) => {
   const [activeTab, setActiveTab] = useState('running');
-  const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({ show: false, data: {
-    name: '',
-    description: '',
-    EXP: 0
-  } });
+  const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({
+    show: false,
+    data: {
+      name: '',
+      description: '',
+      EXP: 0,
+    },
+  });
   const [showConfetti, setShowConfetti] = React.useState(false);
 
   // Function to divide the tasks based on expiry
@@ -47,12 +54,49 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
     console.log(selectedTask);
     setModal({ show: true, data: selectedTask });
     setShowConfetti(true);
+    refetch();
     setTimeout(() => setShowConfetti(false), 7000);
+  };
+
+  const handleRefresh = () => {
+    refetch();
+    console.log(isUserDataLoading);
+    if (errorFromApi === true) {
+      toast.error('Please come after 30 mins ', {
+        id: 'error',
+      });
+    }
   };
 
   return (
     <div className=" w-full flex flex-col items-center h-full bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 neomorphic__big">
-      <p className="place-self-start text-4xl mt-4">Tasks</p>
+      <div className="place-self-start flex justify-center items-center mt-4 gap-4">
+        <p className="place-self-start text-4xl  tracking-wide">Tasks</p>
+        <button className="hover:opacity-100 opacity-25   " onClick={() => handleRefresh()}>
+          {!isUserDataLoading ? (
+            <>
+              <RefreshCcw size={20} />
+            </>
+          ) : (
+            <div className=" flex justify-center items-center gap-2">
+              <svg
+                className="animate-spin   h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              <p className="opacity-50 text-sm">Loading</p>
+            </div>
+          )}
+        </button>
+      </div>
       <div className="mt-2 w-full flex gap-7">
         <button
           className={`py-2 rounded-xl ${
@@ -75,30 +119,36 @@ const Tasks = ({ tasksData, userDetails }: TasksProp) => {
           Expired Tasks
         </button>
       </div>
-      <div className="mt-2 w-full max-h-[90%] overflow-y-scroll py-2">
-        {activeTab === 'running' && (
-          <RunningTasks
-            runningTasks={runningTasks}
-            userDetails={userDetails}
-            handleClick={(_id: string) => handleClick(_id)}
-          />
-        )}
-        {activeTab === 'expired' && (
-          <ExpiredTasks
-            expiredTasks={expiredTasks}
-            userDetails={userDetails}
-            handleClick={(_id: string) => handleClick(_id)}
-          />
-        )}
+      <div className="mt-2 w-full h-full max-h-[90%] overflow-y-scroll py-2">
+        <>
+          {activeTab === 'running' && (
+            <RunningTasks
+              runningTasks={runningTasks}
+              userDetails={userDetails}
+              handleClick={(_id: string) => handleClick(_id)}
+            />
+          )}
+          {activeTab === 'expired' && (
+            <ExpiredTasks
+              expiredTasks={expiredTasks}
+              userDetails={userDetails}
+              handleClick={(_id: string) => handleClick(_id)}
+            />
+          )}
+        </>
       </div>
+
       <Modal
         isOpen={modal.show}
         onClick={() => {
-          setModal({ show: false, data: {
-            name: '',
-            description: '',
-            EXP: 0
-          } });
+          setModal({
+            show: false,
+            data: {
+              name: '',
+              description: '',
+              EXP: 0,
+            },
+          });
         }}
       >
         <div className="text-white flex flex-col gap-3 items-center">
