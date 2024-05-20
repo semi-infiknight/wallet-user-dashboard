@@ -22,7 +22,7 @@ const LeftSideBar = () => {
       </div>
       <div className="relative h-[79%] bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 mt-8 pt-20 neomorphic__big">
         <div className="flex flex-col gap-8 py-8 px-4 rounded-xl neomorphic w-full ">
-          <button className="flex items-center gap-3 text-2xl text-neutral-100">
+          <button className="flex items-center gap-3 text-2xl text-neutral-100 ">
             <Home /> Home
           </button>
           <ComingSoon message="Not enough EXPs!">
