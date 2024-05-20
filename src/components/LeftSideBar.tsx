@@ -21,22 +21,22 @@ const LeftSideBar = () => {
         <img className="w-80" src={walletXLogo} alt="walletXLogo" />
       </div>
       <div className="relative h-[79%] bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 mt-8 pt-20 neomorphic__big">
-        <div className="flex flex-col gap-8 py-8 px-3 rounded-xl neomorphic w-full ">
+        <div className="flex flex-col gap-8 py-8 px-4 rounded-xl neomorphic w-full ">
           <button className="flex items-center gap-3 text-2xl text-neutral-100">
             <Home /> Home
           </button>
           <ComingSoon message="Not enough EXPs!">
-            <button className="flex items-center gap-2 text-2xl text-neutral-100 opacity-20">
+            <button className="flex items-center gap-2 text-xl text-neutral-100 opacity-20">
               <RefreshCcw /> EXP to $USDT
             </button>
           </ComingSoon>
           <ComingSoon>
-            <button className="flex items-center gap-2 text-2xl text-neutral-100 opacity-20">
+            <button className="flex items-center gap-2 text-xl text-neutral-100 opacity-20">
               <RefreshCcw /> EXP to $WAX
             </button>
           </ComingSoon>
           <ComingSoon>
-            <button className="flex items-center gap-2 text-2xl text-neutral-100 opacity-20">
+            <button className="flex items-center gap-2 text-xl text-neutral-100 opacity-20">
               <UserPlus /> Refer friends
             </button>
           </ComingSoon>

@@ -18,10 +18,7 @@ const LeaderBoard = ({ _leaderBoardData, userAddress }: LeaderBoardProp) => {
           {lifetimeUsers.map((user, index) => {
             const isUserAddress = user.address === userAddress;
             return (
-              <div
-                key={index}
-                className={`flex justify-between w-[90%] px-2 py-1 rounded-xl neomorphic `}
-              >
+              <div key={index} className={`flex justify-between w-[90%] lg:w-[95%] px-3 py-1 rounded-xl neomorphic `}>
                 <div className="flex justify-center items-center gap-2 py-2">
                   <img
                     className=" rounded-xl h-10 bg-[#1e2025] "
@@ -29,7 +26,7 @@ const LeaderBoard = ({ _leaderBoardData, userAddress }: LeaderBoardProp) => {
                     alt="PFP icon"
                   />
                   <div>
-                    <p className="text-xl">
+                    <p className="text-lg lg:text-base">
                       {truncateAddress(user.address)}
                       {isUserAddress && <span className=" text-sm text-gray-200"> (You)</span>}
                     </p>

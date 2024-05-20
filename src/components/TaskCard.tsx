@@ -27,8 +27,6 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
   const [numberOfDaysLeftToCompleteTask, setNumberOfDaysLeftToCompleteTask] = useState<number | null>(null);
 
-  console.log(expiry);
-
   useEffect(() => {
     if (isActive === false) {
       if (taskStatus === TASK.COMPLETED) {
@@ -120,20 +118,20 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     <div
       key={_id}
       aria-hidden
-      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] "
+      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] "
     >
       <div className="w-[80%] max-w-[80%]">
-        <div className="text-xl flex gap-2 ">
+        <div className="text-xl flex gap-2 justify-between ">
           <span>{name} </span>
           <div className="flex justify-center items-center">
-            <span className="text-xs bg-red-900 rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
+            <span className="text-xs  rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
               <Clock size={12} />
               {numberOfDaysLeftToCompleteTask !== null ? `${numberOfDaysLeftToCompleteTask} days left` : ''}
             </span>
           </div>
         </div>
 
-        <div className="text-sm break-words">{description}</div>
+        <div className="text-sm break-words pt-2 text-gray-200">{description}</div>
       </div>
       <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
       <button

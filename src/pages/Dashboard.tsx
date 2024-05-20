@@ -81,7 +81,7 @@ const Dashboard = () => {
         <LeftSideBar />
         <div className="w-full lg:h-full h-screen lg:overflow-hidden overflow-scroll py-16 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:grid-rows-1 gap-4">
           {/* Right side */}
-          <div className="order-1 lg:order-2 lg:col-span-1 lg:row-span-1 px-4 flex flex-col gap-4">
+          <div className="order-1 lg:order-2 lg:col-span-1 lg:row-span-1 px-4 flex flex-col  gap-4">
             <UserDetails
               userName={userInfo?.userName || 'User'}
               address={userInfo.address}
