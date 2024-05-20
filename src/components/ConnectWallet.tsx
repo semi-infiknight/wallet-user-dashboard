@@ -36,6 +36,14 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       }
     });
     window.dispatchEvent(new Event('eip6963:requestProvider:walletx'));
+
+    window.addEventListener('eip6963:announceProvider', (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail.info.uuid) {
+        handleNewProviderDetail(customEvent.detail);
+      }
+    });
+    window.dispatchEvent(new Event('eip6963:requestProvider'));
   };
   const existsProviderDetail = (newProviderDetail: any) => {
     const existingProvider = providerDetails.find(
