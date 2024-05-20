@@ -8,31 +8,31 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
     <>
       <div
         key={role}
-        className=" flex justify-center items-center  h-full flex-col px-8 py-4 pb-4  bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
+        className=" flex   h-fit flex-col px-8 py-4 pb-4  bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
       >
-        <p className="text-4xl  tracking-wider mb-4 ">Welcome</p>
+        <p className="text-4xl  tracking-wide mb-4 text-center ">Welcome </p>
         <div className=" flex flex-col gap-4 justify-center w-full">
-          <div className=" flex justify-between w-full py-2 px-3 bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic">
-            <div className="flex gap-2">
+          <div className=" flex justify-between w-full px-4 py-3 bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic">
+            <div className="flex gap-2 overflow-hidden truncate lg:w-full">
               <img className="rounded-2xl w-12 h-12 bg-[#1e2025]  " src={generateAddressIcon(address)} alt="PFP icon" />
-              <div>
-                <p className="text-2xl">{userName}</p>
+              <div className='truncate w-full'>
+                <p className="text-2xl w-full truncate">{userName}</p>
                 <p className="text-base text-opacity-90">{truncateAddress(address)}</p>
               </div>
             </div>
           </div>
 
           <div className=" flex  gap-4 w-full ">
-            <div className="w-full px-2 pt-2  flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
+            <div className="w-full px-3 py-3   flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
               <p className=" text-center text-sm ">Total EXP Earned</p>
-              <div className=" flex gap-2  justify-center items-center py-1 ">
+              <div className=" flex gap-2  justify-center items-center pt-1">
                 <img className="h-6 " src={EXPIcon} alt="Exp Icon " />
                 <span className="text-lg font-semibold">{earnedEXP}</span>
               </div>
             </div>
-            <div className="w-full px-2 pt-2  flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
+            <div className="w-full px-3 py-3 flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
               <p className=" text-center text-sm ">Task Completed</p>
-              <div className=" flex gap-2  justify-center items-center py-1">
+              <div className=" flex gap-2  justify-center items-center pt-1">
                 <img className="h-6 " src={TaskIcon} alt="Exp Icon " />
                 <span className="text-lg font-semibold">{completedTasks.length}</span>
               </div>

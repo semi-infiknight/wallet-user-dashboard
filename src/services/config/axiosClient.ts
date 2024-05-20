@@ -1,18 +1,16 @@
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constant';
+import { getFromLocalStorage } from '../../utils/helper';
 
 const axiosClient = axios.create({ baseURL: BASE_URL });
 
-let address = '';
-const userAddress = sessionStorage.getItem('userAddress');
-// const userAddress = getFromLocalStorage('userAddress');
-console.log('User address is here', userAddress);
-
 axiosClient.interceptors.request.use(async (request) => {
-  if (userAddress) {
-    address = userAddress as string;
+  const userAddress: string = getFromLocalStorage('userAddress') as string;
+  console.log('User address is here 2', userAddress);
+  if (!userAddress) {
+    throw new Error('User not set');
   }
-  request.headers.address = address.toLowerCase();
+  request.headers.address = userAddress.toLowerCase();
   return request;
 });
 
