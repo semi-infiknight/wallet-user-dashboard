@@ -6,6 +6,8 @@ import EXPIcon from '../assets/EXP.png';
 import { apiRoutes } from '../services/apiRoutes';
 import axiosClient from '../services/config/axiosClient';
 import toast from 'react-hot-toast';
+import { calculateDaysLeft } from '../utils/helper';
+import { Clock } from 'react-feather';
 
 type TaskCardProp = {
   taskDetails: TaskType;
@@ -20,9 +22,12 @@ interface ConnectWalletWithSignature {
 }
 
 const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCardProp) => {
-  const { _id, name, description, EXP, isActive } = taskDetails;
+  const { _id, name, description, EXP, isActive, expiry } = taskDetails;
   const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
+  const [numberOfDaysLeftToCompleteTask, setNumberOfDaysLeftToCompleteTask] = useState<number | null>(null);
+
+  console.log(expiry);
 
   useEffect(() => {
     if (isActive === false) {
@@ -48,7 +53,9 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
         console.error('connectWalletRef.current is null');
       }
     } catch (error) {
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
 
     try {
@@ -60,7 +67,9 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       } else {
         // Handle error
         console.error(`Failed to claim task: ${response.status} ${response.statusText}`);
-        toast.error('Failed to claim task');
+        toast.error('Failed to claim task', {
+          id: 'error',
+        });
       }
     } catch (error) {
       // Handle network error
@@ -69,7 +78,9 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       } else {
         console.error('Network error:', error);
       }
-      toast.error('Something went wrong');
+      toast.error('Something went wrong', {
+        id: 'error',
+      });
     }
   };
 
@@ -79,10 +90,12 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     } else if (currentTaskStatus === TASK.PENDING) {
       toast('Task not completed yet', {
         icon: '❌',
+        id: 'pending',
       });
     } else if (currentTaskStatus === TASK.CLAIMED) {
       toast('Task already claimed', {
         icon: '👏🏻',
+        id: 'claimed',
       });
     } else if (
       currentTaskStatus === TASK.EXPIRED ||
@@ -91,9 +104,18 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     ) {
       toast('Task has already expired', {
         icon: '🚫',
+        id: 'expired',
       });
     }
   };
+
+  useEffect(() => {
+    if (expiry) {
+      const daysLeft = calculateDaysLeft(expiry);
+      setNumberOfDaysLeftToCompleteTask(daysLeft);
+    }
+  }, [expiry]);
+
   return (
     <div
       key={_id}
@@ -101,7 +123,16 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       className="w-[90%] my-2 flex my-2place-self-start justify-between items-center px-3 py-3 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] "
     >
       <div className="w-[80%] max-w-[80%]">
-        <p className="text-xl">{name}</p>
+        <div className="text-xl flex gap-2 ">
+          <span>{name} </span>
+          <div className="flex justify-center items-center">
+            <span className="text-xs bg-red-900 rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
+              <Clock size={12} />
+              {numberOfDaysLeftToCompleteTask !== null ? `${numberOfDaysLeftToCompleteTask} days left` : ''}
+            </span>
+          </div>
+        </div>
+
         <div className="text-sm break-words">{description}</div>
       </div>
       <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />

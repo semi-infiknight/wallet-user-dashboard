@@ -25,7 +25,7 @@ const LeftSideBar = () => {
           <button className="flex items-center gap-3 text-2xl text-neutral-100">
             <Home /> Home
           </button>
-          <ComingSoon message="Will active after earning 1000 exps">
+          <ComingSoon message="Not enough EXPs!">
             <button className="flex items-center gap-2 text-2xl text-neutral-100 opacity-20">
               <RefreshCcw /> EXP to $USDT
             </button>

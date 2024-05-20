@@ -16,7 +16,7 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
             <div className="flex gap-2">
               <img className="rounded-2xl w-12 h-12 bg-[#1e2025]  " src={generateAddressIcon(address)} alt="PFP icon" />
               <div>
-                <p className="text-2xl">{userName}</p>
+                <p className="text-2xl max-w-[95%] truncate">{userName}</p>
                 <p className="text-base text-opacity-90">{truncateAddress(address)}</p>
               </div>
             </div>
