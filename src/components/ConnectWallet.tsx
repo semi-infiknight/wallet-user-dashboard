@@ -90,7 +90,6 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
 
   const handleLogIn = async (_address: string) => {
     setToLocalStorage('authenticated', true);
-    setToLocalStorage('userAddress', _address);
     navigate(navigateTo || '');
   };
 
@@ -112,7 +111,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       handleLogIn(_address);
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong.', {
+      toast.error('Something went wrong .', {
         id: 'error',
       });
     }
@@ -137,7 +136,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       authenticateUser(String(sign), _address);
     } catch (err) {
       console.error(err);
-      toast.error('Something went wrong', {
+      toast.error('Something went wrong 2', {
         id: 'error',
       });
     }
@@ -145,11 +144,13 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
 
   const getAuthMsg = async (_address: string) => {
     try {
+      console.log('This is error 2 ', _address);
       const result = await axiosGet(apiRoutes.getSignMessage + _address);
       const msg = result.data.message;
       await getProviderSignature(msg, _address);
     } catch (error) {
-      toast.error('Something went wrong', {
+      console.log(error);
+      toast.error('Something went wrong 3', {
         id: 'error',
       });
     }
@@ -164,10 +165,11 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
         method: 'eth_accounts',
       });
       setUserAddress(newAccounts[0]);
+      setToLocalStorage('userAddress', newAccounts[0]);
       await getAuthMsg(String(newAccounts[0]).toLowerCase());
     } catch (err) {
       console.error('Error on init when getting accounts', err);
-      toast.error('Something went wrong', {
+      toast.error('Something went wrong 4', {
         id: 'error',
       });
     }
@@ -190,7 +192,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       handleLogOut();
     } catch (err) {
       console.log(err);
-      toast.error('Something went wrong', {
+      toast.error('Something went wrong 5', {
         id: 'error',
       });
     }
