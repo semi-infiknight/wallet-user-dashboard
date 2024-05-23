@@ -9,9 +9,13 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background: linear-gradient(to bottom, #000000, #010007, #020108, #3016b2, #4722cc, #a954fd);
+  background-color: black;
   min-height: 100vh;
   overflow: hidden;
+}
+
+.gradient-bg{
+  background: linear-gradient(to bottom, #000000, #010007, #020108, #3016b2, #4722cc, #a954fd);
 }
 
 @font-face {
