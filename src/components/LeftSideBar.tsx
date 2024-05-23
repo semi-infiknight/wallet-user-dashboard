@@ -7,6 +7,7 @@ import discordIcon from '../assets/discordIcon.svg';
 import ComingSoon from './ComingSoon';
 import { useRef } from 'react';
 import { CONNECT_WALLET_BTN } from '../utils/Enum';
+import souldNFTGIF from '../assets/souls/soulNFTDemo1.gif';
 
 interface connectWalletType {
   disconnectWallet();
@@ -20,9 +21,15 @@ const LeftSideBar = () => {
       <div className="w-full flex justify-center items-center text-white mt-2 ml-2">
         <img className="w-80" src={walletXLogo} alt="walletXLogo" />
       </div>
-      <div className="relative h-[79%] bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 mt-8 pt-20 neomorphic__big">
-        <div className="flex flex-col gap-8 py-8 px-4 rounded-xl neomorphic w-full ">
-          <button className="flex items-center gap-3 text-2xl text-neutral-100">
+
+      <div className="relative h-[79%] bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 mt-8  neomorphic__big">
+        <div className=" mt-2">
+          <ComingSoon message="Soul NFTs coming soon " style="left-16 top-1/2 translate-y-[-50%]">
+            <img className="h-16" src={souldNFTGIF} alt="Soul NFT" />
+          </ComingSoon>
+        </div>
+        <div className="flex flex-col gap-8 py-8 px-4 rounded-xl neomorphic w-full mt-5 ">
+          <button className="flex items-center gap-3 text-2xl text-neutral-100 ">
             <Home /> Home
           </button>
           <ComingSoon message="Not enough EXPs!">
