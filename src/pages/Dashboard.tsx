@@ -29,10 +29,10 @@ const Dashboard = () => {
     error: userDataError,
     data: userData,
     isError: userDataAPIError,
-    refetch,
+    refetch: userDataRefetch,
     isFetching: userDataIsFetching,
   } = useQuery({ queryKey: ['user-info'], queryFn: getUserInfo });
-  console.log('This is userData', userDataError, userData, userDataAPIError , userDataIsLoading);
+  console.log('This is userData', userDataError, userData, userDataAPIError, userDataIsLoading);
 
   const {
     isLoading: tasksAreLoading,
@@ -45,6 +45,7 @@ const Dashboard = () => {
     isLoading: leaderBoardIsLoading,
     error: leaderBoardError,
     data: leaderBoardData,
+    refetch: leaderBoardRefetch,
   } = useQuery({ queryKey: ['leader-board'], queryFn: getLeaderBoard });
   console.log('This is leaderboard', leaderBoardError, leaderBoardData);
 
@@ -93,9 +94,10 @@ const Dashboard = () => {
               <Tasks
                 tasksData={tasks}
                 userDetails={userInfo}
-                refetch={refetch}
+                userDataRefetch={userDataRefetch}
                 errorFromApi={errorFromApi}
                 isUserDataLoading={userDataIsFetching}
+                leaderBoardRefetch={leaderBoardRefetch}
               />
             </div>
             <LeaderBoard _leaderBoardData={leaderBoard} userAddress={userInfo.address} />
@@ -106,7 +108,8 @@ const Dashboard = () => {
             <Tasks
               tasksData={tasks}
               userDetails={userInfo}
-              refetch={refetch}
+              userDataRefetch={userDataRefetch}
+              leaderBoardRefetch={leaderBoardRefetch}
               errorFromApi={errorFromApi}
               isUserDataLoading={userDataIsFetching}
             />

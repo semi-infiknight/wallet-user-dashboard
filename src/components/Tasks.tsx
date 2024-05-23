@@ -16,11 +16,19 @@ type TasksProp = {
   tasksData: TaskType[];
   userDetails: UserDetailsType;
   errorFromApi: boolean;
-  refetch: () => void;
+  userDataRefetch: () => void;
+  leaderBoardRefetch: () => void;
   isUserDataLoading: boolean;
 };
 
-const Tasks = ({ tasksData, userDetails, refetch, errorFromApi, isUserDataLoading }: TasksProp) => {
+const Tasks = ({
+  tasksData,
+  userDetails,
+  userDataRefetch,
+  leaderBoardRefetch,
+  errorFromApi,
+  isUserDataLoading,
+}: TasksProp) => {
   const [activeTab, setActiveTab] = useState('running');
   const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({
     show: false,
@@ -54,12 +62,13 @@ const Tasks = ({ tasksData, userDetails, refetch, errorFromApi, isUserDataLoadin
     console.log(selectedTask);
     setModal({ show: true, data: selectedTask });
     setShowConfetti(true);
-    refetch();
+    userDataRefetch();
+    leaderBoardRefetch();
     setTimeout(() => setShowConfetti(false), 7000);
   };
 
   const handleRefresh = () => {
-    refetch();
+    userDataRefetch();
     console.log(isUserDataLoading);
     if (errorFromApi === true) {
       toast.error('Please come after 30 mins ', {
