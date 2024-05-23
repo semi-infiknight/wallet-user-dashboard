@@ -215,7 +215,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
         </div>
       ) : (
         <div className="text-white flex flex-col justify-center items-center gap-5 text-2xl">
-          <p>Oops you don&apos;t have walletx installed</p>
+          <p>Oops! Looks like you don’t have WalletX installed</p>
           <a
             href="https://chromewebstore.google.com/detail/walletx-a-gasless-smart-w/mdjjoodeandllhefapdpnffjolechflh"
             rel="noopener noreferrer"
