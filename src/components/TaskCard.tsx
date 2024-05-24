@@ -43,11 +43,17 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     console.log('This is claim');
 
     const message = `Approve this message to claim your ${Number(_EXP)} points`;
+    const messageForUSDTClaim = 'Burn 350 EXPs to claim your USDT.';
+
     let sign = '';
     // pass message and the address here
     try {
       if (connectWalletRef.current) {
-        sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+        if (EXP === 0) {
+          sign = await connectWalletRef.current.getProviderSignature(messageForUSDTClaim, userDetails.address);
+        } else {
+          sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+        }
         console.log(sign);
       } else {
         console.error('connectWalletRef.current is null');
@@ -59,7 +65,17 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     }
 
     try {
-      const response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
+      let response;
+      if (EXP === 0) {
+        response = await axiosClient.post(
+          apiRoutes.claimUSDT,
+          { USDTAmount: '2', EXPs: '350' },
+          { headers: { signature: sign } },
+        );
+      } else {
+        response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
+      }
+
       if (response.status === 200) {
         // Handle successful claim
         console.log('Task claimed successfully');
