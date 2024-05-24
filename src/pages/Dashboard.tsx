@@ -78,7 +78,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="h-screen w-full  flex  text-white overflow-scroll md:overflow-hidden ">
+      <div className="h-screen w-full  flex  text-white overflow-scroll md:overflow-hidden gradient-bg">
         <LeftSideBar />
         <div className="w-full lg:h-full h-screen lg:overflow-hidden overflow-scroll py-16 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:grid-rows-1 gap-4">
           {/* Right side */}
