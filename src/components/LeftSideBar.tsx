@@ -7,6 +7,7 @@ import discordIcon from '../assets/discordIcon.svg';
 import ComingSoon from './ComingSoon';
 import { useRef } from 'react';
 import { CONNECT_WALLET_BTN } from '../utils/Enum';
+import souldNFTGIF from '../assets/souls/soulNFTDemo1.gif';
 import SoulNFTComingSoon from './SoulNFTComingSoon';
 
 interface connectWalletType {
@@ -25,6 +26,7 @@ const LeftSideBar = () => {
       <div className="relative h-[79%] bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 mt-8  neomorphic__big">
         <div className=" mt-2">
           <SoulNFTComingSoon>
+            <img className="h-16" src={souldNFTGIF} alt="Soul NFT" />
           </SoulNFTComingSoon>
         </div>
         <div className="flex flex-col gap-8 py-8 px-4 rounded-xl neomorphic w-full mt-5 ">

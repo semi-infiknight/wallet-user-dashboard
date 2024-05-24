@@ -4,7 +4,8 @@
 import { HelpCircle } from 'react-feather';
 import souldNFTGIF from '../assets/souls/soulNFTDemo1.gif';
 
-const SoulNFTComingSoon = () => {
+const SoulNFTComingSoon = ({ children }) => {
+
   return (
     <div className="relative group">
       <div className="flex items-center gap-2">
