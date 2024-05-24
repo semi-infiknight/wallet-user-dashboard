@@ -112,8 +112,10 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       await handleClaim(_EXP);
     } else if (currentButtonTitle === 'Open') {
       // make it open in new link like a target.
+
       if (links.length > 0) {
-        const linkToOpen = links[0];
+        const link = links as Array<string>;
+        const linkToOpen = link[0];
         window.open(linkToOpen, '_blank');
 
         // Call handleCompleted after 15 seconds
