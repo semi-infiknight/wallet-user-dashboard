@@ -3,6 +3,7 @@ const dashboardApiRoutes = {
   tasks: '/user/tasks',
   leaderboard: '/user/leaderboard',
   claimEXP: '/user/tasks/',
+  completeSocialTask: '/user/social-tasks/',
 };
 
 const connectWalletApiRoutes = {
