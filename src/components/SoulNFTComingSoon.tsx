@@ -5,8 +5,7 @@ import { HelpCircle } from 'react-feather';
 import souldNFTGIF from '../assets/souls/soulNFTDemo1.gif';
 
 const SoulNFTComingSoon = ({ children }) => {
-
-  console.log(children)
+  console.log(children);
 
   return (
     <div className="relative group">
@@ -20,8 +19,7 @@ const SoulNFTComingSoon = ({ children }) => {
             </a>
           </span>
 
-          <span className='italic place-self-start'>Coming soon</span>
-
+          <span className="italic place-self-start">Coming soon</span>
         </div>
       </div>
     </div>
