@@ -7,7 +7,7 @@ import { apiRoutes } from '../services/apiRoutes';
 import axiosClient from '../services/config/axiosClient';
 import toast from 'react-hot-toast';
 import { calculateDaysLeft } from '../utils/helper';
-import { Clock } from 'react-feather';
+import { Clock, ExternalLink } from 'react-feather';
 
 type TaskCardProp = {
   taskDetails: TaskType;
@@ -22,10 +22,12 @@ interface ConnectWalletWithSignature {
 }
 
 const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCardProp) => {
-  const { _id, name, description, EXP, isActive, expiry } = taskDetails;
+  const { _id, name, description, EXP, isActive, expiry, links } = taskDetails;
   const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
   const [numberOfDaysLeftToCompleteTask, setNumberOfDaysLeftToCompleteTask] = useState<number | null>(null);
+
+  const [currentButtonTitle, setCurrentButtonTitle] = useState<string>('');
 
   useEffect(() => {
     if (isActive === false) {
@@ -41,11 +43,17 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     console.log('This is claim');
 
     const message = `Approve this message to claim your ${Number(_EXP)} points`;
+    const messageForUSDTClaim = 'Burn 350 EXPs to claim your USDT.';
+
     let sign = '';
     // pass message and the address here
     try {
       if (connectWalletRef.current) {
-        sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+        if (EXP === 0) {
+          sign = await connectWalletRef.current.getProviderSignature(messageForUSDTClaim, userDetails.address);
+        } else {
+          sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+        }
         console.log(sign);
       } else {
         console.error('connectWalletRef.current is null');
@@ -57,7 +65,17 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     }
 
     try {
-      const response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
+      let response;
+      if (EXP === 0) {
+        response = await axiosClient.post(
+          apiRoutes.claimUSDT,
+          { USDTAmount: '2', EXPs: '350' },
+          { headers: { signature: sign } },
+        );
+      } else {
+        response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
+      }
+
       if (response.status === 200) {
         // Handle successful claim
         console.log('Task claimed successfully');
@@ -82,10 +100,34 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     }
   };
 
+  const handleCompleted = async () => {
+    // add this task in the completed array.
+    const response = await axiosClient.post(`${apiRoutes.completeSocialTask}${_id}`);
+
+    console.log(response);
+  };
+
   const handleBtnClick = async (_EXP: number) => {
     if (currentTaskStatus === TASK.COMPLETED) {
       await handleClaim(_EXP);
+    } else if (currentButtonTitle === 'Open') {
+      // make it open in new link like a target.
+      if (links.length > 0) {
+        const link = links as Array<string>;
+        const linkToOpen = link[0];
+        window.open(linkToOpen, '_blank');
+
+        // Call handleCompleted after 15 seconds
+        setTimeout(async () => {
+          await handleCompleted();
+        }, 15000); // 15000 milliseconds = 15 seconds
+      }
     } else if (currentTaskStatus === TASK.PENDING) {
+      if (currentButtonTitle === 'Claim') {
+        if (EXP > 350) {
+          toast('Please collect 350 EXP to claim this task');
+        }
+      }
       toast('Task not completed yet', {
         icon: '❌',
         id: 'pending',
@@ -106,6 +148,16 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       });
     }
   };
+
+  useEffect(() => {
+    if (EXP === 0) {
+      setCurrentButtonTitle('Claim');
+    }
+
+    if (links.length > 0) {
+      setCurrentButtonTitle('Open');
+    }
+  }, [links, EXP]);
 
   useEffect(() => {
     if (expiry) {
@@ -156,6 +208,13 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
           <span>Claim</span>
         ) : currentTaskStatus === TASK.CLAIMED || currentTaskStatus === TASK.CLAIMED_AND_EXPIRED ? (
           <span>Claimed</span>
+        ) : currentButtonTitle === 'Open' ? (
+          <span className="flex  justify-center items-center gap-2">
+            Open
+            <ExternalLink size={15} />
+          </span>
+        ) : currentButtonTitle === 'Claim' ? (
+          <span>Redeem</span>
         ) : (
           <>
             <div className="flex gap-2 justify-center items-center">

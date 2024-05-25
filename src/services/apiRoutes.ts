@@ -1,8 +1,10 @@
 const dashboardApiRoutes = {
   userinfo: '/user/data',
   tasks: '/user/tasks',
+  claimUSDT: '/user/usdt',
   leaderboard: '/user/leaderboard',
   claimEXP: '/user/tasks/',
+  completeSocialTask: '/user/social-tasks/',
 };
 
 const connectWalletApiRoutes = {

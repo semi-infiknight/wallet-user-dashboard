@@ -18,7 +18,7 @@ const AppRoutes = () => {
   const isAuthenticated = getFromLocalStorage('authenticated');
   const AnimatedPageTransition = ({ children }: ReactChildProps) => {
     return (
-      <motion.div initial="hidden" animate="visible" exit="exit" variants={fadeAndScaleVariant}>
+      <motion.div initial="hidden" animate="visible" exit="exit" transition={{duration: 0.4}} variants={fadeAndScaleVariant}>
         {children}
       </motion.div>
     );

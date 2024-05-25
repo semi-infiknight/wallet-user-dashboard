@@ -7,6 +7,7 @@ import { removeFromLocalStorage, setToLocalStorage } from '../utils/helper';
 import { apiRoutes } from '../services/apiRoutes';
 import { axiosGet, axiosPost } from '../services/axios';
 import toast from 'react-hot-toast';
+import PeekIllustration from "./PeekIllustration"
 
 type ConnectWalletType = {
   btnType: CONNECT_WALLET_BTN;
@@ -201,26 +202,27 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
   return btnType !== CONNECT_WALLET_BTN.CONNECT ? (
     <></>
   ) : (
-    <div>
+    <div className='relative z-50'>
+      <PeekIllustration />
       {walletXProvider ? (
         <div className=" flex flex-col gap-2 justify-center items-center">
           <button
             onClick={() => {
               initializeProvider();
             }}
-            className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
+            className="relative z-60 border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
           >
             Connect Wallet
           </button>
         </div>
       ) : (
         <div className="text-white flex flex-col justify-center items-center gap-5 text-2xl">
-          <p>Oops you don&apos;t have walletx installed</p>
+          <p>Oops! Looks like you don’t have WalletX installed</p>
           <a
             href="https://chromewebstore.google.com/detail/walletx-a-gasless-smart-w/mdjjoodeandllhefapdpnffjolechflh"
             rel="noopener noreferrer"
             target="_blank"
-            className="border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg text-xl"
+            className="relative z-60 border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg text-xl"
           >
             Download WalletX
           </a>
