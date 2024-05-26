@@ -215,7 +215,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
                   : currentTaskStatus == TASK.COMPLETED_AND_EXPIRED
                     ? 'neomorphic-expired text-purple-400'
                     : 'neomorphic-expired text-orange-300'
-        } flex flex-col justify-center items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
+        } flex flex-col justify-center relative z-10 items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
       >
         {currentTaskStatus === TASK.EXPIRED ? (
           <>Expired</>
