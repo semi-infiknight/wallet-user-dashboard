@@ -51,6 +51,7 @@ const RunningTasks = ({ runningTasks, userDetails, handleClick }: RunningTasksPr
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
               taskStatus={TASK.COMPLETED}
               userDetails={userDetails}
+              taskCss="fancy-button"
             />
           ))}
         </div>
@@ -65,6 +66,7 @@ const RunningTasks = ({ runningTasks, userDetails, handleClick }: RunningTasksPr
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
               taskStatus={TASK.PENDING}
               userDetails={userDetails}
+              taskCss=""
             />
           ))}
         </div>
@@ -79,6 +81,7 @@ const RunningTasks = ({ runningTasks, userDetails, handleClick }: RunningTasksPr
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
               taskStatus={TASK.CLAIMED}
               userDetails={userDetails}
+              taskCss=""
             />
           ))}
         </div>

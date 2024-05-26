@@ -24,6 +24,7 @@ const ExpiredTasks = ({ expiredTasks, userDetails, handleClick }: ExpiredTasksPr
           handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
           taskStatus={TASK.CLAIMED}
           userDetails={userDetails}
+          taskCss=""
         />
       ))}
     </div>

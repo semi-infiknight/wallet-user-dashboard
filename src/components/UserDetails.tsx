@@ -8,14 +8,14 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
     <>
       <div
         key={role}
-        className=" flex   h-fit flex-col px-8 py-4 pb-4  bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
+        className=" flex   h-fit flex-col px-8 py-4 pb-4  bg-zinc-900 border-y rounded-xl border-y-[#a66cff]  neomorphic__big "
       >
         <p className="text-4xl  tracking-wide mb-4 text-center ">Welcome </p>
         <div className=" flex flex-col gap-4 justify-center w-full">
-          <div className=" flex justify-between w-full px-4 py-3 bg-[#262626] border-y rounded-xl border-y-[#a66cff]  neomorphic">
+          <div className=" flex justify-between w-full px-4 py-3 bg-zinc-900 border-y rounded-xl border-y-[#a66cff]  neomorphic">
             <div className="flex gap-2 overflow-hidden truncate lg:w-full">
               <img className="rounded-2xl w-12 h-12 bg-[#1e2025]  " src={generateAddressIcon(address)} alt="PFP icon" />
-              <div className='truncate w-full'>
+              <div className="truncate w-full">
                 <p className="text-2xl w-full truncate">{userName}</p>
                 <p className="text-base text-opacity-90">{truncateAddress(address)}</p>
               </div>

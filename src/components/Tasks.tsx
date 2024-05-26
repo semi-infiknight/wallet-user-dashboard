@@ -88,7 +88,7 @@ const Tasks = ({
   };
 
   return (
-    <div className=" w-full flex flex-col items-center h-full bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 neomorphic__big">
+    <div className=" w-full flex flex-col items-center h-full bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 ">
       <div className="place-self-start flex justify-center items-center mt-4 gap-4">
         <p className="place-self-start text-4xl  tracking-wide">Tasks</p>
         <button className="hover:opacity-100 opacity-25   " onClick={() => handleRefresh()}>

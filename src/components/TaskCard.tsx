@@ -14,6 +14,7 @@ type TaskCardProp = {
   taskStatus: TASK;
   handleClick: (_id: string, _transactionData: TransactionDataType) => void;
   userDetails: UserDetailsType;
+  taskCss: string;
 };
 
 interface ConnectWalletWithSignature {
@@ -21,7 +22,7 @@ interface ConnectWalletWithSignature {
   getProviderSignature: (message: string, address: string) => Promise<string>;
 }
 
-const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCardProp) => {
+const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }: TaskCardProp) => {
   const { _id, name, description, EXP, isActive, expiry, links } = taskDetails;
   const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
@@ -184,7 +185,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     <div
       key={_id}
       aria-hidden
-      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] "
+      className={`"w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4   ${taskCss ? taskCss : 'neomorphic'} `}
     >
       <div className="w-[80%] max-w-[80%]">
         <div className="text-xl flex gap-2 justify-between ">
