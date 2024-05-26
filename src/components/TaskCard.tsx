@@ -1,7 +1,7 @@
 import ConnectWallet from './ConnectWallet';
 import { useEffect, useRef, useState } from 'react';
 import { CONNECT_WALLET_BTN, TASK } from '../utils/Enum';
-import { TaskType, UserDetailsType } from '../utils/Types';
+import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
 import EXPIcon from '../assets/EXP.png';
 import { apiRoutes } from '../services/apiRoutes';
 import axiosClient from '../services/config/axiosClient';
@@ -12,7 +12,7 @@ import { Clock, ExternalLink } from 'react-feather';
 type TaskCardProp = {
   taskDetails: TaskType;
   taskStatus: TASK;
-  handleClick: (_id: string) => void;
+  handleClick: (_id: string, _transactionData: TransactionDataType) => void;
   userDetails: UserDetailsType;
 };
 
@@ -66,12 +66,25 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
 
     try {
       let response;
+      let transactionData = {
+        amount: '0',
+        expBurned: '0',
+        txHash: '',
+      };
+      const rewardAmount = '2';
+      const expToBurn = '350';
       if (EXP === 0) {
         response = await axiosClient.post(
           apiRoutes.claimUSDT,
-          { USDTAmount: '2', EXPs: '350' },
+          { USDTAmount: rewardAmount, EXPs: expToBurn },
           { headers: { signature: sign } },
         );
+
+        transactionData = {
+          amount: rewardAmount,
+          expBurned: expToBurn,
+          txHash: response.data.transactionHash,
+        };
       } else {
         response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
       }
@@ -79,7 +92,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       if (response.status === 200) {
         // Handle successful claim
         console.log('Task claimed successfully');
-        handleClick(_id);
+        handleClick(_id, transactionData);
       } else {
         // Handle error
         console.error(`Failed to claim task: ${response.status} ${response.statusText}`);
