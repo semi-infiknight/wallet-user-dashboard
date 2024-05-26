@@ -23,7 +23,7 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
   if (hasError) {
     return (
       <div className="flex flex-col items-center justify-center h-screen">
-        <div className="flex flex-col gap-3 max-w-md p-6 neomorphic-expired bg-[#262626] rounded-lg shadow-lg">
+        <div className="flex flex-col gap-3 max-w-md p-6 neomorphic-expired bg-zinc-900 rounded-lg shadow-lg">
           <h2 className="text-3xl font-semibold text-center text-white">Oops, there is an error!</h2>
           <p className="text-gray-300">Something went wrong. Please try again later.</p>
           <div className="flex justify-evenly gap-5 px-3 items-center mt-5">
@@ -33,7 +33,7 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
                 setHasError(false);
                 location.reload();
               }}
-              className=" w-full px-4 py-2 neomorphic-completed bg-[#262626] text-purple-300 rounded-md transition-colors duration-300 "
+              className=" w-full px-4 py-2 neomorphic-completed bg-zinc-900 text-purple-300 rounded-md transition-colors duration-300 "
             >
               Refresh
             </button>
@@ -44,7 +44,7 @@ const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
                 removeFromLocalStorage('authenticated');
                 location.reload();
               }}
-              className=" w-full px-4 py-2 neomorphic-pending bg-[#262626] text-green-400  rounded-md transition-colors duration-300 "
+              className=" w-full px-4 py-2 neomorphic-pending bg-zinc-900 text-green-400  rounded-md transition-colors duration-300 "
             >
               Login
             </button>

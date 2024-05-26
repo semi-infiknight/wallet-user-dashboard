@@ -28,6 +28,12 @@ export type LeaderBoardType = {
   EXP: number;
 };
 
+export type TransactionDataType = {
+  amount: string;
+  expBurned: string;
+  txHash: string;
+};
+
 export interface ReactChildProps {
   children: JSX.Element[] | JSX.Element;
 }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Modal from './RewardModal';
 import ConfettiAnimation from './ConfettiAnimation';
-import { TaskType, UserDetailsType } from '../utils/Types';
+import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
 import RunningTasks from './RunningTasks';
 import ExpiredTasks from './ExpiredTasks';
 import toast from 'react-hot-toast';
-import { RefreshCcw } from 'react-feather';
+import { ExternalLink, RefreshCcw } from 'react-feather';
 type TaskData = {
   name: string;
   description: string;
@@ -39,6 +39,11 @@ const Tasks = ({
     },
   });
   const [showConfetti, setShowConfetti] = React.useState(false);
+  const [userTransactionDetails, setUserTransactionDetails] = useState<TransactionDataType>({
+    amount: '',
+    expBurned: '',
+    txHash: '',
+  });
 
   // Function to divide the tasks based on expiry
   const divideTasks = () => {
@@ -57,7 +62,12 @@ const Tasks = ({
 
   const { runningTasks, expiredTasks } = divideTasks();
 
-  const handleClick = (id: string) => {
+  const handleClick = (id: string, transactionData: TransactionDataType) => {
+    setUserTransactionDetails({
+      amount: transactionData.amount,
+      expBurned: transactionData.expBurned,
+      txHash: transactionData.txHash,
+    });
     const selectedTask = runningTasks.filter((task) => task._id === id)?.[0];
     console.log(selectedTask);
     setModal({ show: true, data: selectedTask });
@@ -78,7 +88,7 @@ const Tasks = ({
   };
 
   return (
-    <div className=" w-full flex flex-col items-center h-full bg-[#262626] border-y rounded-xl border-y-[#a66cff] px-5 neomorphic__big">
+    <div className=" w-full flex flex-col items-center h-full bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 ">
       <div className="place-self-start flex justify-center items-center mt-4 gap-4">
         <p className="place-self-start text-4xl  tracking-wide">Tasks</p>
         <button className="hover:opacity-100 opacity-25   " onClick={() => handleRefresh()}>
@@ -106,6 +116,7 @@ const Tasks = ({
           )}
         </button>
       </div>
+
       <div className="mt-2 w-full flex gap-7">
         <button
           className={`py-2 rounded-xl ${
@@ -128,20 +139,27 @@ const Tasks = ({
           Expired Tasks
         </button>
       </div>
-      <div className="mt-2 w-full h-full max-h-[90%] overflow-y-scroll py-2">
+      <div
+        className={` relative mt-2 w-full h-full max-h-[90%] ${isUserDataLoading ? 'overflow-hidden' : 'overflow-y-scroll'} py-2`}
+      >
+        {isUserDataLoading && (
+          <>
+            <div className="absolute bg-black opacity-50  h-full w-full z-10 rounded-xl"></div>
+          </>
+        )}
         <>
           {activeTab === 'running' && (
             <RunningTasks
               runningTasks={runningTasks}
               userDetails={userDetails}
-              handleClick={(_id: string) => handleClick(_id)}
+              handleClick={(_id: string, _transactionData: TransactionDataType) => handleClick(_id, _transactionData)}
             />
           )}
           {activeTab === 'expired' && (
             <ExpiredTasks
               expiredTasks={expiredTasks}
               userDetails={userDetails}
-              handleClick={(_id: string) => handleClick(_id)}
+              handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
             />
           )}
         </>
@@ -161,12 +179,33 @@ const Tasks = ({
         }}
       >
         <div className="text-white flex flex-col gap-3 items-center">
-          <h1 className="text-2xl">You claimed task successfully 🎉 </h1>
-          <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
-          <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
-          <p className="text-lg">
-            You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
-          </p>
+          {userTransactionDetails.txHash !== '' ? (
+            <>
+              <h1 className="text-2xl">You have successfully burned {userTransactionDetails.expBurned} EXPs 🔥 </h1>
+              <p className="text-lg">
+                You have earned $<span className=" font-extrabold text-green-600">{userTransactionDetails.amount}</span>
+              </p>
+              <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
+                <ExternalLink size={17} />
+                <a
+                  href={`https://polygonscan.com/tx/${userTransactionDetails.txHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View on block explorer
+                </a>
+              </div>
+            </>
+          ) : (
+            <>
+              <h1 className="text-2xl">You claimed task successfully 🎉 </h1>
+              <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
+              <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
+              <p className="text-lg">
+                You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
+              </p>
+            </>
+          )}
         </div>
       </Modal>
       {showConfetti && <ConfettiAnimation />}

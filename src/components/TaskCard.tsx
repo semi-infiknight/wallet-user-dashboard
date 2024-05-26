@@ -1,7 +1,7 @@
 import ConnectWallet from './ConnectWallet';
 import { useEffect, useRef, useState } from 'react';
 import { CONNECT_WALLET_BTN, TASK } from '../utils/Enum';
-import { TaskType, UserDetailsType } from '../utils/Types';
+import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
 import EXPIcon from '../assets/EXP.png';
 import { apiRoutes } from '../services/apiRoutes';
 import axiosClient from '../services/config/axiosClient';
@@ -12,8 +12,9 @@ import { Clock, ExternalLink } from 'react-feather';
 type TaskCardProp = {
   taskDetails: TaskType;
   taskStatus: TASK;
-  handleClick: (_id: string) => void;
+  handleClick: (_id: string, _transactionData: TransactionDataType) => void;
   userDetails: UserDetailsType;
+  taskCss: string;
 };
 
 interface ConnectWalletWithSignature {
@@ -21,7 +22,7 @@ interface ConnectWalletWithSignature {
   getProviderSignature: (message: string, address: string) => Promise<string>;
 }
 
-const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCardProp) => {
+const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }: TaskCardProp) => {
   const { _id, name, description, EXP, isActive, expiry, links } = taskDetails;
   const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentTaskStatus, setCurrentTaskStatus] = useState<TASK>(taskStatus);
@@ -66,12 +67,25 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
 
     try {
       let response;
+      let transactionData = {
+        amount: '0',
+        expBurned: '0',
+        txHash: '',
+      };
+      const rewardAmount = '2';
+      const expToBurn = '350';
       if (EXP === 0) {
         response = await axiosClient.post(
           apiRoutes.claimUSDT,
-          { USDTAmount: '2', EXPs: '350' },
+          { USDTAmount: rewardAmount, EXPs: expToBurn },
           { headers: { signature: sign } },
         );
+
+        transactionData = {
+          amount: rewardAmount,
+          expBurned: expToBurn,
+          txHash: response.data.transactionHash,
+        };
       } else {
         response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
       }
@@ -79,7 +93,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       if (response.status === 200) {
         // Handle successful claim
         console.log('Task claimed successfully');
-        handleClick(_id);
+        handleClick(_id, transactionData);
       } else {
         // Handle error
         console.error(`Failed to claim task: ${response.status} ${response.statusText}`);
@@ -112,6 +126,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
       await handleClaim(_EXP);
     } else if (currentButtonTitle === 'Open') {
       // make it open in new link like a target.
+
       if (links.length > 0) {
         const link = links as Array<string>;
         const linkToOpen = link[0];
@@ -170,7 +185,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
     <div
       key={_id}
       aria-hidden
-      className="w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4 neomorphic hover:border-[rgb(166,108,255)] "
+      className={`"w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4   ${taskCss ? taskCss : 'neomorphic'} `}
     >
       <div className="w-[80%] max-w-[80%]">
         <div className="text-xl flex gap-2 justify-between ">
@@ -200,7 +215,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails }: TaskCar
                   : currentTaskStatus == TASK.COMPLETED_AND_EXPIRED
                     ? 'neomorphic-expired text-purple-400'
                     : 'neomorphic-expired text-orange-300'
-        } flex flex-col justify-center items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
+        } flex flex-col justify-center relative z-10 items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
       >
         {currentTaskStatus === TASK.EXPIRED ? (
           <>Expired</>

@@ -19,7 +19,7 @@ const SoulNFTComingSoon = ({ children }) => {
             </a>
           </span>
 
-          <span className='italic place-self-start'>Coming soon</span>
+          <span className="italic place-self-start">Coming soon</span>
         </div>
       </div>
     </div>
