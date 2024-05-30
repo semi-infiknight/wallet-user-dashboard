@@ -1,6 +1,6 @@
 import { memo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Home, LogOut, RefreshCcw, Slack, UserPlus } from 'react-feather';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Home, LogOut, RefreshCcw, Slack, UserPlus, Zap } from 'react-feather';
 import ConnectWallet from './ConnectWallet';
 import ComingSoon from './ComingSoon';
 import SoulNFTComingSoon from './SoulNFTComingSoon';
@@ -18,6 +18,7 @@ interface ConnectWalletType {
 const sidebarButtons = [
   { icon: <Home />, label: 'Home', route: '/' },
   { icon: <Slack />, label: 'Rewards', route: '/rewards' },
+  { icon: <Zap />, label: 'Soul NFTs', isComingSoon: true, route: null },
   {
     icon: <RefreshCcw />,
     label: 'EXP to $WAX',
@@ -56,6 +57,7 @@ const socialIcons = [
 const LeftSideBar = () => {
   const connectWalletRef = useRef<ConnectWalletType>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     console.log('Please logout');
@@ -69,11 +71,11 @@ const LeftSideBar = () => {
   };
 
   return (
-    <div className=" h-full w-[25%]">
+    <div className="h-full flex flex-col">
       <div className="w-full flex justify-center items-center text-white mt-2 ml-2">
         <img className="w-80" src={walletXLogo} alt="walletXLogo" />
       </div>
-      <div className="relative h-[79%] bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 mt-8 ">
+      <div className="relative flex-1 overflow-y-auto bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 mt-8">
         <div className="mt-2">
           <SoulNFTComingSoon>
             <img className="h-16" src={souldNFTGIF} alt="Soul NFT" />
@@ -81,7 +83,7 @@ const LeftSideBar = () => {
         </div>
         <div className="flex flex-col gap-8 py-8 px-4 rounded-xl neomorphic w-full mt-5">
           {sidebarButtons.map(({ icon, label, isComingSoon, route }, index) => (
-            <div key={index}>
+            <div key={index} className="overflow-hidden">
               {isComingSoon ? (
                 <ComingSoon>
                   <button className="flex items-center gap-2 text-xl text-neutral-100 opacity-20">
@@ -90,7 +92,9 @@ const LeftSideBar = () => {
                 </ComingSoon>
               ) : (
                 <button
-                  className="flex items-center gap-3 text-2xl text-neutral-100"
+                  className={`flex items-center gap-3 text-2xl text-neutral-100 ${
+                    location.pathname === route ? 'opacity-100' : 'opacity-20'
+                  }`}
                   onClick={() => handleButtonClick(route)}
                 >
                   {icon} {label}
