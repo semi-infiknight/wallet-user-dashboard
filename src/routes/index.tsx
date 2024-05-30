@@ -1,59 +1,38 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import Home from '../pages/Home';
-import Dashboard from '../pages/Dashboard';
 import LocationProvider from '../components/LocationProvider';
-import { motion } from 'framer-motion';
-import { ReactChildProps } from '../utils/Types';
 import { getFromLocalStorage } from '../utils/helper';
-
-const fadeAndScaleVariant = {
-  hidden: { opacity: 0, scale: 0.9 },
-  visible: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.9 },
-};
+import Authentication from '../pages/Authentication';
+import Layout from '../pages/Layout';
+import Home from '../pages/Home';
+import Reward from '../pages/Reward';
+import AnimatedPageTransition from '../components/AnimatedPageTransition';
 
 const AppRoutes = () => {
   const location = useLocation();
 
   const isAuthenticated = getFromLocalStorage('authenticated');
-  const AnimatedPageTransition = ({ children }: ReactChildProps) => {
-    return (
-      <motion.div initial="hidden" animate="visible" exit="exit" transition={{duration: 0.4}} variants={fadeAndScaleVariant}>
-        {children}
-      </motion.div>
-    );
-  };
 
   return isAuthenticated ? (
     <>
       <LocationProvider>
-        <Routes location={location} key={location.key}>
-          <Route
-            path="/dashboard"
-            element={
-              <AnimatedPageTransition>
-                <Dashboard />
-              </AnimatedPageTransition>
-            }
-          />
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
+        <Layout>
+          <Routes location={location} key={location.key}>
+            <Route path="/" element={<Home />} />
+            <Route path="/rewards" element={<Reward />} />
+            <Route path="*" element={<Navigate to="/ " />} />
+          </Routes>
+        </Layout>
       </LocationProvider>
     </>
   ) : (
     <>
       <LocationProvider>
-        <Routes location={location} key={location.key}>
-          <Route
-            path="/login"
-            element={
-              <AnimatedPageTransition>
-                <Home />
-              </AnimatedPageTransition>
-            }
-          />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
+        <AnimatedPageTransition>
+          <Routes location={location} key={location.key}>
+            <Route path="/login" element={<Authentication />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        </AnimatedPageTransition>
       </LocationProvider>
     </>
   );

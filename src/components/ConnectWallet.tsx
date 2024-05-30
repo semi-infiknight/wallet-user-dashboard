@@ -7,7 +7,7 @@ import { removeFromLocalStorage, setToLocalStorage } from '../utils/helper';
 import { apiRoutes } from '../services/apiRoutes';
 import { axiosGet, axiosPost } from '../services/axios';
 import toast from 'react-hot-toast';
-import PeekIllustration from "./PeekIllustration"
+import PeekIllustration from './PeekIllustration';
 
 type ConnectWalletType = {
   btnType: CONNECT_WALLET_BTN;
@@ -202,7 +202,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
   return btnType !== CONNECT_WALLET_BTN.CONNECT ? (
     <></>
   ) : (
-    <div className='relative z-50'>
+    <div className="relative z-50">
       <PeekIllustration />
       {walletXProvider ? (
         <div className=" flex flex-col gap-2 justify-center items-center">
@@ -212,7 +212,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
             }}
             className="relative z-60 border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
           >
-            Connect Wallet
+            Connect WalletX
           </button>
         </div>
       ) : (

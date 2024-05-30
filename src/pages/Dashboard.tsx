@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import LeaderBoard from '../components/LeaderBoard';
-import LeftSideBar from '../components/LeftSideBar';
 import Tasks from '../components/Tasks';
 import UserDetails from '../components/UserDetails';
 import { getAllTask, getLeaderBoard, getUserInfo } from '../services/axios';
@@ -79,9 +78,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="h-screen w-full  flex  text-white overflow-scroll md:overflow-hidden ">
-        <LeftSideBar />
         <div className="w-full lg:h-full h-screen lg:overflow-hidden overflow-scroll py-16 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 lg:grid-rows-1 gap-4">
-          {/* Right side */}
           <div className="order-1 lg:order-2 lg:col-span-1 lg:row-span-1 px-4 flex flex-col  gap-4">
             <UserDetails
               userName={userInfo?.userName || 'User'}
