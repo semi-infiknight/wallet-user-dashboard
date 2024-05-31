@@ -71,11 +71,11 @@ const LeftSideBar = () => {
   };
 
   return (
-    <div className="h-full flex flex-col">
+    <div className="h-full flex flex-col ">
       <div className="w-full flex justify-center items-center text-white mt-2 ml-2">
         <img className="w-80" src={walletXLogo} alt="walletXLogo" />
       </div>
-      <div className="relative flex-1 overflow-y-auto bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 mt-8">
+      <div className="relative flex-1  bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 mt-8">
         <div className="mt-2">
           <SoulNFTComingSoon>
             <img className="h-16" src={souldNFTGIF} alt="Soul NFT" />
