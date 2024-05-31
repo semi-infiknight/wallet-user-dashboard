@@ -1,7 +1,7 @@
-import { TASK } from '../utils/Enum';
-import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
+import { TASK } from '../../utils/Enum';
+import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
 import TaskCard from './TaskCard';
-import expiredIcon from '../assets/expireIcon.svg';
+import expiredIcon from '../../assets/expireIcon.svg';
 
 type ExpiredTasksProps = {
   expiredTasks: TaskType[];

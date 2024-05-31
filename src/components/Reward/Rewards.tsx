@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import Modal from './RewardModal';
-import ConfettiAnimation from './ConfettiAnimation';
-import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
-import RunningTasks from './RunningTasks';
-import ExpiredTasks from './ExpiredTasks';
+import Modal from '../RewardModal';
+import ConfettiAnimation from '../ConfettiAnimation';
+import { RewardType, TransactionDataType, UserDetailsType } from '../../utils/Types';
 import toast from 'react-hot-toast';
 import { ExternalLink, RefreshCcw } from 'react-feather';
+import RewardCard from './RewardCard';
+import { REWARD } from '../../utils/Enum';
+import RunningRewards from './RunningRewards';
+
 type TaskData = {
   name: string;
   description: string;
-  EXP: number;
+  EXP?: number;
 };
 
-type TasksProp = {
-  tasksData: TaskType[];
+type RewardsProp = {
+  rewardsData: RewardType[];
   userDetails: UserDetailsType;
   errorFromApi: boolean;
   userDataRefetch: () => void;
@@ -21,14 +23,14 @@ type TasksProp = {
   isUserDataLoading: boolean;
 };
 
-const Tasks = ({
-  tasksData,
+const Rewards = ({
+  rewardsData,
   userDetails,
   userDataRefetch,
   leaderBoardRefetch,
   errorFromApi,
   isUserDataLoading,
-}: TasksProp) => {
+}: RewardsProp) => {
   const [activeTab, setActiveTab] = useState('running');
   const [modal, setModal] = useState<{ show: boolean; data: TaskData }>({
     show: false,
@@ -48,19 +50,19 @@ const Tasks = ({
   // Function to divide the tasks based on expiry
   const divideTasks = () => {
     const currentDate = new Date().getTime();
-    const runningTasks: TaskType[] = [];
-    const expiredTasks: TaskType[] = [];
-    tasksData.forEach((task) => {
-      if (task.expiry > currentDate) {
-        runningTasks.push(task);
+    const runningRewards: RewardType[] = [];
+    const expiredRewards: RewardType[] = [];
+    rewardsData.forEach((reward) => {
+      if (reward.expiry > currentDate) {
+        runningRewards.push(reward);
       } else {
-        expiredTasks.push(task);
+        expiredRewards.push(reward);
       }
     });
-    return { runningTasks, expiredTasks };
+    return { runningRewards, expiredRewards };
   };
 
-  const { runningTasks, expiredTasks } = divideTasks();
+  const { runningRewards, expiredRewards } = divideTasks();
 
   const handleClick = (id: string, transactionData: TransactionDataType) => {
     setUserTransactionDetails({
@@ -68,9 +70,9 @@ const Tasks = ({
       expBurned: transactionData.expBurned,
       txHash: transactionData.txHash,
     });
-    const selectedTask = runningTasks.filter((task) => task._id === id)?.[0];
-    console.log(selectedTask);
-    setModal({ show: true, data: selectedTask });
+    const selectedReward = runningRewards.filter((reward) => reward._id === id)?.[0];
+    console.log(selectedReward);
+    setModal({ show: true, data: selectedReward });
     setShowConfetti(true);
     userDataRefetch();
     leaderBoardRefetch();
@@ -90,7 +92,7 @@ const Tasks = ({
   return (
     <div className=" w-full flex flex-col items-center h-full bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 ">
       <div className="place-self-start flex justify-center items-center mt-4 gap-4">
-        <p className="place-self-start text-4xl  tracking-wide">Tasks</p>
+        <p className="place-self-start text-4xl  tracking-wide">Rewards</p>
         <button className="hover:opacity-100 opacity-25   " onClick={() => handleRefresh()}>
           {!isUserDataLoading ? (
             <>
@@ -126,7 +128,7 @@ const Tasks = ({
           }`}
           onClick={() => setActiveTab('running')}
         >
-          Ongoing Tasks
+          Ongoing Rewards
         </button>
         <button
           className={`py-2 ${
@@ -136,7 +138,7 @@ const Tasks = ({
           }`}
           onClick={() => setActiveTab('expired')}
         >
-          Expired Tasks
+          Expired Rewards
         </button>
       </div>
       <div
@@ -149,18 +151,25 @@ const Tasks = ({
         )}
         <>
           {activeTab === 'running' && (
-            <RunningTasks
-              runningTasks={runningTasks}
+            <RunningRewards
+              runningRewards={runningRewards}
               userDetails={userDetails}
               handleClick={(_id: string, _transactionData: TransactionDataType) => handleClick(_id, _transactionData)}
             />
           )}
           {activeTab === 'expired' && (
-            <ExpiredTasks
-              expiredTasks={expiredTasks}
-              userDetails={userDetails}
-              handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
-            />
+            <>
+              {expiredRewards.map((reward, index) => (
+                <RewardCard
+                  key={index}
+                  rewardDetails={reward}
+                  handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
+                  rewardStatus={REWARD.CLAIMED}
+                  userDetails={userDetails}
+                  rewardCss=""
+                />
+              ))}
+            </>
           )}
         </>
       </div>
@@ -198,7 +207,7 @@ const Tasks = ({
             </>
           ) : (
             <>
-              <h1 className="text-2xl">You claimed task successfully 🎉 </h1>
+              <h1 className="text-2xl">You claimed reward successfully 🎉 </h1>
               <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
               <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
               <p className="text-lg">
@@ -213,4 +222,4 @@ const Tasks = ({
   );
 };
 
-export default Tasks;
+export default Rewards;

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import LeaderBoard from '../components/LeaderBoard';
-import Tasks from '../components/Tasks';
+import Tasks from '../components/Task/Tasks';
 import UserDetails from '../components/UserDetails';
 import { getAllTask, getLeaderBoard, getUserInfo } from '../services/axios';
 import LoadingAnimation from './Loading';
@@ -72,7 +72,11 @@ const Home = () => {
   console.log('tasks', leaderBoard);
 
   if (userDataIsLoading) {
-    return <LoadingAnimation />;
+    return (
+      <div className="h-full w-full justify-center items-center my-auto overflow-hidden">
+        <LoadingAnimation />
+      </div>
+    );
   }
 
   return (
