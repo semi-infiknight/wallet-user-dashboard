@@ -10,7 +10,21 @@ export type TaskType = {
   links: [];
 };
 
+export type RewardType = {
+  _id: string;
+  name: string;
+  description: string;
+  isActive: boolean;
+  expiry: number;
+  links: [];
+};
+
 export type CompletedTaskType = {
+  id: string;
+  isClaimed: boolean;
+};
+
+export type CompletedRewardsType = {
   id: string;
   isClaimed: boolean;
 };
@@ -18,6 +32,7 @@ export type CompletedTaskType = {
 export type UserDetailsType = {
   address: string;
   completedTasks: CompletedTaskType[];
+  completedRewards: CompletedRewardsType[];
   earnedEXP: number;
   role: UserType;
   userName: string;
@@ -26,6 +41,12 @@ export type UserDetailsType = {
 export type LeaderBoardType = {
   address: string;
   EXP: number;
+};
+
+export type TransactionDataType = {
+  amount: string;
+  expBurned: string;
+  txHash: string;
 };
 
 export interface ReactChildProps {

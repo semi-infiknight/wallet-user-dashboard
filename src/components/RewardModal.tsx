@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { ReactNode } from 'react';
-import { MouseEventHandler } from 'react';
+import { ReactNode, MouseEventHandler } from 'react';
 
 type ModalProps = {
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -13,7 +12,7 @@ const Modal = ({ onClick, isOpen, children }: ModalProps) => {
     <AnimatePresence>
       {isOpen ? (
         <motion.div
-          className="Modal bg-[#262626] shadow-xl shadow-black bg-opacity-95 border p-10 rounded-lg  m-auto 
+          className="Modal bg-zinc-900 shadow-xl shadow-black bg-opacity-95 border p-10 rounded-lg  m-auto 
            overflow-y-auto overflow-x-hidden fixed top-[30%] right-44 left-0 z-50 justify-center items-center max-w-[600px]  max-h-full"
           variants={variant}
           initial="containerInitial"
@@ -25,7 +24,7 @@ const Modal = ({ onClick, isOpen, children }: ModalProps) => {
               {children}
             </motion.div>
             <button
-              className="text-white flex m-auto mt-8 min-w-32 justify-center bg-[#262626] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center neomorphic-expired"
+              className="text-white flex m-auto mt-8 min-w-32 justify-center bg-zinc-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center neomorphic-expired"
               onClick={onClick}
             >
               close

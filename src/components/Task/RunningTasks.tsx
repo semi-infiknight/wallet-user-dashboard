@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
-import { TaskType, UserDetailsType } from '../utils/Types';
+import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
 import TaskCard from './TaskCard';
-import { TASK } from '../utils/Enum';
+import { TASK } from '../../utils/Enum';
 
 type RunningTasksProps = {
   runningTasks: TaskType[];
   userDetails: UserDetailsType;
-  handleClick: (_id: string) => void;
+  handleClick: (_id: string, _transactionData: TransactionDataType) => void;
 };
 
 const RunningTasks = ({ runningTasks, userDetails, handleClick }: RunningTasksProps) => {
@@ -48,9 +48,10 @@ const RunningTasks = ({ runningTasks, userDetails, handleClick }: RunningTasksPr
             <TaskCard
               key={index}
               taskDetails={task}
-              handleClick={(_id: string) => handleClick(_id)}
+              handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
               taskStatus={TASK.COMPLETED}
               userDetails={userDetails}
+              taskCss="fancy-button"
             />
           ))}
         </div>
@@ -62,9 +63,10 @@ const RunningTasks = ({ runningTasks, userDetails, handleClick }: RunningTasksPr
             <TaskCard
               key={index}
               taskDetails={task}
-              handleClick={(_id: string) => handleClick(_id)}
+              handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
               taskStatus={TASK.PENDING}
               userDetails={userDetails}
+              taskCss=""
             />
           ))}
         </div>
@@ -76,9 +78,10 @@ const RunningTasks = ({ runningTasks, userDetails, handleClick }: RunningTasksPr
             <TaskCard
               key={index}
               taskDetails={task}
-              handleClick={(_id: string) => handleClick(_id)}
+              handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
               taskStatus={TASK.CLAIMED}
               userDetails={userDetails}
+              taskCss=""
             />
           ))}
         </div>

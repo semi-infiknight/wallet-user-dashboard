@@ -4,6 +4,8 @@ const dashboardApiRoutes = {
   claimUSDT: '/user/usdt',
   leaderboard: '/user/leaderboard',
   claimEXP: '/user/tasks/',
+  rewards: 'user/rewards',
+  rewardsStatus: 'user/reward-status',
   completeSocialTask: '/user/social-tasks/',
 };
 
