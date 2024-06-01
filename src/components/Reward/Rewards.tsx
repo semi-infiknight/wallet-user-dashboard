@@ -164,7 +164,7 @@ const Rewards = ({
                   key={index}
                   rewardDetails={reward}
                   handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
-                  rewardStatus={REWARD.CLAIMED}
+                  rewardStatus={REWARD.EXPIRED}
                   userDetails={userDetails}
                   rewardCss=""
                 />

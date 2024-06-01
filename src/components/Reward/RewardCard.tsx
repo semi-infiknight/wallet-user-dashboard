@@ -43,7 +43,6 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
     const message = 'Burn 350 EXPs to claim your USDT.';
 
     let sign = '';
-    // pass message and the address here
     try {
       if (connectWalletRef.current) {
         sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
@@ -51,7 +50,7 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
         console.error('connectWalletRef.current is null');
       }
     } catch (error) {
-      toast.error('Something went wrong', {
+      toast.error('Something went wrong ', {
         id: 'error',
       });
     }
@@ -90,7 +89,7 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
       } else {
         console.error('Network error:', error);
       }
-      toast.error('Something went wrong', {
+      toast.error('Something went wrong  ', {
         id: 'error',
       });
     }

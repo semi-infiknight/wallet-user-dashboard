@@ -21,7 +21,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
     error: rewardsStatusError,
     data: rewardsStatusData,
   } = useQuery({ queryKey: ['rewards-status'], queryFn: getAllRewardsStatus });
-  console.log('This is tasks ', rewardsStatusError, rewardsStatusData, rewardsStatusAreLoading);
+  console.log('This is rewards ', rewardsStatusError, rewardsStatusData, rewardsStatusAreLoading);
 
   useEffect(() => {
     if (rewardsStatusData && runningRewards) {
@@ -50,7 +50,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
               key={index}
               rewardDetails={reward}
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
-              rewardStatus={REWARD.PENDING}
+              rewardStatus={REWARD.COMPLETED}
               userDetails={userDetails}
               rewardCss=""
             />
@@ -78,7 +78,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
               key={index}
               rewardDetails={reward}
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
-              rewardStatus={REWARD.PENDING}
+              rewardStatus={REWARD.CLAIMED}
               userDetails={userDetails}
               rewardCss=""
             />
