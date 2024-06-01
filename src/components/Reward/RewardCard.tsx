@@ -67,11 +67,11 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
 
       console.log(response);
 
-      if (response.status === 200 && response.transactionHash) {
+      if (response.status === 200 && response.data.transactionHash) {
         const transactionData = {
           amount: rewardAmount,
           expBurned: expToBurn,
-          txHash: response.transactionHash,
+          txHash: response.data.transactionHash,
         };
         // Handle successful claim
         console.log('Reward claimed successfully');
