@@ -1,12 +1,12 @@
-import ConnectWallet from './ConnectWallet';
+import ConnectWallet from './../ConnectWallet';
 import { useEffect, useRef, useState } from 'react';
-import { CONNECT_WALLET_BTN, TASK } from '../utils/Enum';
-import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
-import EXPIcon from '../assets/EXP.png';
-import { apiRoutes } from '../services/apiRoutes';
-import axiosClient from '../services/config/axiosClient';
+import { CONNECT_WALLET_BTN, TASK } from '../../utils/Enum';
+import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
+import EXPIcon from '../../assets/EXP.png';
+import { apiRoutes } from '../../services/apiRoutes';
+import axiosClient from '../../services/config/axiosClient';
 import toast from 'react-hot-toast';
-import { calculateDaysLeft } from '../utils/helper';
+import { calculateDaysLeft } from '../../utils/helper';
 import { Clock, ExternalLink } from 'react-feather';
 
 type TaskCardProp = {
