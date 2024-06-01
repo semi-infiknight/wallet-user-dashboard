@@ -13,6 +13,7 @@ const Reward = () => {
     address: '',
     userName: '',
     completedTasks: [],
+    completedRewards: [],
     earnedEXP: 0,
     role: UserType.USER,
   });
@@ -84,6 +85,7 @@ const Reward = () => {
           earnedEXP={userInfo.earnedEXP}
           role={UserType.USER}
           completedTasks={userInfo.completedTasks}
+          completedRewards={userInfo.completedRewards}
         />
         <div className="block lg:hidden">
           <Rewards

@@ -1,9 +1,14 @@
+import { useLocation } from 'react-router-dom';
 import EXPIcon from '../assets/EXP.png';
 import TaskIcon from '../assets/taskIcon.png';
 import { UserDetailsType } from '../utils/Types';
 import { generateAddressIcon, truncateAddress } from '../utils/helper';
+import RewardIcon from '../assets/rewardIcon.png';
 
-const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: UserDetailsType) => {
+const UserDetails = ({ address, completedTasks, earnedEXP, role, userName, completedRewards }: UserDetailsType) => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
   return (
     <>
       <div
@@ -26,16 +31,28 @@ const UserDetails = ({ address, completedTasks, earnedEXP, role, userName }: Use
             <div className="w-full px-3 py-3   flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
               <p className=" text-center text-sm ">Total EXP Earned</p>
               <div className=" flex gap-2  justify-center items-center pt-1">
-                <img className="h-6 " src={EXPIcon} alt="Exp Icon " />
+                <img className="h-8 " src={EXPIcon} alt="Exp Icon " />
                 <span className="text-lg font-semibold">{earnedEXP}</span>
               </div>
             </div>
-            <div className="w-full px-3 py-3 flex flex-col rounded-xl neomorphic hover:border-[#a66cff]  ">
-              <p className=" text-center text-sm ">Task Completed</p>
-              <div className=" flex gap-2  justify-center items-center pt-1">
-                <img className="h-6 " src={TaskIcon} alt="Exp Icon " />
-                <span className="text-lg font-semibold">{completedTasks.length}</span>
-              </div>
+            <div className="w-full px-3 py-3 flex flex-col justify-between rounded-xl neomorphic hover:border-[#a66cff]  ">
+              {currentPath === '/rewards' ? (
+                <>
+                  <p className=" text-center text-sm ">Rewards Completed</p>
+                  <div className=" flex gap-2  justify-center items-center pt-1">
+                    <img className="h-9" src={RewardIcon} alt="Exp Icon " />
+                    <span className="text-lg font-semibold">{completedRewards.length}</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className=" text-center text-sm ">Task Completed</p>
+                  <div className=" flex gap-2  justify-center items-center pt-1">
+                    <img className="h-8" src={TaskIcon} alt="Exp Icon " />
+                    <span className="text-lg font-semibold">{completedTasks.length}</span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 

@@ -188,7 +188,7 @@ const Rewards = ({
         }}
       >
         <div className="text-white flex flex-col gap-3 items-center">
-          {userTransactionDetails.txHash !== '' ? (
+          {userTransactionDetails.txHash !== '' && (
             <>
               <h1 className="text-2xl">You have successfully burned {userTransactionDetails.expBurned} EXPs 🔥 </h1>
               <p className="text-lg">
@@ -204,15 +204,6 @@ const Rewards = ({
                   View on block explorer
                 </a>
               </div>
-            </>
-          ) : (
-            <>
-              <h1 className="text-2xl">You claimed reward successfully 🎉 </h1>
-              <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
-              <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
-              <p className="text-lg">
-                You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
-              </p>
             </>
           )}
         </div>

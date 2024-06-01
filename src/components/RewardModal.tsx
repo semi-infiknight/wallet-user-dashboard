@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { ReactNode } from 'react';
-import { MouseEventHandler } from 'react';
+import { ReactNode, MouseEventHandler } from 'react';
 
 type ModalProps = {
   onClick: MouseEventHandler<HTMLButtonElement>;
