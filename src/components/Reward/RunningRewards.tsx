@@ -20,6 +20,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
     isLoading: rewardsStatusAreLoading,
     error: rewardsStatusError,
     data: rewardsStatusData,
+    refetch: rewardsStatusRefetch,
   } = useQuery({ queryKey: ['rewards-status'], queryFn: getAllRewardsStatus });
   console.log('This is rewards ', rewardsStatusError, rewardsStatusData, rewardsStatusAreLoading);
 
@@ -49,7 +50,10 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
             <RewardCard
               key={index}
               rewardDetails={reward}
-              handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
+              handleClick={(_id: string, _transactionData) => {
+                handleClick(_id, _transactionData);
+                rewardsStatusRefetch();
+              }}
               rewardStatus={REWARD.COMPLETED}
               userDetails={userDetails}
               rewardCss=""
@@ -78,7 +82,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
               key={index}
               rewardDetails={reward}
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
-              rewardStatus={REWARD.CLAIMED}
+              rewardStatus={REWARD.COMPLETED}
               userDetails={userDetails}
               rewardCss=""
             />

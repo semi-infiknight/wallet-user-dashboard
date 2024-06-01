@@ -65,13 +65,14 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
         { headers: { signature: sign } },
       );
 
-      const transactionData = {
-        amount: rewardAmount,
-        expBurned: expToBurn,
-        txHash: response.data.transactionHash,
-      };
+      console.log(response);
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.transactionHash) {
+        const transactionData = {
+          amount: rewardAmount,
+          expBurned: expToBurn,
+          txHash: response.transactionHash,
+        };
         // Handle successful claim
         console.log('Reward claimed successfully');
         handleClick(_id, transactionData);
@@ -89,7 +90,7 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
       } else {
         console.error('Network error:', error);
       }
-      toast.error('Something went wrong  ', {
+      toast.error('Something went wrong ', {
         id: 'error',
       });
     }
