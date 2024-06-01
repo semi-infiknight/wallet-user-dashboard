@@ -45,6 +45,7 @@ const Rewards = ({
     amount: '',
     expBurned: '',
     txHash: '',
+    advertiserDetails: [],
   });
 
   // Function to divide the tasks based on expiry
@@ -69,7 +70,9 @@ const Rewards = ({
       amount: transactionData.amount,
       expBurned: transactionData.expBurned,
       txHash: transactionData.txHash,
+      advertiserDetails: transactionData.advertiserDetails,
     });
+
     const selectedReward = runningRewards.filter((reward) => reward._id === id)?.[0];
     console.log(selectedReward);
     setModal({ show: true, data: selectedReward });
@@ -146,7 +149,7 @@ const Rewards = ({
       >
         {isUserDataLoading && (
           <>
-            <div className="absolute bg-black opacity-50  h-full w-full z-10 rounded-xl"></div>
+            <div className="absolute bg-black opacity-50  h-full w-full z-50 rounded-xl"></div>
           </>
         )}
         <>
@@ -192,17 +195,43 @@ const Rewards = ({
             <>
               <h1 className="text-2xl">You have successfully burned {userTransactionDetails.expBurned} EXPs 🔥 </h1>
               <p className="text-lg">
-                You have earned $<span className=" font-extrabold text-green-600">{userTransactionDetails.amount}</span>
+                You have claimed<span className=" font-extrabold text-green-600">{userTransactionDetails.amount}</span>{' '}
+                ELON
               </p>
-              <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
-                <ExternalLink size={17} />
-                <a
-                  href={`https://polygonscan.com/tx/${userTransactionDetails.txHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on block explorer
-                </a>
+
+              {userTransactionDetails.advertiserDetails[0].videoLink && (
+                <div className="max-w-md">
+                  <iframe
+                    title="j"
+                    src={userTransactionDetails.advertiserDetails[0].videoLink}
+                    width="400"
+                    height="300"
+                    allow="autoplay"
+                  ></iframe>
+                </div>
+              )}
+
+              <div>
+                <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
+                  <ExternalLink size={17} />
+                  <a
+                    href={`https://polygonscan.com/tx/${userTransactionDetails.txHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on block explorer
+                  </a>
+                </div>
+                <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
+                  <ExternalLink size={17} />
+                  <a
+                    href={userTransactionDetails.advertiserDetails[0].website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View Advertiser
+                  </a>
+                </div>
               </div>
             </>
           )}

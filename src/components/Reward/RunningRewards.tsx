@@ -22,7 +22,8 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
     data: rewardsStatusData,
     refetch: rewardsStatusRefetch,
   } = useQuery({ queryKey: ['rewards-status'], queryFn: getAllRewardsStatus });
-  console.log('This is rewards ', rewardsStatusError, rewardsStatusData, rewardsStatusAreLoading);
+  console.log('This is rewards ', rewardsStatusData?.data);
+  console.log('This is rewards section ', rewardsStatusAreLoading, rewardsStatusError);
 
   useEffect(() => {
     if (rewardsStatusData && runningRewards) {
@@ -42,8 +43,41 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
     }
   }, [rewardsStatusData, runningRewards]);
 
+  console.log(completedRewards, ongoingRewards, claimedRewards);
+
+  const upcomingReward: RewardType = {
+    _id: '1',
+    name: 'EXP to $WAX conversion ',
+    description: 'Total platform EXPs will be converted to 250,000,000 $WAX soon',
+    isActive: false,
+    expiry: 0,
+    links: [
+      {
+        videoLink: '',
+        website:
+          'https://getwalletx.medium.com/unlocking-the-power-of-wax-tokens-convert-your-exps-and-vote-on-wips-5c353d47aaa6',
+      },
+    ],
+    burnEXP: '0',
+    tokenAddress: '0x',
+    tokenAmount: '0x',
+    tokenDecimal: '16',
+    chain: 'JMDLR',
+  };
+
   return (
     <div className="flex flex-col gap-4">
+      <RewardCard
+        key={1}
+        rewardDetails={upcomingReward}
+        handleClick={(_id: string, _transactionData) => {
+          handleClick(_id, _transactionData);
+        }}
+        rewardStatus={REWARD.PENDING}
+        userDetails={userDetails}
+        rewardCss="fancy-button"
+      />
+
       {completedRewards.length > 0 && (
         <div className="flex flex-col gap-2">
           {completedRewards.map((reward, index) => (
