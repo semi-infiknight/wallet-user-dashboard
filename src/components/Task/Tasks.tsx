@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Modal from '../RewardModal';
 import ConfettiAnimation from '../ConfettiAnimation';
-import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
+import { TaskType, UserDetailsType } from '../../utils/Types';
 import RunningTasks from './RunningTasks';
 import ExpiredTasks from './ExpiredTasks';
 import toast from 'react-hot-toast';
-import { ExternalLink, RefreshCcw } from 'react-feather';
+import { RefreshCcw } from 'react-feather';
 type TaskData = {
   name: string;
   description: string;
@@ -39,11 +39,6 @@ const Tasks = ({
     },
   });
   const [showConfetti, setShowConfetti] = React.useState(false);
-  const [userTransactionDetails, setUserTransactionDetails] = useState<TransactionDataType>({
-    amount: '',
-    expBurned: '',
-    txHash: '',
-  });
 
   // Function to divide the tasks based on expiry
   const divideTasks = () => {
@@ -62,12 +57,7 @@ const Tasks = ({
 
   const { runningTasks, expiredTasks } = divideTasks();
 
-  const handleClick = (id: string, transactionData: TransactionDataType) => {
-    setUserTransactionDetails({
-      amount: transactionData.amount,
-      expBurned: transactionData.expBurned,
-      txHash: transactionData.txHash,
-    });
+  const handleClick = (id: string) => {
     const selectedTask = runningTasks.filter((task) => task._id === id)?.[0];
     console.log(selectedTask);
     setModal({ show: true, data: selectedTask });
@@ -152,14 +142,14 @@ const Tasks = ({
             <RunningTasks
               runningTasks={runningTasks}
               userDetails={userDetails}
-              handleClick={(_id: string, _transactionData: TransactionDataType) => handleClick(_id, _transactionData)}
+              handleClick={(_id: string) => handleClick(_id)}
             />
           )}
           {activeTab === 'expired' && (
             <ExpiredTasks
               expiredTasks={expiredTasks}
               userDetails={userDetails}
-              handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
+              handleClick={(_id: string) => handleClick(_id)}
             />
           )}
         </>
@@ -179,33 +169,12 @@ const Tasks = ({
         }}
       >
         <div className="text-white flex flex-col gap-3 items-center">
-          {userTransactionDetails.txHash !== '' ? (
-            <>
-              <h1 className="text-2xl">You have successfully burned {userTransactionDetails.expBurned} EXPs 🔥 </h1>
-              <p className="text-lg">
-                You have earned $<span className=" font-extrabold text-green-600">{userTransactionDetails.amount}</span>
-              </p>
-              <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
-                <ExternalLink size={17} />
-                <a
-                  href={`https://polygonscan.com/tx/${userTransactionDetails.txHash}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  View on block explorer
-                </a>
-              </div>
-            </>
-          ) : (
-            <>
-              <h1 className="text-2xl">You claimed task successfully 🎉 </h1>
-              <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
-              <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
-              <p className="text-lg">
-                You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
-              </p>
-            </>
-          )}
+          <h1 className="text-2xl">You claimed task successfully 🎉 </h1>
+          <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
+          <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
+          <p className="text-lg">
+            You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
+          </p>
         </div>
       </Modal>
       {showConfetti && <ConfettiAnimation />}
