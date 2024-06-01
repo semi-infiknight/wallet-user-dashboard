@@ -22,7 +22,7 @@ interface ConnectWalletWithSignature {
 }
 
 const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rewardCss }: RewardCardProp) => {
-  const { _id, name, description, isActive, expiry } = rewardDetails;
+  const { _id, name, description, isActive, expiry, links, burnEXP, tokenAmount } = rewardDetails;
   const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentRewardStatus, setCurrentTaskStatus] = useState<REWARD>(rewardStatus);
   const [numberOfDaysLeftToCompleteTask, setNumberOfDaysLeftToCompleteTask] = useState<number | null>(null);
@@ -40,7 +40,7 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
   const handleClaim = async () => {
     console.log('This is claim');
 
-    const message = 'Burn 350 EXPs to claim your USDT.';
+    const message = `Burn ${burnEXP} EXPs and ${name}`;
 
     let sign = '';
     try {
@@ -56,22 +56,20 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
     }
 
     try {
-      const rewardAmount = '2';
-      const expToBurn = '350';
-
       const response = await axiosClient.post(
-        apiRoutes.claimUSDT,
-        { USDTAmount: rewardAmount, EXPs: expToBurn },
+        `${apiRoutes.claimRewards}${_id}`,
+        { body: { EXP: burnEXP } },
         { headers: { signature: sign } },
       );
 
       console.log(response);
 
-      if (response.status === 200 && response.data.transactionHash) {
-        const transactionData = {
-          amount: rewardAmount,
-          expBurned: expToBurn,
+      if (response.status === 200) {
+        const transactionData: TransactionDataType = {
+          amount: tokenAmount,
+          expBurned: burnEXP,
           txHash: response.data.transactionHash,
+          advertiserDetails: links,
         };
         // Handle successful claim
         console.log('Reward claimed successfully');
@@ -97,7 +95,10 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
   };
 
   const handleBtnClick = async () => {
-    if (currentRewardStatus === REWARD.COMPLETED) {
+    if (_id === '1') {
+      const linkToOpen = links[0].website;
+      window.open(linkToOpen, '_blank');
+    } else if (currentRewardStatus === REWARD.COMPLETED) {
       await handleClaim();
     } else if (currentRewardStatus === REWARD.PENDING) {
       toast('Not eligible for this reward', {
@@ -138,10 +139,12 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
         <div className="text-xl flex gap-2 justify-between ">
           <span>{name} </span>
           <div className="flex justify-center items-center">
-            <span className="text-xs  rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
-              <Clock size={12} />
-              {numberOfDaysLeftToCompleteTask !== null ? `${numberOfDaysLeftToCompleteTask} days left` : ''}
-            </span>
+            {_id !== '1' && (
+              <span className="text-xs  rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
+                <Clock size={12} />
+                {numberOfDaysLeftToCompleteTask !== null ? `${numberOfDaysLeftToCompleteTask} days left` : ''}
+              </span>
+            )}
           </div>
         </div>
 
@@ -164,7 +167,9 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
                     : 'neomorphic-expired text-orange-300'
         } flex flex-col justify-center relative z-10 items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
       >
-        {currentRewardStatus === REWARD.EXPIRED ? (
+        {_id === '1' ? (
+          <span className="text-sm xl:text-base">Learn More</span>
+        ) : currentRewardStatus === REWARD.EXPIRED ? (
           <>Expired</>
         ) : currentRewardStatus === REWARD.COMPLETED || currentRewardStatus === REWARD.COMPLETED_AND_EXPIRED ? (
           <span>Redeem</span>

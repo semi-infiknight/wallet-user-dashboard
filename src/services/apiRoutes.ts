@@ -1,7 +1,7 @@
 const dashboardApiRoutes = {
   userinfo: '/user/data',
   tasks: '/user/tasks',
-  claimUSDT: '/user/usdt',
+  claimRewards: '/user/claim-reward/',
   leaderboard: '/user/leaderboard',
   claimEXP: '/user/tasks/',
   rewards: 'user/rewards',

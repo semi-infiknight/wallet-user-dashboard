@@ -10,13 +10,23 @@ export type TaskType = {
   links: [];
 };
 
+export type Links = {
+  videoLink: string;
+  website: string;
+};
+
 export type RewardType = {
   _id: string;
   name: string;
   description: string;
   isActive: boolean;
   expiry: number;
-  links: [];
+  links: Links[];
+  burnEXP: string;
+  tokenAddress: string;
+  tokenAmount: string;
+  tokenDecimal: string;
+  chain: string;
 };
 
 export type CompletedTaskType = {
@@ -47,6 +57,7 @@ export type TransactionDataType = {
   amount: string;
   expBurned: string;
   txHash: string;
+  advertiserDetails: Links[];
 };
 
 export interface ReactChildProps {
