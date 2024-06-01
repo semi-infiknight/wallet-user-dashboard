@@ -1,7 +1,7 @@
 import ConnectWallet from './../ConnectWallet';
 import { useEffect, useRef, useState } from 'react';
 import { CONNECT_WALLET_BTN, TASK } from '../../utils/Enum';
-import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
+import { TaskType, UserDetailsType } from '../../utils/Types';
 import EXPIcon from '../../assets/EXP.png';
 import { apiRoutes } from '../../services/apiRoutes';
 import axiosClient from '../../services/config/axiosClient';
@@ -12,7 +12,7 @@ import { Clock, ExternalLink } from 'react-feather';
 type TaskCardProp = {
   taskDetails: TaskType;
   taskStatus: TASK;
-  handleClick: (_id: string, _transactionData: TransactionDataType) => void;
+  handleClick: (_id: string) => void;
   userDetails: UserDetailsType;
   taskCss: string;
 };
@@ -66,34 +66,12 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
     }
 
     try {
-      let response;
-      let transactionData = {
-        amount: '0',
-        expBurned: '0',
-        txHash: '',
-      };
-      const rewardAmount = '2';
-      const expToBurn = '350';
-      if (EXP === 0) {
-        response = await axiosClient.post(
-          apiRoutes.claimUSDT,
-          { USDTAmount: rewardAmount, EXPs: expToBurn },
-          { headers: { signature: sign } },
-        );
-
-        transactionData = {
-          amount: rewardAmount,
-          expBurned: expToBurn,
-          txHash: response.data.transactionHash,
-        };
-      } else {
-        response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
-      }
+      const response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
 
       if (response.status === 200) {
         // Handle successful claim
         console.log('Task claimed successfully');
-        handleClick(_id, transactionData);
+        handleClick(_id);
       } else {
         // Handle error
         console.error(`Failed to claim task: ${response.status} ${response.statusText}`);
@@ -189,7 +167,15 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
     >
       <div className="w-[80%] max-w-[80%]">
         <div className="text-xl flex gap-2 justify-between ">
-          <span>{name} </span>
+          <div className=" flex gap-2">
+            <span>{name} </span>
+            {currentTaskStatus === TASK.COMPLETED && (
+              <span className="text-sm flex justify-center items-center gap-2">
+                <img className="h-6" src={EXPIcon} alt="" />
+                {EXP}{' '}
+              </span>
+            )}
+          </div>
           <div className="flex justify-center items-center">
             <span className="text-xs  rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
               <Clock size={12} />

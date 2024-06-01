@@ -1,12 +1,12 @@
 import { TASK } from '../../utils/Enum';
-import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
+import { TaskType, UserDetailsType } from '../../utils/Types';
 import TaskCard from './TaskCard';
 import expiredIcon from '../../assets/expireIcon.svg';
 
 type ExpiredTasksProps = {
   expiredTasks: TaskType[];
   userDetails: UserDetailsType;
-  handleClick: (_id: string, _transactionData: TransactionDataType) => void;
+  handleClick: (_id: string) => void;
 };
 
 const ExpiredTasks = ({ expiredTasks, userDetails, handleClick }: ExpiredTasksProps) => {
@@ -21,7 +21,7 @@ const ExpiredTasks = ({ expiredTasks, userDetails, handleClick }: ExpiredTasksPr
         <TaskCard
           key={index}
           taskDetails={task}
-          handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
+          handleClick={(_id: string) => handleClick(_id)}
           taskStatus={TASK.CLAIMED}
           userDetails={userDetails}
           taskCss=""
