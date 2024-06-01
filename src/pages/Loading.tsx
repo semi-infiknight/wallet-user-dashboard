@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const LoadingAnimation = () => {
   return (
     <motion.div
-      className="loading-container flex justify-center mt-[20%]"
+      className="loading-container h-full flex justify-center items-center overflow-hidden "
       animate={{
         rotate: 360,
         transition: {

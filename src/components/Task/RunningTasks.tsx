@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
+import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
 import TaskCard from './TaskCard';
-import { TASK } from '../utils/Enum';
+import { TASK } from '../../utils/Enum';
 
 type RunningTasksProps = {
   runningTasks: TaskType[];

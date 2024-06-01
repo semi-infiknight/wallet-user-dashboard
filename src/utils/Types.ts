@@ -10,6 +10,16 @@ export type TaskType = {
   links: [];
 };
 
+export type RewardType = {
+  _id: string;
+  name: string;
+  description: string;
+  isActive: boolean;
+  expiry: number;
+  links: [];
+};
+
+
 export type CompletedTaskType = {
   id: string;
   isClaimed: boolean;

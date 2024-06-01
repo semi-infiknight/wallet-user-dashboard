@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Modal from './RewardModal';
-import ConfettiAnimation from './ConfettiAnimation';
-import { TaskType, TransactionDataType, UserDetailsType } from '../utils/Types';
+import Modal from '../RewardModal';
+import ConfettiAnimation from '../ConfettiAnimation';
+import { TaskType, TransactionDataType, UserDetailsType } from '../../utils/Types';
 import RunningTasks from './RunningTasks';
 import ExpiredTasks from './ExpiredTasks';
 import toast from 'react-hot-toast';
@@ -144,7 +144,7 @@ const Tasks = ({
       >
         {isUserDataLoading && (
           <>
-            <div className="absolute bg-black opacity-50  h-full w-full z-10 rounded-xl"></div>
+            <div className="absolute bg-black opacity-50  h-full w-full z-50 rounded-xl"></div>
           </>
         )}
         <>
