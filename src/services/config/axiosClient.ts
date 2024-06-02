@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../../utils/constant';
-import { getFromLocalStorage } from '../../utils/helper';
+import { getFromLocalStorage, removeFromLocalStorage } from '../../utils/helper';
 
 const axiosClient = axios.create({ baseURL: BASE_URL });
 
@@ -20,6 +20,9 @@ axiosClient.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    removeFromLocalStorage('userAddress');
+    removeFromLocalStorage('authenticated');
+    window.location.replace('/login');
     // Error handling goes here...
     return Promise.reject(error.response.data);
   },
