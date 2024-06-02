@@ -22,6 +22,7 @@ axiosClient.interceptors.response.use(
   (error) => {
     removeFromLocalStorage('userAddress');
     removeFromLocalStorage('authenticated');
+    window.location.replace('/login');
     // Error handling goes here...
     return Promise.reject(error.response.data);
   },
