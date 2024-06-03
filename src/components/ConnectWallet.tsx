@@ -137,7 +137,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       authenticateUser(String(sign), _address);
     } catch (err) {
       console.error(err);
-      toast.error('Something went wrong 2', {
+      toast.error('Something went wrong', {
         id: 'error',
       });
     }
@@ -151,7 +151,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       await getProviderSignature(msg, _address);
     } catch (error) {
       console.log(error);
-      toast.error('Something went wrong 3', {
+      toast.error('Something went wrong', {
         id: 'error',
       });
     }
@@ -170,7 +170,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       await getAuthMsg(String(newAccounts[0]).toLowerCase());
     } catch (err) {
       console.error('Error on init when getting accounts', err);
-      toast.error('Something went wrong 4', {
+      toast.error('Something went wrong', {
         id: 'error',
       });
     }
@@ -193,7 +193,7 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       handleLogOut();
     } catch (err) {
       console.log(err);
-      toast.error('Something went wrong 5', {
+      toast.error('Something went wrong', {
         id: 'error',
       });
     }

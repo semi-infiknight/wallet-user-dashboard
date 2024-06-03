@@ -56,13 +56,21 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
           sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
         }
         console.log(sign);
+        if (!sign) {
+          toast.error('Invalid signature', {
+            id: 'error',
+          });
+          return;
+        }
       } else {
         console.error('connectWalletRef.current is null');
+        return;
       }
     } catch (error) {
       toast.error('Something went wrong', {
         id: 'error',
       });
+      return;
     }
 
     try {
