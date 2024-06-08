@@ -126,3 +126,16 @@ body * {
 .fancy-button:active {
   --border-width: 5px;
 }
+
+.login-bg {
+  background-image: url('./assets/bg-lg.jpeg');
+  background-position: center;
+  background-size: cover; 
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 1023px) {
+  .login-bg {
+    background-image: url('./assets/bg-md.jpeg');
+  }
+}

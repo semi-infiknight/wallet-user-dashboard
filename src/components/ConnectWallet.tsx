@@ -206,14 +206,21 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       <PeekIllustration />
       {walletXProvider ? (
         <div className=" flex flex-col gap-2 justify-center items-center">
-          <button
-            onClick={() => {
-              initializeProvider();
-            }}
-            className="relative z-60 border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
-          >
-            Connect WalletX
-          </button>
+
+          <div className='p-1 px-2 bg-white bg-opacity-30 rounded-xl'>
+            <div className='p-1 px-2 bg-white bg-opacity-30 rounded-xl'>
+              <div className='p-1 px-2 bg-white bg-opacity-30 rounded-xl'>
+                <button
+                  onClick={() => {
+                    initializeProvider();
+                  }}
+                  className="relative z-60 border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
+                >
+                  Connect WalletX
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
         <div className="text-white flex flex-col justify-center items-center gap-5 text-2xl">
