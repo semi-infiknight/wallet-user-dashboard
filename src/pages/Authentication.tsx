@@ -17,7 +17,7 @@ const Authentication = () => {
   return (
     <>
       <div className="glass absolute top-0 w-full login-bg">
-        <div className='h-screen flex justify-center items-center bg-black bg-opacity-20 backdrop-blur-md '>
+        <div className='h-screen flex justify-center items-center bg-black bg-opacity-20 backdrop-blur-[8px] '>
 
         <ConnectWallet btnType={CONNECT_WALLET_BTN.CONNECT} navigateTo="/" />
         </div>

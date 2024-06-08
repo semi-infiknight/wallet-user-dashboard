@@ -207,21 +207,19 @@ const ConnectWallet = forwardRef(({ btnType, navigateTo }: ConnectWalletType, re
       {walletXProvider ? (
         <div className=" flex flex-col gap-2 justify-center items-center">
 
-          <div className='p-1 px-2 bg-white bg-opacity-30 rounded-xl'>
-            <div className='p-1 px-2 bg-white bg-opacity-30 rounded-xl'>
-              <div className='p-1 px-2 bg-white bg-opacity-30 rounded-xl'>
+              <div className='relative'>
                 <button
-                  onClick={() => {
+                  onClick={() => {-
                     initializeProvider();
                   }}
-                  className="relative z-60 border-2 hover:border-[#cff500] text-black px-4 py-2 rounded-xl font-semibold font-sans tracking-wide bg-white shadow-lg"
+                  className="mx-auto block z-60 fancy-button text-black lg:px-6 lg:py-4 px-4 py-2  rounded-xl text-lg md:text-xl lg:!text-2xl font-semibold font-sans tracking-wide bg-white shadow-lg fancy-button"
                 >
                   Connect WalletX
                 </button>
+                <p className='relative top-6 md:top-8 lg:top-12 text-lg  md:text-xl lg:text-2xl font-semibold px-6'>Connect your wallet to enter The World of Rewards</p>
+
               </div>
-            </div>
-          </div>
-        </div>
+              </div>
       ) : (
         <div className="text-white flex flex-col justify-center items-center gap-5 text-2xl">
           <p>Oops! Looks like you don’t have WalletX installed</p>
