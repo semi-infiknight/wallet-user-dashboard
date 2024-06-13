@@ -84,11 +84,11 @@ const LeftSideBar = () => {
 
       setTimeout(() => {
         setShowExcite(false);
-      }, 2000);
+      }, 1300);
 
       setTimeout(() => {
         setIsClickable(true); // Re-enable clicks after 2.3 seconds
-      }, 2200);
+      }, 1400);
     }
   };
 
@@ -101,7 +101,7 @@ const LeftSideBar = () => {
         <div className="mt-2 cursor-pointer">
           <SoulNFTComingSoon>
             <div onClick={() => handleClick()} className="relative">
-              <img className={`h-16 min-w-16 ${!isClickable ? 'opacity-60' : ''}`} src={souldNFTGIF} alt="Soul NFT" />
+              <img className={`h-16 min-w-16 transform duration-700 ${!isClickable ? 'opacity-0' : ''}`} src={souldNFTGIF} alt="Soul NFT" />
               {showExcite && (
                 <img
                   key={time}
