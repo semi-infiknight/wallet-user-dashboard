@@ -37,7 +37,7 @@ body * {
 .neomorphic {
   box-shadow:
     6px 6px 12px #0d0909,
-    -6px -6px 12px #414141;
+    -2px -2px 6px #414141;
 }
 
 .neomorphic__big {
@@ -48,26 +48,26 @@ body * {
 
 .neomorphic-expired {
   box-shadow:
-    4px 4px 12px #0d0909,
-    -4px -4px 12px #340f0f;
+  2px 2px 4px #0d0909,
+    -1px -1px 3px #9f1f1f;
 }
 
 .neomorphic-completed {
   box-shadow:
-    4px 4px 12px #0b090d,
-    -4px -4px 12px #772ee5;
+  2px 2px 4px #0b090d,
+    -1px -1px 3px #772ee5;
 }
 
 .neomorphic-pending {
   box-shadow:
-    4px 4px 12px #0b090d,
-    -4px -4px 12px #8dea5b;
+    2px 2px 4px #0b090d,
+    -1px -1px 3px #8dea5b;
 }
 
 .neomorphic-claimed {
   box-shadow:
-    4px 4px 12px #0b090d,
-    -4px -4px 12px #ffb133;
+  2px 2px 4px #0b090d,
+    -1px -1px 3px #ffb133;
 }
 
 .fancy-button {
@@ -125,4 +125,17 @@ body * {
 
 .fancy-button:active {
   --border-width: 5px;
+}
+
+.login-bg {
+  background-image: url('./assets/bg-lg.jpeg');
+  background-position: center;
+  background-size: cover; 
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 1023px) {
+  .login-bg {
+    background-image: url('./assets/bg-md.jpeg');
+  }
 }
