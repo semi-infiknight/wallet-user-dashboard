@@ -7,6 +7,7 @@ import axiosClient from '../../services/config/axiosClient';
 import toast from 'react-hot-toast';
 import { calculateDaysLeft } from '../../utils/helper';
 import { Clock } from 'react-feather';
+import VerifyInviteCodeModal from '../VerifyInviteCodeModal';
 
 type RewardCardProp = {
   rewardDetails: RewardType;
@@ -130,58 +131,61 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
   }, [expiry]);
 
   return (
-    <div
-      key={_id}
-      aria-hidden
-      className={`"w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4   ${rewardCss ? rewardCss : 'neomorphic'} `}
-    >
-      <div className="w-[80%] max-w-[80%]">
-        <div className="text-xl flex gap-2 justify-between ">
-          <span>{name} </span>
-          <div className="flex justify-center items-center">
-            {_id !== '1' && (
-              <span className="text-xs  rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
-                <Clock size={12} />
-                {numberOfDaysLeftToCompleteTask !== null ? `${numberOfDaysLeftToCompleteTask} days left` : ''}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="text-sm break-words pt-2 text-gray-200">{description}</div>
-      </div>
-      <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
-      <button
-        onClick={() => handleBtnClick()}
-        className={`${
-          currentRewardStatus === REWARD.PENDING
-            ? 'neomorphic-pending'
-            : currentRewardStatus === REWARD.COMPLETED
-              ? 'neomorphic-completed text-purple-400'
-              : currentRewardStatus === REWARD.CLAIMED
-                ? ' neomorphic-claimed text-orange-300 '
-                : currentRewardStatus === REWARD.EXPIRED
-                  ? 'neomorphic-expired text-rose-600'
-                  : currentRewardStatus == REWARD.COMPLETED_AND_EXPIRED
-                    ? 'neomorphic-expired text-purple-400'
-                    : 'neomorphic-expired text-orange-300'
-        } flex flex-col justify-center relative z-10 items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
+    <>
+      <div
+        key={_id}
+        aria-hidden
+        className={`"w-[90%] my-2 flex my-2place-self-start justify-between items-center p-4 rounded-xl mx-4   ${rewardCss ? rewardCss : 'neomorphic'} `}
       >
-        {_id === '1' ? (
-          <span className="text-sm xl:text-base">Learn More</span>
-        ) : currentRewardStatus === REWARD.EXPIRED ? (
-          <>Expired</>
-        ) : currentRewardStatus === REWARD.COMPLETED || currentRewardStatus === REWARD.COMPLETED_AND_EXPIRED ? (
-          <span>Redeem</span>
-        ) : currentRewardStatus === REWARD.CLAIMED || currentRewardStatus === REWARD.CLAIMED_AND_EXPIRED ? (
-          <span>Redeemed</span>
-        ) : (
-          <>
-            <span>Locked</span>
-          </>
-        )}
-      </button>
-    </div>
+        <div className="w-[80%] max-w-[80%]">
+          <div className="text-xl flex gap-2 justify-between ">
+            <span>{name} </span>
+            <div className="flex justify-center items-center">
+              {_id !== '1' && (
+                <span className="text-xs  rounded-xl px-1 flex  justify-center items-center gap-1 text-nowrap ">
+                  <Clock size={12} />
+                  {numberOfDaysLeftToCompleteTask !== null ? `${numberOfDaysLeftToCompleteTask} days left` : ''}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="text-sm break-words pt-2 text-gray-200">{description}</div>
+        </div>
+        <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
+        <button
+          onClick={() => handleBtnClick()}
+          className={`${
+            currentRewardStatus === REWARD.PENDING
+              ? 'neomorphic-pending'
+              : currentRewardStatus === REWARD.COMPLETED
+                ? 'neomorphic-completed text-purple-400'
+                : currentRewardStatus === REWARD.CLAIMED
+                  ? ' neomorphic-claimed text-orange-300 '
+                  : currentRewardStatus === REWARD.EXPIRED
+                    ? 'neomorphic-expired text-rose-600'
+                    : currentRewardStatus == REWARD.COMPLETED_AND_EXPIRED
+                      ? 'neomorphic-expired text-purple-400'
+                      : 'neomorphic-expired text-orange-300'
+          } flex flex-col justify-center relative z-10 items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
+        >
+          {_id === '1' ? (
+            <span className="text-sm xl:text-base">Learn More</span>
+          ) : currentRewardStatus === REWARD.EXPIRED ? (
+            <>Expired</>
+          ) : currentRewardStatus === REWARD.COMPLETED || currentRewardStatus === REWARD.COMPLETED_AND_EXPIRED ? (
+            <span>Redeem</span>
+          ) : currentRewardStatus === REWARD.CLAIMED || currentRewardStatus === REWARD.CLAIMED_AND_EXPIRED ? (
+            <span>Redeemed</span>
+          ) : (
+            <>
+              <span>Locked</span>
+            </>
+          )}
+        </button>
+      </div>
+      <VerifyInviteCodeModal isOpen={false} onClose={() => console.log('this should close the modal')} />
+    </>
   );
 };
 
