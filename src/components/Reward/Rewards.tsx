@@ -170,6 +170,7 @@ const Rewards = ({
                   rewardStatus={REWARD.EXPIRED}
                   userDetails={userDetails}
                   rewardCss=""
+                  rewardsStatusRefetch={() => null}// it should be changed later
                 />
               ))}
             </>

@@ -15,6 +15,7 @@ type RewardCardProp = {
   handleClick: (_id: string, _transactionData: TransactionDataType) => void;
   userDetails: UserDetailsType;
   rewardCss: string;
+  rewardsStatusRefetch: () => void;
 };
 
 interface ConnectWalletWithSignature {
@@ -22,11 +23,24 @@ interface ConnectWalletWithSignature {
   getProviderSignature: (message: string, address: string) => Promise<string>;
 }
 
-const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rewardCss }: RewardCardProp) => {
+const RewardCard = ({
+  rewardDetails,
+  rewardStatus,
+  handleClick,
+  userDetails,
+  rewardCss,
+  rewardsStatusRefetch,
+}: RewardCardProp) => {
   const { _id, name, description, isActive, expiry, links, burnEXP, tokenAmount } = rewardDetails;
   const connectWalletRef = useRef<ConnectWalletWithSignature>(null);
   const [currentRewardStatus, setCurrentTaskStatus] = useState<REWARD>(rewardStatus);
   const [numberOfDaysLeftToCompleteTask, setNumberOfDaysLeftToCompleteTask] = useState<number | null>(null);
+
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState<boolean>(false);
+
+  const [isRewardLocked, setIsRewardLocked] = useState<boolean>(false);
+  const OneIDRewardID = '66701beb88c907c81336c699';
+  // const OneIDRewardID = '665b520e042d076545ab668b';
 
   useEffect(() => {
     if (isActive === false) {
@@ -37,6 +51,16 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
       }
     }
   }, [isActive, rewardStatus]);
+
+  useEffect(() => {
+    if (OneIDRewardID === _id && rewardStatus === REWARD.PENDING) {
+      setIsRewardLocked(true);
+    } else if (OneIDRewardID === _id && rewardStatus === REWARD.COMPLETED) {
+      setIsRewardLocked(false);
+    }
+  }, [_id, rewardStatus]);
+
+  console.log(rewardStatus, 'rewardStatus');
 
   const handleClaim = async () => {
     console.log('This is claim');
@@ -99,6 +123,8 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
     if (_id === '1') {
       const linkToOpen = links[0].website;
       window.open(linkToOpen, '_blank');
+    } else if (isRewardLocked) {
+      setIsVerifyModalOpen(true);
     } else if (currentRewardStatus === REWARD.COMPLETED) {
       await handleClaim();
     } else if (currentRewardStatus === REWARD.PENDING) {
@@ -121,6 +147,10 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
         id: 'expired',
       });
     }
+  };
+
+  const closeVerifyInviteCodeModal = () => {
+    setIsVerifyModalOpen(false);
   };
 
   useEffect(() => {
@@ -171,9 +201,11 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
         >
           {_id === '1' ? (
             <span className="text-sm xl:text-base">Learn More</span>
+          ) : isRewardLocked === true ? (
+            <>Unlock</>
           ) : currentRewardStatus === REWARD.EXPIRED ? (
             <>Expired</>
-          ) : currentRewardStatus === REWARD.COMPLETED || currentRewardStatus === REWARD.COMPLETED_AND_EXPIRED ? (
+          ) : currentRewardStatus === REWARD.COMPLETED ? (
             <span>Redeem</span>
           ) : currentRewardStatus === REWARD.CLAIMED || currentRewardStatus === REWARD.CLAIMED_AND_EXPIRED ? (
             <span>Redeemed</span>
@@ -184,7 +216,11 @@ const RewardCard = ({ rewardDetails, rewardStatus, handleClick, userDetails, rew
           )}
         </button>
       </div>
-      <VerifyInviteCodeModal isOpen={false} onClose={() => console.log('this should close the modal')} />
+      <VerifyInviteCodeModal
+        isOpen={isVerifyModalOpen}
+        onClose={() => closeVerifyInviteCodeModal()}
+        rewardsStatusRefetch={rewardsStatusRefetch}
+      />
     </>
   );
 };
