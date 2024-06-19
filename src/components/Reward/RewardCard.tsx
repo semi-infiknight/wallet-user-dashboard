@@ -8,7 +8,6 @@ import toast from 'react-hot-toast';
 import { calculateDaysLeft } from '../../utils/helper';
 import { Clock } from 'react-feather';
 import VerifyInviteCodeModal from '../VerifyInviteCodeModal';
-import { ONEID_REWARDID } from '../../utils/constant';
 
 type RewardCardProp = {
   rewardDetails: RewardType;
@@ -40,7 +39,7 @@ const RewardCard = ({
   const [isVerifyModalOpen, setIsVerifyModalOpen] = useState<boolean>(false);
 
   const [isRewardLocked, setIsRewardLocked] = useState<boolean>(false);
-  const OneIDRewardID = ONEID_REWARDID;
+  const OneIDRewardID = name.includes('OneID') ? _id : null; // Update this line
 
   useEffect(() => {
     if (isActive === false) {
@@ -53,12 +52,12 @@ const RewardCard = ({
   }, [isActive, rewardStatus]);
 
   useEffect(() => {
-    if (OneIDRewardID === _id && rewardStatus === REWARD.PENDING) {
+    if (OneIDRewardID !== null && rewardStatus === REWARD.PENDING) {
       setIsRewardLocked(true);
-    } else if (OneIDRewardID === _id && rewardStatus === REWARD.COMPLETED) {
+    } else if (OneIDRewardID !== null && rewardStatus === REWARD.COMPLETED) {
       setIsRewardLocked(false);
     }
-  }, [OneIDRewardID, _id, rewardStatus]);
+  }, [OneIDRewardID, rewardStatus]);
 
   const handleClaim = async () => {
     const message = `Burn ${burnEXP} EXPs and ${name}`;

@@ -1,9 +1,6 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { HelpCircle } from 'react-feather';
 
-const SoulNFTComingSoon = ({ children }) => {
+const SoulNFTComingSoon = ({ children }: { children }) => {
   return (
     <div className="relative group">
       <div className="flex items-center gap-2">
