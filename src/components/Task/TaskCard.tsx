@@ -40,56 +40,38 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
     }
   }, [isActive, taskStatus]);
 
-  const handleClaim = async (_EXP: number) => {
-    const message = `Approve this message to claim your ${Number(_EXP)} points`;
-    const messageForUSDTClaim = 'Burn 350 EXPs to claim your USDT.';
-
-    let sign = '';
-    // pass message and the address here
+  const handleEXPClaim = async (_EXPAmount: number) => {
+    console.log('This is claim EXP function');
+    const message = `Approve this message to claim your ${Number(_EXPAmount)} points`;
     try {
-      if (connectWalletRef.current) {
-        if (EXP === 0) {
-          sign = await connectWalletRef.current.getProviderSignature(messageForUSDTClaim, userDetails.address);
-        } else {
-          sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
-        }
-        if (!sign) {
-          toast.error('Invalid signature', {
-            id: 'error',
-          });
-          return;
-        }
-      } else {
-        console.error('connectWalletRef.current is null');
-        return;
+      if (!connectWalletRef.current) {
+        throw new Error('Wallet connection is not available');
       }
-    } catch (error) {
-      toast.error('Something went wrong', {
-        id: 'error',
-      });
-      return;
-    }
 
-    try {
-      const response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
+      const sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
+      console.log('Signature obtained:', sign);
 
-      if (response.status === 200) {
-        // Handle successful claim
-        handleClick(_id);
-      } else {
-        // Handle error
-        console.error(`Failed to claim task: ${response.status} ${response.statusText}`);
-        toast.error('Failed to claim task', {
+      if (!sign) {
+        toast.error('Invalid Signature', {
           id: 'error',
         });
+        return;
+      }
+      const response = await axiosClient.post(`${apiRoutes.claimEXP}${_id}`, {}, { headers: { signature: sign } });
+
+      console.log(response);
+      // Check the response status
+      if (response.status === 200 || response.data) {
+        console.log(`${_EXPAmount} EXPs claimed successfully`);
+        handleClick(_id);
+      } else {
+        // Handle unsuccessful claim
+        throw new Error(`Failed to claim task: ${response.status} ${response.statusText}`);
       }
     } catch (error) {
-      // Handle network error
-      if (error instanceof Error) {
-        console.error('Network error:', error.message);
-      } else {
-        console.error('Network error:', error);
-      }
+      // Handle errors
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.error('Error:', errorMessage);
       toast.error('Something went wrong', {
         id: 'error',
       });
@@ -97,7 +79,6 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
   };
 
   const handleCompleted = async () => {
-    // add this task in the completed array.
     const response = await axiosClient.post(`${apiRoutes.completeSocialTask}${_id}`);
 
     console.log(response);
@@ -105,7 +86,7 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
 
   const handleBtnClick = async (_EXP: number) => {
     if (currentTaskStatus === TASK.COMPLETED) {
-      await handleClaim(_EXP);
+      await handleEXPClaim(_EXP);
     } else if (currentButtonTitle === 'Open') {
       // make it open in new link like a target.
 
