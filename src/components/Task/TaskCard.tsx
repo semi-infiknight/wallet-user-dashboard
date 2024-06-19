@@ -41,8 +41,6 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
   }, [isActive, taskStatus]);
 
   const handleClaim = async (_EXP: number) => {
-    console.log('This is claim');
-
     const message = `Approve this message to claim your ${Number(_EXP)} points`;
     const messageForUSDTClaim = 'Burn 350 EXPs to claim your USDT.';
 
@@ -55,7 +53,6 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
         } else {
           sign = await connectWalletRef.current.getProviderSignature(message, userDetails.address);
         }
-        console.log(sign);
         if (!sign) {
           toast.error('Invalid signature', {
             id: 'error',
@@ -78,7 +75,6 @@ const TaskCard = ({ taskDetails, taskStatus, handleClick, userDetails, taskCss }
 
       if (response.status === 200) {
         // Handle successful claim
-        console.log('Task claimed successfully');
         handleClick(_id);
       } else {
         // Handle error

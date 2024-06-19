@@ -22,19 +22,20 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
     data: rewardsStatusData,
     refetch: rewardsStatusRefetch,
   } = useQuery({ queryKey: ['rewards-status'], queryFn: getAllRewardsStatus });
-  console.log('This is rewards ', rewardsStatusData?.data);
   console.log('This is rewards section ', rewardsStatusAreLoading, rewardsStatusError);
 
   useEffect(() => {
     if (rewardsStatusData && runningRewards) {
-      const completedRewards = runningRewards.filter((reward) =>
-        rewardsStatusData.data.every((status) => status.id === reward._id && status.isEligible && !status.isClaimed),
+      const completedRewards: RewardType[] = runningRewards.filter((reward) =>
+        rewardsStatusData.data.some((status) => status.id === reward._id && status.isEligible && !status.isClaimed),
       );
-      const ongoingRewards = runningRewards.filter((reward) =>
-        rewardsStatusData.data.every((status) => status.id === reward._id && !status.isEligible && !status.isClaimed),
+
+      const ongoingRewards: RewardType[] = runningRewards.filter((reward) =>
+        rewardsStatusData.data.some((status) => status.id === reward._id && !status.isEligible && !status.isClaimed),
       );
-      const claimedRewards = runningRewards.filter((reward) =>
-        rewardsStatusData.data.every((status) => status.id === reward._id && status.isClaimed),
+
+      const claimedRewards: RewardType[] = runningRewards.filter((reward) =>
+        rewardsStatusData.data.some((status) => status.id === reward._id && status.isClaimed),
       );
 
       setCompletedRewards(completedRewards);
@@ -42,8 +43,6 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
       setClaimedRewards(claimedRewards);
     }
   }, [rewardsStatusData, runningRewards]);
-
-  console.log(completedRewards, ongoingRewards, claimedRewards);
 
   const upcomingReward: RewardType = {
     _id: '1',
@@ -75,6 +74,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
         }}
         rewardStatus={REWARD.PENDING}
         userDetails={userDetails}
+        rewardsStatusRefetch={rewardsStatusRefetch}
         rewardCss="fancy-button"
       />
 
@@ -90,6 +90,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
               }}
               rewardStatus={REWARD.COMPLETED}
               userDetails={userDetails}
+              rewardsStatusRefetch={rewardsStatusRefetch}
               rewardCss=""
             />
           ))}
@@ -104,6 +105,7 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
               rewardStatus={REWARD.PENDING}
               userDetails={userDetails}
+              rewardsStatusRefetch={rewardsStatusRefetch}
               rewardCss=""
             />
           ))}
@@ -116,8 +118,9 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
               key={index}
               rewardDetails={reward}
               handleClick={(_id: string, _transactionData) => handleClick(_id, _transactionData)}
-              rewardStatus={REWARD.COMPLETED}
+              rewardStatus={REWARD.CLAIMED}
               userDetails={userDetails}
+              rewardsStatusRefetch={rewardsStatusRefetch}
               rewardCss=""
             />
           ))}

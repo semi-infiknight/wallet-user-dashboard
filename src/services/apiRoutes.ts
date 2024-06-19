@@ -7,6 +7,7 @@ const dashboardApiRoutes = {
   rewards: 'user/rewards',
   rewardsStatus: 'user/reward-status',
   completeSocialTask: '/user/social-tasks/',
+  verifyInviteCode: '/invite/',
 };
 
 const connectWalletApiRoutes = {
