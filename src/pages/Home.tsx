@@ -68,10 +68,6 @@ const Home = () => {
     }
   }, [leaderBoardData?.data, leaderBoardIsLoading]);
 
-  console.log('userInfo', userInfo, userData, userDataIsLoading);
-  console.log('tasks', tasks);
-  console.log('tasks', leaderBoard);
-
   if (userDataIsLoading) {
     return (
       <div className="h-full w-full justify-center items-center my-auto overflow-hidden">

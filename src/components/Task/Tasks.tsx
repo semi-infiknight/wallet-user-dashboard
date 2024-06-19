@@ -59,7 +59,6 @@ const Tasks = ({
 
   const handleClick = (id: string) => {
     const selectedTask = runningTasks.filter((task) => task._id === id)?.[0];
-    console.log(selectedTask);
     setModal({ show: true, data: selectedTask });
     setShowConfetti(true);
     userDataRefetch();
@@ -69,7 +68,6 @@ const Tasks = ({
 
   const handleRefresh = () => {
     userDataRefetch();
-    console.log(isUserDataLoading);
     if (errorFromApi === true) {
       toast.error('Please come after 30 mins ', {
         id: 'error',
