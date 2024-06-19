@@ -74,7 +74,6 @@ const Rewards = ({
     });
 
     const selectedReward = runningRewards.filter((reward) => reward._id === id)?.[0];
-    console.log(selectedReward);
     setModal({ show: true, data: selectedReward });
     setShowConfetti(true);
     userDataRefetch();
@@ -84,7 +83,6 @@ const Rewards = ({
 
   const handleRefresh = () => {
     userDataRefetch();
-    console.log(isUserDataLoading);
     if (errorFromApi === true) {
       toast.error('Please come after 30 mins ', {
         id: 'error',
@@ -170,6 +168,7 @@ const Rewards = ({
                   rewardStatus={REWARD.EXPIRED}
                   userDetails={userDetails}
                   rewardCss=""
+                  rewardsStatusRefetch={() => null} // it should be changed later
                 />
               ))}
             </>
