@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { calculateDaysLeft } from '../../utils/helper';
 import { Clock } from 'react-feather';
 import VerifyInviteCodeModal from '../VerifyInviteCodeModal';
+import { ONEID_REWARDID } from '../../utils/constant';
 
 type RewardCardProp = {
   rewardDetails: RewardType;
@@ -39,8 +40,7 @@ const RewardCard = ({
   const [isVerifyModalOpen, setIsVerifyModalOpen] = useState<boolean>(false);
 
   const [isRewardLocked, setIsRewardLocked] = useState<boolean>(false);
-  const OneIDRewardID = '66701beb88c907c81336c699';
-  // const OneIDRewardID = '665b520e042d076545ab668b';
+  const OneIDRewardID = ONEID_REWARDID;
 
   useEffect(() => {
     if (isActive === false) {
@@ -58,13 +58,9 @@ const RewardCard = ({
     } else if (OneIDRewardID === _id && rewardStatus === REWARD.COMPLETED) {
       setIsRewardLocked(false);
     }
-  }, [_id, rewardStatus]);
-
-  console.log(rewardStatus, 'rewardStatus');
+  }, [OneIDRewardID, _id, rewardStatus]);
 
   const handleClaim = async () => {
-    console.log('This is claim');
-
     const message = `Burn ${burnEXP} EXPs and ${name}`;
 
     let sign = '';
@@ -87,8 +83,6 @@ const RewardCard = ({
         { headers: { signature: sign } },
       );
 
-      console.log(response);
-
       if (response.status === 200) {
         const transactionData: TransactionDataType = {
           amount: tokenAmount,
@@ -97,7 +91,6 @@ const RewardCard = ({
           advertiserDetails: links,
         };
         // Handle successful claim
-        console.log('Reward claimed successfully');
         handleClick(_id, transactionData);
       } else {
         // Handle error

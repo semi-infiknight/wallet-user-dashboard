@@ -22,7 +22,6 @@ const RunningRewards = ({ runningRewards, userDetails, handleClick }: RunningTas
     data: rewardsStatusData,
     refetch: rewardsStatusRefetch,
   } = useQuery({ queryKey: ['rewards-status'], queryFn: getAllRewardsStatus });
-  console.log('This is rewards ', rewardsStatusData?.data, runningRewards);
   console.log('This is rewards section ', rewardsStatusAreLoading, rewardsStatusError);
 
   useEffect(() => {

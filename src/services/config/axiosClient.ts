@@ -6,7 +6,6 @@ const axiosClient = axios.create({ baseURL: BASE_URL });
 
 axiosClient.interceptors.request.use(async (request) => {
   const userAddress: string = getFromLocalStorage('userAddress') as string;
-  console.log('User address is here 2', userAddress);
   if (!userAddress) {
     throw new Error('User not set');
   }

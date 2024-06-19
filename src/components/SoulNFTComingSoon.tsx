@@ -4,8 +4,6 @@
 import { HelpCircle } from 'react-feather';
 
 const SoulNFTComingSoon = ({ children }) => {
-  console.log(children);
-
   return (
     <div className="relative group">
       <div className="flex items-center gap-2">

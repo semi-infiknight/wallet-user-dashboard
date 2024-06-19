@@ -16,7 +16,6 @@ const VerifyInviteCodeModal = ({ isOpen, onClose, rewardsStatusRefetch }: Verify
   const handleUnlock = async () => {
     try {
       const response = await axiosClient.get(`${apiRoutes.verifyInviteCode}${inviteCode}`, {});
-      console.log(response, 'response');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { status, message, isFound, isInvited } = response as any;
@@ -30,7 +29,6 @@ const VerifyInviteCodeModal = ({ isOpen, onClose, rewardsStatusRefetch }: Verify
         // Perform any additional actions or update the UI accordingly
       } else {
         // Invite code is invalid or already invited
-        console.log('Invalid invite code or already invited');
         setMessage(message);
         // Display an error message or update the UI accordingly
       }
@@ -39,8 +37,6 @@ const VerifyInviteCodeModal = ({ isOpen, onClose, rewardsStatusRefetch }: Verify
       // Display an error message or update the UI accordingly
     }
   };
-
-  console.log(message, 'message');
 
   return (
     isOpen && (

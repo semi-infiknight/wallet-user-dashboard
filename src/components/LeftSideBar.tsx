@@ -62,7 +62,6 @@ const LeftSideBar = () => {
   const location = useLocation();
 
   const handleLogout = () => {
-    console.log('Please logout');
     connectWalletRef.current?.disconnectWallet();
   };
 
