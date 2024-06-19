@@ -99,8 +99,12 @@ const LeftSideBar = () => {
       <div className="relative flex-1  bg-zinc-900 border-y rounded-xl border-y-[#a66cff] px-5 mt-8">
         <div className="mt-2 cursor-pointer">
           <SoulNFTComingSoon>
-            <div onClick={() => handleClick()} className="relative">
-              <img className={`h-16 min-w-16 transform duration-700 ${!isClickable ? 'opacity-0' : ''}`} src={souldNFTGIF} alt="Soul NFT" />
+            <button onClick={() => handleClick()} className="relative">
+              <img
+                className={`h-16 min-w-16 transform duration-700 ${!isClickable ? 'opacity-0' : ''}`}
+                src={souldNFTGIF}
+                alt="Soul NFT"
+              />
               {showExcite && (
                 <img
                   key={time}
@@ -109,7 +113,7 @@ const LeftSideBar = () => {
                   alt="Soul NFT Excite"
                 />
               )}
-            </div>
+            </button>
           </SoulNFTComingSoon>
         </div>
 
