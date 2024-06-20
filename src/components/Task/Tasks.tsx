@@ -59,7 +59,6 @@ const Tasks = ({
 
   const handleClick = (id: string) => {
     const selectedTask = runningTasks.filter((task) => task._id === id)?.[0];
-    console.log(selectedTask);
     setModal({ show: true, data: selectedTask });
     setShowConfetti(true);
     userDataRefetch();
@@ -69,7 +68,6 @@ const Tasks = ({
 
   const handleRefresh = () => {
     userDataRefetch();
-    console.log(isUserDataLoading);
     if (errorFromApi === true) {
       toast.error('Please come after 30 mins ', {
         id: 'error',
@@ -169,11 +167,10 @@ const Tasks = ({
         }}
       >
         <div className="text-white flex flex-col gap-3 items-center">
-          <h1 className="text-2xl">You claimed task successfully 🎉 </h1>
-          <h3 className="text-lg font-semibold">{modal?.data?.name}</h3>
-          <div className="block mb-2 text-sm font-medium ">{modal.data?.description}</div>
+          <p className="text-sm font-semibold">{modal?.data?.name}</p>
+          <p className="text-2xl">You claimed this task successfully 🎉 </p>
           <p className="text-lg">
-            You have earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> Points ✨
+            You earned <span className=" font-extrabold text-green-600">{modal?.data?.EXP}</span> EXPs ✨
           </p>
         </div>
       </Modal>

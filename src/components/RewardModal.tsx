@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { ReactNode, MouseEventHandler } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type ModalProps = {
   onClick: MouseEventHandler<HTMLButtonElement>;
@@ -8,6 +9,8 @@ type ModalProps = {
 };
 
 const Modal = ({ onClick, isOpen, children }: ModalProps) => {
+  const navigate = useNavigate();
+
   return (
     <AnimatePresence>
       {isOpen ? (
@@ -23,12 +26,20 @@ const Modal = ({ onClick, isOpen, children }: ModalProps) => {
             <motion.div variants={modalVariant} initial="initial" animate="animate" exit="initial">
               {children}
             </motion.div>
-            <button
-              className="text-white flex m-auto mt-8 min-w-32 justify-center bg-zinc-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center neomorphic-expired"
-              onClick={onClick}
-            >
-              close
-            </button>
+            <div className=" flex justify-between mt-10 gap-10 text-white ">
+              <button
+                className=" w-full bg-zinc-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center neomorphic-expired"
+                onClick={onClick}
+              >
+                Close
+              </button>
+              <button
+                className=" w-full  bg-zinc-900  font-medium rounded-lg text-sm px-5 py-2.5 text-center neomorphic-expired"
+                onClick={() => navigate('/rewards')}
+              >
+                Go To rewards section
+              </button>
+            </div>
           </div>
         </motion.div>
       ) : null}
