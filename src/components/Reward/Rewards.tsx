@@ -192,24 +192,36 @@ const Rewards = ({
         <div className="text-white flex flex-col gap-3 items-center">
           {userTransactionDetails.txHash !== '' && (
             <>
-              <h1 className="text-2xl">You have successfully burned {userTransactionDetails.expBurned} EXPs 🔥 </h1>
-              <p className="text-lg">
-                You have claimed<span className=" font-extrabold text-green-600">{userTransactionDetails.amount}</span>{' '}
-                ELON
-              </p>
-
-              {userTransactionDetails.advertiserDetails[0].videoLink && (
-                <div className="max-w-md">
-                  <iframe
-                    title="j"
-                    src={userTransactionDetails.advertiserDetails[0].videoLink}
-                    width="400"
-                    height="300"
-                    allow="autoplay"
-                  ></iframe>
-                </div>
+              {/* // TODO : This is the corrupt logic that needs to be fixed */}
+              {userTransactionDetails.amount === '100000' ? (
+                <>
+                  <h1 className="text-2xl text-center">
+                    You have successfully claimed <br />
+                    100,000 BTT Tokens 🔥
+                  </h1>
+                </>
+              ) : (
+                <>
+                  <h1 className="text-2xl">You have successfully burned {userTransactionDetails.expBurned} EXPs 🔥 </h1>
+                  <p className="text-lg">
+                    You have claimed
+                    <span className=" font-extrabold text-green-600">{userTransactionDetails.amount}</span> ELON
+                  </p>
+                </>
               )}
 
+              {userTransactionDetails.advertiserDetails.length !== 0 &&
+                userTransactionDetails.advertiserDetails[0].videoLink !== '' && (
+                  <div className="max-w-md">
+                    <iframe
+                      title="j"
+                      src={userTransactionDetails.advertiserDetails[0].videoLink}
+                      width="400"
+                      height="300"
+                      allow="autoplay"
+                    ></iframe>
+                  </div>
+                )}
               <div>
                 <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
                   <ExternalLink size={17} />
@@ -221,16 +233,18 @@ const Rewards = ({
                     View on block explorer
                   </a>
                 </div>
-                <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
-                  <ExternalLink size={17} />
-                  <a
-                    href={userTransactionDetails.advertiserDetails[0].website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View Advertiser
-                  </a>
-                </div>
+                {userTransactionDetails.advertiserDetails.length !== 0 && (
+                  <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
+                    <ExternalLink size={17} />
+                    <a
+                      href={userTransactionDetails.advertiserDetails[0].website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Advertiser
+                    </a>
+                  </div>
+                )}
               </div>
             </>
           )}
