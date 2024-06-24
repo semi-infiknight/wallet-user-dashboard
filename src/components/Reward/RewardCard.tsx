@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { calculateDaysLeft } from '../../utils/helper';
 import { Clock } from 'react-feather';
 import VerifyInviteCodeModal from '../VerifyInviteCodeModal';
+import externalLink from '../../assets/externalLink.svg';
 
 type RewardCardProp = {
   rewardDetails: RewardType;
@@ -21,6 +22,15 @@ type RewardCardProp = {
 interface ConnectWalletWithSignature {
   // eslint-disable-next-line no-unused-vars
   getProviderSignature: (message: string, address: string) => Promise<string>;
+}
+
+interface Reward {
+  rewardId: string;
+  transactionHash: string;
+}
+
+interface UserRewards {
+  [userAddress: string]: Reward[];
 }
 
 const RewardCard = ({
@@ -91,6 +101,7 @@ const RewardCard = ({
         };
         // Handle successful claim
         handleClick(_id, transactionData);
+        setRewardDataInLocalStorage(userDetails.address, _id, response.data.transactionHash);
       } else {
         // Handle error
         console.error(`Failed to claim reward: ${response.status} ${response.statusText}`);
@@ -152,6 +163,43 @@ const RewardCard = ({
     }
   }, [expiry]);
 
+  const setRewardDataInLocalStorage = (userAddress: string, rewardId: string, txnHash: string): void => {
+    const storedData = localStorage.getItem('RewardsData');
+    const existingData: UserRewards[] = storedData ? JSON.parse(storedData) : [];
+    let userEntry = existingData.find((entry) => Object.keys(entry)[0] === userAddress);
+
+    if (userEntry) {
+      userEntry[userAddress].push({ rewardId, transactionHash: txnHash });
+    } else {
+      userEntry = { [userAddress]: [{ rewardId, transactionHash: txnHash }] };
+      existingData.push(userEntry);
+    }
+    localStorage.setItem('RewardsData', JSON.stringify(existingData));
+  };
+
+  const getTransactionHashFromLocalStorage = (): string | null => {
+    const storedData = localStorage.getItem('RewardsData');
+    if (!storedData) {
+      return null;
+    }
+
+    const rewardsData: UserRewards[] = JSON.parse(storedData);
+    const userEntry = rewardsData.find((entry) => Object.keys(entry)[0] === userDetails.address);
+
+    if (!userEntry) {
+      return null;
+    }
+
+    const reward = userEntry[userDetails.address].find((reward) => reward.rewardId === _id);
+
+    return reward ? reward.transactionHash : null;
+  };
+  const txHash = getTransactionHashFromLocalStorage();
+  const baseUrl = OneIDRewardID? "https://bscscan.com/tx/" : "https://polygonscan.com/tx/";
+
+  // 66701beb88c907c81336c699 btt
+  
+
   return (
     <>
       <div
@@ -175,38 +223,51 @@ const RewardCard = ({
           <div className="text-sm break-words pt-2 text-gray-200">{description}</div>
         </div>
         <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
-        <button
-          onClick={() => handleBtnClick()}
-          className={`${
-            currentRewardStatus === REWARD.PENDING
-              ? 'neomorphic-pending'
-              : currentRewardStatus === REWARD.COMPLETED
-                ? 'neomorphic-completed text-purple-400'
-                : currentRewardStatus === REWARD.CLAIMED
-                  ? ' neomorphic-claimed text-orange-300 '
-                  : currentRewardStatus === REWARD.EXPIRED
-                    ? 'neomorphic-expired text-rose-600'
-                    : currentRewardStatus == REWARD.COMPLETED_AND_EXPIRED
-                      ? 'neomorphic-expired text-purple-400'
-                      : 'neomorphic-expired text-orange-300'
-          } flex flex-col justify-center relative z-10 items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer`}
-        >
-          {_id === '1' ? (
-            <span className="text-sm xl:text-base">Learn More</span>
-          ) : isRewardLocked === true ? (
-            <>Unlock</>
-          ) : currentRewardStatus === REWARD.EXPIRED ? (
-            <>Expired</>
-          ) : currentRewardStatus === REWARD.COMPLETED ? (
-            <span>Redeem</span>
-          ) : currentRewardStatus === REWARD.CLAIMED || currentRewardStatus === REWARD.CLAIMED_AND_EXPIRED ? (
-            <span>Redeemed</span>
-          ) : (
-            <>
-              <span>Locked</span>
-            </>
+        <div className="text-xs">
+          <button
+            onClick={() => handleBtnClick()}
+            className={`${
+              currentRewardStatus === REWARD.PENDING
+                ? 'neomorphic-pending'
+                : currentRewardStatus === REWARD.COMPLETED
+                  ? 'neomorphic-completed text-purple-400'
+                  : currentRewardStatus === REWARD.CLAIMED
+                    ? ' neomorphic-claimed text-orange-300 '
+                    : currentRewardStatus === REWARD.EXPIRED
+                      ? 'neomorphic-expired text-rose-600'
+                      : currentRewardStatus == REWARD.COMPLETED_AND_EXPIRED
+                        ? 'neomorphic-expired text-purple-400'
+                        : 'neomorphic-expired text-orange-300'
+            } flex flex-col justify-center relative z-10 items-center rounded-xl px-2 min-w-24 max-h-10 text-gray-200 font-medium py-2 cursor-pointer ml-auto`}
+          >
+            {_id === '1' ? (
+              <span className="text-sm xl:text-base">Learn More</span>
+            ) : isRewardLocked === true ? (
+              <>Unlock</>
+            ) : currentRewardStatus === REWARD.EXPIRED ? (
+              <>Expired</>
+            ) : currentRewardStatus === REWARD.COMPLETED ? (
+              <span>Redeem</span>
+            ) : currentRewardStatus === REWARD.CLAIMED || currentRewardStatus === REWARD.CLAIMED_AND_EXPIRED ? (
+              <span>Redeemed</span>
+            ) : (
+              <>
+                <span>Locked</span>
+              </>
+            )}
+          </button>
+          {(currentRewardStatus === REWARD.CLAIMED || currentRewardStatus === REWARD.CLAIMED_AND_EXPIRED) && txHash && (
+            <a
+              href={`${baseUrl}${txHash}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 flex gap-2 whitespace-nowrap items-center"
+            >
+              View on explorer
+              <img src={externalLink} className="h-3 w-3" alt="External link" />
+            </a>
           )}
-        </button>
+        </div>
       </div>
       <VerifyInviteCodeModal
         isOpen={isVerifyModalOpen}
