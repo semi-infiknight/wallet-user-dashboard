@@ -222,7 +222,7 @@ const RewardCard = ({
           <div className="text-sm break-words pt-2 text-gray-200">{description}</div>
         </div>
         <ConnectWallet ref={connectWalletRef} btnType={CONNECT_WALLET_BTN.GET_SIGNATURE} />
-        <div className="text-xs">
+        <div className="text-base">
           <button
             onClick={() => handleBtnClick()}
             className={`${
@@ -260,7 +260,7 @@ const RewardCard = ({
               href={`${baseUrl}${txHash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 flex gap-2 whitespace-nowrap items-center"
+              className="mt-2 flex gap-2 whitespace-nowrap items-center text-xs"
             >
               View on explorer
               <img src={externalLink} className="h-3 w-3" alt="External link" />
