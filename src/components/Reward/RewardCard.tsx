@@ -195,10 +195,9 @@ const RewardCard = ({
     return reward ? reward.transactionHash : null;
   };
   const txHash = getTransactionHashFromLocalStorage();
-  const baseUrl = OneIDRewardID? "https://bscscan.com/tx/" : "https://polygonscan.com/tx/";
 
-  // 66701beb88c907c81336c699 btt
-  
+  // TODO
+  const baseUrl = OneIDRewardID? "https://bscscan.com/tx/" : "https://polygonscan.com/tx/";
 
   return (
     <>
