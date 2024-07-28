@@ -225,13 +225,23 @@ const Rewards = ({
               <div>
                 <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
                   <ExternalLink size={17} />
-                  <a
-                    href={`https://polygonscan.com/tx/${userTransactionDetails.txHash}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    View on block explorer
-                  </a>
+                  {userTransactionDetails.amount === '100000' ? (
+                    <a
+                      href={`https://bscscan.com/tx/${userTransactionDetails.txHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View on block explorer
+                    </a>
+                  ) : (
+                    <a
+                      href={`https://polygonscan.com/tx/${userTransactionDetails.txHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View on block explorer
+                    </a>
+                  )}
                 </div>
                 {userTransactionDetails.advertiserDetails.length !== 0 && (
                   <div className=" flex justify-center items-center gap-2  rounded-lg px-2 py-2 w-full text-center bg-card-bg2  text-sm">
