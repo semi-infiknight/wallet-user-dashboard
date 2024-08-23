@@ -50,8 +50,11 @@ const RewardCard = ({
 
   const [isOneIDRewardLocked, setIsOneIDRewardLocked] = useState<boolean>(false);
   const [isVoyagerRewardLocked, setIsVoyagerRewardLocked] = useState<boolean>(false);
+  const [isKimaRewardLocked, setIsKimaRewardLocked] = useState<boolean>(false);
   const OneIDRewardID = name.includes('OneID') ? _id : null; // Update this line
   const VoyagerIDRewardID = name.includes('Voyager') ? _id : null; // Update this line
+  const KimaRewardID = name.includes('Kima') ? _id : null; // Update this line
+
 
   useEffect(() => {
     if (isActive === false) {
@@ -75,7 +78,14 @@ const RewardCard = ({
     } else if (VoyagerIDRewardID !== null && rewardStatus === REWARD.COMPLETED) {
       setIsVoyagerRewardLocked(false);
     }
-  }, [OneIDRewardID, VoyagerIDRewardID, rewardStatus]);
+
+    if (KimaRewardID !== null && rewardStatus === REWARD.PENDING) {
+      setIsKimaRewardLocked(true);
+    } else if (KimaRewardID !== null && rewardStatus === REWARD.COMPLETED) {
+      setIsKimaRewardLocked(false);
+    }
+
+  }, [OneIDRewardID, VoyagerIDRewardID, KimaRewardID, rewardStatus]);
 
   const handleClaim = async () => {
     const message = `Burn ${burnEXP} EXPs and ${name}`;
@@ -134,7 +144,7 @@ const RewardCard = ({
     if (_id === '1') {
       const linkToOpen = links[0].website;
       window.open(linkToOpen, '_blank');
-    } else if (isOneIDRewardLocked || isVoyagerRewardLocked) {
+    } else if (isOneIDRewardLocked || isVoyagerRewardLocked || isKimaRewardLocked) {
       setIsVerifyModalOpen(true);
     } else if (currentRewardStatus === REWARD.COMPLETED) {
       await handleClaim();
@@ -205,7 +215,7 @@ const RewardCard = ({
   const txHash = getTransactionHashFromLocalStorage();
 
   // TODO
-  const baseUrl = OneIDRewardID || VoyagerIDRewardID ? 'https://bscscan.com/tx/' : 'https://polygonscan.com/tx/';
+  const baseUrl = OneIDRewardID || VoyagerIDRewardID || KimaRewardID ? 'https://bscscan.com/tx/' : 'https://polygonscan.com/tx/';
 
   return (
     <>
@@ -249,7 +259,7 @@ const RewardCard = ({
           >
             {_id === '1' ? (
               <span className="text-sm xl:text-base">Learn More</span>
-            ) : isOneIDRewardLocked === true || isVoyagerRewardLocked === true ? (
+            ) : isOneIDRewardLocked === true || isVoyagerRewardLocked === true  || isKimaRewardLocked === true ? (
               <>Unlock</>
             ) : currentRewardStatus === REWARD.EXPIRED ? (
               <>Expired</>
